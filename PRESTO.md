@@ -1,0 +1,121 @@
+# PRESTO
+TODO
+
+（1207）
+
+- [ ] 编译器换成icc
+- [x] 完成环境配置
+- [x] 初步寻找热点
+- [ ] 修改编译参数
+- [ ] 解决python tests的报错
+- [ ] 解决prepsubband运行的error
+- [ ] 尝试python脚本级别的并行
+- [ ] 解决CPU使用率低的问题
+- [ ] 解决只能检测到一个线程的问题
+- [ ] 
+- [ ] 
+- [ ] 
+
+## 1116-1119
+
+摸鱼+配环境
+asc要了个root权限，配好之后换成了preto2.2
+然后asc连接开始不稳定，日常连不上
+然后直接在PC上弄了弄环境，想用mac ssh PC
+租了个服务器做跳转机
+## 1120
+不能摸了，抓紧干活
+初始程序跑一跑，打个timer
+
+#### workload1
+
+```bash
+Read Header                    === 0.003682 
+Generate Dedispersion          === 0.080350 
+Dedisperse Subbands            === 8.240596 
+fft-search subbands            === 35.706232 
+sifting candidates             === 0.098624 
+folding candidates             === 21.515613 
+
+
+real	1m5.973s
+user	1m12.852s
+sys	0m18.308s
+```
+#### workload2
+```c+++
+Read Header                    === 0.003768 
+Generate Dedispersion          === 0.090177 
+Dedisperse Subbands            === 66.568033 
+fft-search subbands            === 135.115792 
+sifting candidates             === 0.549006 
+folding candidates             === 157.755927 
+
+
+real	6m0.366s
+user	6m23.564s
+sys	0m57.216s
+```
+
+### 1206
+
+摸了好久了
+
+重新加好了计时函数，在asc上重测了上面的时间
+
+对于Dedisperse Subbands的过程，准备加多线程，先编写了check程序，以及STD标准答案
+
+### 1207
+
+开始对Dedisperse Subbands上多线程了
+
+大概的热点是运行prepsubband，workload1是运行了7次，其实不太好并行，一方面是不知道他们内部是否存在写冲突（shuffle了一下，一来应该是不存在的）另一方面是7个任务，线程多的时候不合适，所以先找到prepsubband的源代码读一读吧。
+
+考虑了一下还是决定用3.0，怕2.2有什么bug啥的。
+
+```c
+
+    if (cmd->ncpus > 1) {
+#ifdef _OPENMP
+        int maxcpus = omp_get_num_procs();
+        int openmp_numthreads = (cmd->ncpus <= maxcpus) ? cmd->ncpus : maxcpus;
+        // Make sure we are not dynamically setting the number of threads
+        omp_set_dynamic(0);
+        omp_set_num_threads(openmp_numthreads);
+        printf("Using %d threads with OpenMP\n\n", openmp_numthreads);
+#endif
+    } else {
+#ifdef _OPENMP
+        //        int openmp_numthreads = omp_get_num_threads();
+//                int openmp_numthreads = 4;
+//                printf("openmp_numthreads : %d\n",openmp_numthreads);
+                omp_set_num_threads(1); // Explicitly turn off OpenMP
+#endif
+    }
+
+```
+
+这里就有点疑惑，项目本身实现了omp，但是检测到只有一个线程，强制改变线程数也没啥用。具体的还要仔细看看代码。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
