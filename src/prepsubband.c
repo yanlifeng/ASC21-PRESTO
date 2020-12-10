@@ -117,7 +117,11 @@ int main(int argc, char *argv[]) {
     }
     if (!cmd->numoutP)
         cmd->numout = LONG_MAX;
-//TODO why threads is 1
+#ifdef _OPENMP
+    //    cmd->ncpus = omp_get_num_procs();
+#endif
+    printf("cmd->ncpus : %d\n", cmd->ncpus);
+//TODO why set num threads 1
     if (cmd->ncpus > 1) {
 #ifdef _OPENMP
         int maxcpus = omp_get_num_procs();
@@ -129,10 +133,7 @@ int main(int argc, char *argv[]) {
 #endif
     } else {
 #ifdef _OPENMP
-        //        int openmp_numthreads = omp_get_num_threads();
-//                int openmp_numthreads = 4;
-//                printf("openmp_numthreads : %d\n",openmp_numthreads);
-                omp_set_num_threads(1); // Explicitly turn off OpenMP
+        omp_set_num_threads(1); // Explicitly turn off OpenMP
 #endif
     }
 

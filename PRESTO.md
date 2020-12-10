@@ -4,14 +4,18 @@ TODO
 （1207）
 
 - [ ] 编译器换成icc
+- [ ] fortan换成intel的
 - [x] 完成环境配置
 - [x] 初步寻找热点
+- [x] 做好check
+- [x] 测试get_num_threads
 - [ ] 修改编译参数
 - [ ] 解决python tests的报错
 - [ ] 解决prepsubband运行的error
 - [ ] 尝试python脚本级别的并行
 - [ ] 解决CPU使用率低的问题
 - [ ] 解决只能检测到一个线程的问题
+- [ ] 解决_ACCEL_0.cand文件check出错的问题
 - [ ] 
 - [ ] 
 - [ ] 
@@ -99,11 +103,37 @@ sys	0m57.216s
 
 
 
+### 1208
 
+好像之前一直检测到一个线程是因为在非并行区，omp_get_num_threads()只能检测到一个线程：
 
+https://blog.csdn.net/gengshenghong/article/details/7003110
 
+omp_get_num_procs()才是正确的使用方法。
 
+所以这里就暂时不纠结了，直接往下读代码。
 
+### 1209
+
+why cmd->cpus is 1?
+
+```
+cmd = parseCmdline(argc, argv);
+```
+
+这一句里面确定了cmd的参数，但是由于点不进去，只能gdb一点一点的看。
+
+很奇怪，parse中解析了ncpus参数，但是运行命令里面没有这个参数，默认是1，我强制修改了这个参数：
+
+```c++
+#ifdef _OPENMP
+    cmd->ncpus = omp_get_num_procs();
+#endif
+```
+
+但是运行时间没什么变化，先继续看后面的代码吧。
+
+更新了check函数，所有的文件都check了，然后发现有一类文件的check有一点问题。
 
 
 

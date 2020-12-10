@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="presto"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/ylf9811/Desktop/presto/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/ylf9811/Desktop/presto/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/ylf9811/Desktop/presto/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="presto">
+				<Option output="/Users/ylf9811/Desktop/presto/cmake-build-debug/presto" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ylf9811/Desktop/presto/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 presto"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="presto/fast">
+				<Option output="/Users/ylf9811/Desktop/presto/cmake-build-debug/presto" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/ylf9811/Desktop/presto/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 presto/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/ylf9811/Desktop/presto/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/GBT350filterbank.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/accel_utils.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/accelsearch.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/accelsearch_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/amoeba.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/apprgrdn.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/atwood.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/backend_common.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/bary.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/barycenter.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/bincand.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/bincand_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/birdzap.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/bpp.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/cal2mjd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/cand_output.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/characteristics.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/check_parkes_raw.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/chkio.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/cldj.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/clipping.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/com.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/corr_prep.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/corr_routines.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/correlations.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/dat2sdat.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/database.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/dcdflib.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/dftfold.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/dftfold_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/dispersion.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/djcl.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/downsample.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/downsample_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/dump_spigot_zerolag.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/exploredat.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/explorefft.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/fastffts.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/fftcalls.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/fitsdelcol.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/fitsdelrow.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/fitsfile.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/fminbr.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/fold.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/fresnl.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/get_candidates.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/hget.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/hput.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/imio.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/ioinf.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/iomak.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/ipmpar.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/makedata.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/makeinf.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/makewisdom.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/mask.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/maximize_r.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/maximize_rz.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/maximize_rzw.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/median.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/minifft.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/misc_utils.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/mjd2cal.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/mpiprepsubband.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/mpiprepsubband_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/mpiprepsubband_utils.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/multi_prof_plot.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/multibeam.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/multifiles.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/orbint.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/output.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/patchdata.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/plotbincand.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/polycos.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/powerplot.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/prepdata.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/prepdata_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/prepfold.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/prepfold_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/prepfold_plot.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/prepfold_utils.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/prepsubband.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/prepsubband_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/psrfits.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/psrfits_dumparrays.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/psrorbit.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/quicklook.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/randlib.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/range_parse.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/read_fft.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/readfile.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/readfile_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/readpar.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/realfft.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/realfft_4step.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/realfft_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/rednoise.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/rednoise_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/responses.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/rfi_utils.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/rfifind.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/rfifind_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/rfifind_plot.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/rzinterp.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/rzwinterp.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/sdat2dat.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/search_bin.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/search_bin_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/searchmultidms.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/select.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/shiftdata.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/show_pfd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/show_pfd_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/showmulti.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/showmulti_dm.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/sigproc_fb.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/sla.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/solvopt.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/sorter.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/spigot.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/spigot2filterbank.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/spigot2filterbank_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/spigotSband2filterbank.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/split_parkes_beams.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/swap_endian.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/swapendian.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/taperaw.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/test_multifiles.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/testtree.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/timetest.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/toas2dat.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/toas2dat_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/transpose.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/twopass.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/twopass_real_fwd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/twopass_real_inv.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/un_sc_td.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/vectors.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/wapp.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/wapp_head_parse.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/wapp_mkheaderlex.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/wapp_y.tab.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/weight_psrfits.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/window.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/xyline.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/zapbirds.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/zapbirds_cmd.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/zapping.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/src/zerodm.c">
+			<Option target="presto"/>
+		</Unit>
+		<Unit filename="/Users/ylf9811/Desktop/presto/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
