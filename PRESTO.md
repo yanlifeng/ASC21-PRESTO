@@ -17,6 +17,7 @@ TODO
 - [x] 解决只能检测到一个线程的问题
 - [ ] 解决_ACCEL_0.cand文件check出错的问题
 - [ ] 输出log，并做check
+- [ ] 解决上次输出没有清空的时候运行变慢（maybe）
 - [ ] 
 - [ ] 
 - [ ] 
@@ -181,17 +182,18 @@ sys	0m16.520s
 然后把后面的脚本执行都换成并行的（关闭了presto自带的omp开关）：
 
 ```bash
-Read Header                    === 0.005735 
-Generate Dedispersion          === 0.672107 
-Dedisperse Subbands            === 2.140279 
-fft-search subbands            === 6.543522 
-sifting candidates             === 0.132075 
-folding candidates             === 5.492686 
+threadController : 1
+Read Header                    === 0.004423 
+Generate Dedispersion          === 0.654694 
+Dedisperse Subbands            === 2.173291 
+fft-search subbands            === 6.618843 
+sifting candidates             === 0.125564 
+folding candidates             === 5.526073 
 
 
-real	0m15.457s
-user	1m41.068s
-sys	0m6.056s
+real	0m15.573s
+user	1m41.072s
+sys	0m6.532s
 ```
 
 加速比还不错，这里采用的是from threading import Thread，可以换成其他的线程库试试。
@@ -200,9 +202,26 @@ sys	0m6.056s
 
 
 
+上面的是多线程，感觉程序的io比较多（感觉），就加了个多进程 的版本进行测试：
+
+```bash
+threadController : 2
+Read Header                    === 0.004823 
+Generate Dedispersion          === 0.693231 
+Dedisperse Subbands            === 2.180292 
+fft-search subbands            === 7.371133 
+sifting candidates             === 0.125411 
+folding candidates             === 5.741172 
+
+
+real	0m16.624s
+user	1m42.092s
+sys	0m7.736s
+```
 
 
 
+而且还发现，如果上次运行的文件没有delet，运行速度会慢一点点（15s - 18s。16s - 20s。）
 
 
 

@@ -8,6 +8,7 @@ zhuwwpku@gmail.com
 """
 
 import os, sys, glob, re
+from multiprocessing import Pool
 from threading import Thread
 
 import presto.sifting as sifting
@@ -32,7 +33,7 @@ sys	0m18.620s
 """
 
 
-def prepsubbandProcess(i, dml):
+def prepsubbandFunc(i, dml):
     lodm = dml[0]
     subDM = np.mean(dml)
     if maskfile:
@@ -58,21 +59,21 @@ def prepsubbandProcess(i, dml):
     logfile.write(output)
 
 
-def fftcmdProcess(i, df):
+def fftcmdFunc(i, df):
     fftcmd = "realfft %s" % df
     print(fftcmd)
     output = getoutput(fftcmd)
     return output
 
 
-def serachcmdProcess(i, zmax, fftf):
+def serachcmdFunc(i, zmax, fftf):
     searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
     print(searchcmd)
     output = getoutput(searchcmd)
     return output
 
 
-def foldcmdPrpcess(i, cand):
+def foldcmdFunc(i, cand):
     # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
     # 'dm':cand.DM,  'accelfile':cand.filename+'.cand', 'candnum':cand.candnum, 'datfile':('%s_DM%s.dat' % (rootname, cand.DMstr))} #simple plots
     foldcmd = "prepfold -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
@@ -105,9 +106,13 @@ Nint = 64  # 64 sub integration
 Tres = 0.5  # ms
 zmax = 0
 
+threadController = int(sys.argv[2])
+
+print("threadController %d\n" % threadController)
+
 filename = sys.argv[1]
-if len(sys.argv) > 2:
-    maskfile = sys.argv[2]
+if len(sys.argv) > 3:
+    maskfile = sys.argv[3]
 else:
     maskfile = None
 
@@ -242,10 +247,9 @@ try:
         subdownsamp = DownSamp / 2
         datdownsamp = 2
         if DownSamp < 2: subdownsamp = datdownsamp = 1
-
-        threadSwitchPrep = 1
-        if threadSwitchPrep:
-            sub_f = prepsubbandProcess
+        sub_f = prepsubbandFunc
+        threadSwitchPrep = threadController
+        if threadSwitchPrep == 1:
             threads = []
             for i, dml in enumerate(dmlist):
                 t = Thread(target=sub_f, args=(i, dml))
@@ -253,6 +257,13 @@ try:
                 t.start()
             for t in threads:
                 t.join()
+        elif threadSwitchPrep == 2:
+            with Pool(processes=len(dmlist)) as p:
+                result = []
+                for i, dml in enumerate(dmlist):
+                    a = p.apply_async(sub_f, args=(i, dml))
+                    result.append(a)
+                res = [i.get() for i in result]
         else:
             # random.shuffle(dmlist)
             # TODO 这里cpu跑起来只显示用了一个核的10%左右 应该是时间都在频繁的读写文件上 下一步可以找到prepsubband的源代码改一下（现在还没找到）
@@ -308,10 +319,9 @@ try:
     print("datfiles size : " + str(len(datfiles)))
     # TODO edit logfile to make it thread safe
     # random.shuffle(datfiles)
-
-    threadSwitchFFT = 1
-    if threadSwitchFFT:
-        sub_f = fftcmdProcess
+    sub_f = fftcmdFunc
+    threadSwitchFFT = threadController
+    if threadSwitchFFT == 1:
         threads = []
         for i, df in enumerate(datfiles):
             t = Thread(target=sub_f, args=(i, df))
@@ -319,6 +329,13 @@ try:
             t.start()
         for t in threads:
             t.join()
+    elif threadSwitchFFT == 2:
+        with Pool(processes=len(datfiles)) as p:
+            result = []
+            for i, df in enumerate(datfiles):
+                a = p.apply_async(sub_f, args=(i, df))
+            result.append(a)
+            res = [i.get() for i in result]
     else:
         for df in datfiles:
             fftcmd = "realfft %s" % df
@@ -330,9 +347,9 @@ try:
     fftfiles = glob.glob("*.fft")
     print("fftfiles size : " + str(len(fftfiles)))
     # random.shuffle(fftfiles)
-    threadSwitchSearch = 1
-    if threadSwitchSearch:
-        sub_f = serachcmdProcess
+    sub_f = serachcmdFunc
+    threadSwitchSearch = threadController
+    if threadSwitchSearch == 1:
         threads = []
         for i, fftf in enumerate(fftfiles):
             t = Thread(target=sub_f, args=(i, zmax, fftf))
@@ -340,6 +357,13 @@ try:
             t.start()
         for t in threads:
             t.join()
+    elif threadSwitchSearch == 2:
+        with Pool(processes=len(fftfiles)) as p:
+            result = []
+            for i, fftf in enumerate(fftfiles):
+                a = p.apply_async(sub_f, args=(i, zmax, fftf))
+                result.append(a)
+            res = [i.get() for i in result]
     else:
         for fftf in fftfiles:
             searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
@@ -469,9 +493,9 @@ try:
     os.system('ln -s ../%s %s' % (filename, filename))
     logfile = open('folding.log', 'wt')
     print("cands size : %d\n" % len(cands))
-    threadSwitchFolding = 1
-    if threadSwitchFolding:
-        sub_f = foldcmdPrpcess
+    sub_f = foldcmdFunc
+    threadSwitchFolding = threadController
+    if threadSwitchFolding == 1:
         threads = []
         for i, cand in enumerate(cands):
             t = Thread(target=sub_f, args=(i, cand))
@@ -479,6 +503,13 @@ try:
             t.start()
         for t in threads:
             t.join()
+    elif threadSwitchFolding == 2:
+        with Pool(processes=len(cands)) as p:
+            result = []
+            for i, cand in enumerate(cands):
+                a = p.apply_async(sub_f, args=(i, cand))
+                result.append(a)
+            res = [i.get() for i in result]
     else:
         for cand in cands:
             # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
@@ -498,4 +529,5 @@ except:
     sys.exit(0)
 timeLog += dur("folding candidates")
 
+print("threadController : %d" % threadController)
 print(timeLog)
