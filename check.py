@@ -32,12 +32,12 @@ if __name__ == '__main__':
         print("pass on test DD")
 
     for id in range(200):
-        try:
-            # TODO _ACCEL_0.cand文件的check还有一点问题，单线程也有问题，可以详细看看后面的代码。
-            # name = ["_ACCEL_0", "_ACCEL_0.cand", "_ACCEL_0.txtcand", ".dat", ".fft", ".inf"]
-            name = ["_ACCEL_0", "_ACCEL_0.txtcand", ".dat", ".fft", ".inf"]
-            testOk = 1
-            for it in name:
+        # TODO _ACCEL_0.cand文件的check还有一点问题，单线程也有问题，可以详细看看后面的代码。
+        # name = ["_ACCEL_0", "_ACCEL_0.cand", "_ACCEL_0.txtcand", ".dat", ".fft", ".inf"]
+        name = ["_ACCEL_0", "_ACCEL_0.txtcand", ".dat", ".fft", ".inf"]
+        testOk = 1
+        for it in name:
+            try:
                 f1 = path1 + "Sband_DM" + str(id) + ".00" + it
                 with open(f1, 'rb') as fp:
                     data = fp.read()
@@ -51,6 +51,7 @@ if __name__ == '__main__':
                 # print(f1)
                 # print(f2)
                 if m1 != m2:
+                    print(it + " GG !!")
                     testOk = 0
                 f1 = path1 + "Sband_DM" + str(id) + ".50" + it
                 with open(f1, 'rb') as fp:
@@ -65,15 +66,17 @@ if __name__ == '__main__':
                 # print(f1)
                 # print(f2)
                 if m1 != m2:
+                    print(it + " GG !!")
                     testOk = 0
-            # print "================================================="
-            if testOk == 0:
-                print("GG on test " + str(id))
-                ok = 0
-            else:
-                print("pass on test " + str(id))
+            except:
+                # print("some errors occur when open ", f1, f2)
+                continue
+        # print "================================================="
+        if testOk == 0:
+            print("GG on test " + str(id))
+            ok = 0
+        else:
+            print("pass on test " + str(id))
 
-        except:
-            continue
     if ok == 1:
         print("Accepted!")

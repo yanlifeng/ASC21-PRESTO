@@ -8,6 +8,8 @@ zhuwwpku@gmail.com
 """
 
 import os, sys, glob, re
+from threading import Thread
+
 import presto.sifting as sifting
 from subprocess import getoutput
 import numpy as np
@@ -28,6 +30,58 @@ real	1m7.023s
 user	1m12.424s
 sys	0m18.620s
 """
+
+
+def prepsubbandProcess(i, dml):
+    lodm = dml[0]
+    subDM = np.mean(dml)
+    if maskfile:
+        # print "maskfile has open"
+        prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
+            subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
+    else:
+        prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
+            subDM, Nsub, subdownsamp, rootname, '../' + filename)
+    print("prepsubband : " + prepsubband)
+    output = getoutput(prepsubband)
+    logfile.write(output)
+    # print output
+    # print "========================================================================"
+    subnames = rootname + "_DM%.2f.sub[0-9]*" % subDM
+    # prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s ../%(filfile)s" % {
+    # 'Nsub':Nsub, 'lowdm':lodm, 'dDM':dDM, 'NDMs':NDMs, 'Nout':Nout, 'DownSamp':datdownsamp, 'root':rootname, 'filfile':filename}
+    prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
+        'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout, 'DownSamp': datdownsamp,
+        'root': rootname, 'subfile': subnames}
+    print("prepsubcmd : " + prepsubcmd)
+    output = getoutput(prepsubcmd)
+    logfile.write(output)
+
+
+def fftcmdProcess(i, df):
+    fftcmd = "realfft %s" % df
+    print(fftcmd)
+    output = getoutput(fftcmd)
+    return output
+
+
+def serachcmdProcess(i, zmax, fftf):
+    searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
+    print(searchcmd)
+    output = getoutput(searchcmd)
+    return output
+
+
+def foldcmdPrpcess(i, cand):
+    # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
+    # 'dm':cand.DM,  'accelfile':cand.filename+'.cand', 'candnum':cand.candnum, 'datfile':('%s_DM%s.dat' % (rootname, cand.DMstr))} #simple plots
+    foldcmd = "prepfold -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
+        'Nint': Nint, 'Nsub': Nsub, 'dm': cand.DM, 'period': cand.p, 'filfile': filename,
+        'outfile': rootname + '_DM' + cand.DMstr}  # full plots
+    print(foldcmd)
+    # os.system(foldcmd)
+    output = getoutput(foldcmd)
+    logfile.write(output)
 
 
 def dur(op=None, clock=[time.time()]):
@@ -189,36 +243,47 @@ try:
         datdownsamp = 2
         if DownSamp < 2: subdownsamp = datdownsamp = 1
 
-        # random.shuffle(dmlist)
-        # TODO 这里cpu跑起来只显示用了一个核的10%左右 应该是时间都在频繁的读写文件上 下一步可以找到prepsubband的源代码改一下（现在还没找到）
-        # TODO mutithread test
-        # TODO 这里的运行结果里面有个error
-        for i, dml in enumerate(dmlist):
-            lodm = dml[0]
-            subDM = np.mean(dml)
-            if maskfile:
-                # print "maskfile has open"
-                prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
-                    subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
-            else:
-                prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
-                    subDM, Nsub, subdownsamp, rootname, '../' + filename)
-            print("prepsubband : " + prepsubband)
-            output = getoutput(prepsubband)
-            logfile.write(output)
-            # print output
-            # print "========================================================================"
-            subnames = rootname + "_DM%.2f.sub[0-9]*" % subDM
-            # prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s ../%(filfile)s" % {
-            # 'Nsub':Nsub, 'lowdm':lodm, 'dDM':dDM, 'NDMs':NDMs, 'Nout':Nout, 'DownSamp':datdownsamp, 'root':rootname, 'filfile':filename}
-            prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
-                'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout, 'DownSamp': datdownsamp,
-                'root': rootname, 'subfile': subnames}
-            print("prepsubcmd : " + prepsubcmd)
-            output = getoutput(prepsubcmd)
-            logfile.write(output)
-            # print output
-            # print "========================================================================"
+        threadSwitchPrep = 1
+        if threadSwitchPrep:
+            sub_f = prepsubbandProcess
+            threads = []
+            for i, dml in enumerate(dmlist):
+                t = Thread(target=sub_f, args=(i, dml))
+                threads.append(t)
+                t.start()
+            for t in threads:
+                t.join()
+        else:
+            # random.shuffle(dmlist)
+            # TODO 这里cpu跑起来只显示用了一个核的10%左右 应该是时间都在频繁的读写文件上 下一步可以找到prepsubband的源代码改一下（现在还没找到）
+            # TODO mutithread test
+            # TODO 这里的运行结果里面有个error
+            for i, dml in enumerate(dmlist):
+                lodm = dml[0]
+                subDM = np.mean(dml)
+                if maskfile:
+                    # print "maskfile has open"
+                    prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
+                        subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
+                else:
+                    prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
+                        subDM, Nsub, subdownsamp, rootname, '../' + filename)
+                print("prepsubband : " + prepsubband)
+                output = getoutput(prepsubband)
+                logfile.write(output)
+                # print output
+                # print "========================================================================"
+                subnames = rootname + "_DM%.2f.sub[0-9]*" % subDM
+                # prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s ../%(filfile)s" % {
+                # 'Nsub':Nsub, 'lowdm':lodm, 'dDM':dDM, 'NDMs':NDMs, 'Nout':Nout, 'DownSamp':datdownsamp, 'root':rootname, 'filfile':filename}
+                prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
+                    'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout, 'DownSamp': datdownsamp,
+                    'root': rootname, 'subfile': subnames}
+                print("prepsubcmd : " + prepsubcmd)
+                output = getoutput(prepsubcmd)
+                logfile.write(output)
+                # print output
+                # print "========================================================================"
     os.system('rm *.sub*')
     logfile.close()
     os.chdir(cwd)
@@ -240,19 +305,47 @@ try:
     os.chdir('subbands')
     datfiles = glob.glob("*.dat")
     logfile = open('fft.log', 'wt')
-    for df in datfiles:
-        fftcmd = "realfft %s" % df
-        print(fftcmd)
-        output = getoutput(fftcmd)
-        logfile.write(output)
+    print("datfiles size : " + str(len(datfiles)))
+    # TODO edit logfile to make it thread safe
+    # random.shuffle(datfiles)
+
+    threadSwitchFFT = 1
+    if threadSwitchFFT:
+        sub_f = fftcmdProcess
+        threads = []
+        for i, df in enumerate(datfiles):
+            t = Thread(target=sub_f, args=(i, df))
+            threads.append(t)
+            t.start()
+        for t in threads:
+            t.join()
+    else:
+        for df in datfiles:
+            fftcmd = "realfft %s" % df
+            print(fftcmd)
+            output = getoutput(fftcmd)
+            logfile.write(output)
     logfile.close()
     logfile = open('accelsearch.log', 'wt')
     fftfiles = glob.glob("*.fft")
-    for fftf in fftfiles:
-        searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
-        print(searchcmd)
-        output = getoutput(searchcmd)
-        logfile.write(output)
+    print("fftfiles size : " + str(len(fftfiles)))
+    # random.shuffle(fftfiles)
+    threadSwitchSearch = 1
+    if threadSwitchSearch:
+        sub_f = serachcmdProcess
+        threads = []
+        for i, fftf in enumerate(fftfiles):
+            t = Thread(target=sub_f, args=(i, zmax, fftf))
+            threads.append(t)
+            t.start()
+        for t in threads:
+            t.join()
+    else:
+        for fftf in fftfiles:
+            searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
+            print(searchcmd)
+            output = getoutput(searchcmd)
+            logfile.write(output)
     logfile.close()
     os.chdir(cwd)
 except:
@@ -363,6 +456,7 @@ os.chdir(cwd)
 # sys.exit(0)
 
 timeLog += dur("sifting candidates")
+# exit(0)
 print('''
 
 ================folding candidates==================
@@ -374,16 +468,28 @@ try:
     os.chdir('subbands')
     os.system('ln -s ../%s %s' % (filename, filename))
     logfile = open('folding.log', 'wt')
-    for cand in cands:
-        # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
-        # 'dm':cand.DM,  'accelfile':cand.filename+'.cand', 'candnum':cand.candnum, 'datfile':('%s_DM%s.dat' % (rootname, cand.DMstr))} #simple plots
-        foldcmd = "prepfold -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
-            'Nint': Nint, 'Nsub': Nsub, 'dm': cand.DM, 'period': cand.p, 'filfile': filename,
-            'outfile': rootname + '_DM' + cand.DMstr}  # full plots
-        print(foldcmd)
-        # os.system(foldcmd)
-        output = getoutput(foldcmd)
-        logfile.write(output)
+    print("cands size : %d\n" % len(cands))
+    threadSwitchFolding = 1
+    if threadSwitchFolding:
+        sub_f = foldcmdPrpcess
+        threads = []
+        for i, cand in enumerate(cands):
+            t = Thread(target=sub_f, args=(i, cand))
+            threads.append(t)
+            t.start()
+        for t in threads:
+            t.join()
+    else:
+        for cand in cands:
+            # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
+            # 'dm':cand.DM,  'accelfile':cand.filename+'.cand', 'candnum':cand.candnum, 'datfile':('%s_DM%s.dat' % (rootname, cand.DMstr))} #simple plots
+            foldcmd = "prepfold -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
+                'Nint': Nint, 'Nsub': Nsub, 'dm': cand.DM, 'period': cand.p, 'filfile': filename,
+                'outfile': rootname + '_DM' + cand.DMstr}  # full plots
+            print(foldcmd)
+            # os.system(foldcmd)
+            output = getoutput(foldcmd)
+            logfile.write(output)
     logfile.close()
     os.chdir(cwd)
 except:

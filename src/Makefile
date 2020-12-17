@@ -48,7 +48,7 @@ CC = gcc
 FC = gfortran
 
 # Set this to true if you want to use OpenMP.  false otherwise
-USEOPENMP = true
+USEOPENMP = false
 
 # Set this to true if you want to profile.
 USEPROFILE = false
@@ -76,7 +76,7 @@ FLINKFLAGS = $(FFLAGS) -Wl,-rpath,$(PRESTO)/lib
 # Add flags we need for openmp
 ifeq ($(USEOPENMP),true)
 	ifeq ($(CC),icc)
-		OMPFLAGS = -openmp
+		OMPFLAGS = -qopenmp
 		CFLAGS += $(OMPFLAGS)
 		FLINKFLAGS += $(OMPFLAGS)
 # for GCC and clang

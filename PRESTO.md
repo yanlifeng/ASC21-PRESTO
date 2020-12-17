@@ -12,10 +12,11 @@ TODO
 - [ ] 修改编译参数
 - [ ] 解决python tests的报错
 - [ ] 解决prepsubband运行的error
-- [ ] 尝试python脚本级别的并行
+- [x] 尝试python脚本级别的并行
 - [ ] 解决CPU使用率低的问题
-- [ ] 解决只能检测到一个线程的问题
+- [x] 解决只能检测到一个线程的问题
 - [ ] 解决_ACCEL_0.cand文件check出错的问题
+- [ ] 输出log，并做check
 - [ ] 
 - [ ] 
 - [ ] 
@@ -137,7 +138,65 @@ cmd = parseCmdline(argc, argv);
 
 
 
+### 1217
 
+实验室局域网坏了，asc连不上，正好这周有些考试也没多少时间干活。
+
+直接在python脚本的级别进行并行：
+
+```bash
+Read Header                    === 0.004336 
+Generate Dedispersion          === 0.669438 
+Dedisperse Subbands            === 8.106017 
+fft-search subbands            === 35.642981 
+sifting candidates             === 0.124805 
+folding candidates             === 23.958407 
+
+
+real	1m8.983s
+user	1m15.204s
+sys	0m18.052s
+```
+
+
+
+在Dedisperse Subbands 并行之后：
+
+```bash
+Read Header                    === 0.005490 
+Generate Dedispersion          === 0.675505 
+Dedisperse Subbands            === 2.151151 
+fft-search subbands            === 35.856322 
+sifting candidates             === 0.138530 
+folding candidates             === 23.293398 
+
+
+real	1m2.641s
+user	1m18.572s
+sys	0m16.520s
+```
+
+效果还不错，这里有一个问题就是Dedisperse Subbands现在的并行度是能是7，在很多核机器上它可能成为热点。
+
+然后把后面的脚本执行都换成并行的（关闭了presto自带的omp开关）：
+
+```bash
+Read Header                    === 0.005735 
+Generate Dedispersion          === 0.672107 
+Dedisperse Subbands            === 2.140279 
+fft-search subbands            === 6.543522 
+sifting candidates             === 0.132075 
+folding candidates             === 5.492686 
+
+
+real	0m15.457s
+user	1m41.068s
+sys	0m6.056s
+```
+
+加速比还不错，这里采用的是from threading import Thread，可以换成其他的线程库试试。
+
+！！注意：这里的log们都没有输出，需要改。
 
 
 
