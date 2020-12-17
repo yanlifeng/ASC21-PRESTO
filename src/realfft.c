@@ -301,13 +301,13 @@ int main(int argc, char *argv[])
 
     printf("Finished.\n\n");
     printf("Timing summary:\n");
-    tott = times(&runtimes) / (double) CLK_TCK - tott;
-    utim = runtimes.tms_utime / (double) CLK_TCK;
-    stim = runtimes.tms_stime / (double) CLK_TCK;
-    ttim = utim + stim;
-    printf("  CPU usage: %.3f sec total (%.3f sec user, %.3f sec system)\n",
-           ttim, utim, stim);
-    printf("  Total time elapsed:  %.3f sec\n\n", tott);
+//    tott = times(&runtimes) / (double) CLK_TCK - tott;
+//    utim = runtimes.tms_utime / (double) CLK_TCK;
+//    stim = runtimes.tms_stime / (double) CLK_TCK;
+//    ttim = utim + stim;
+//    printf("  CPU usage: %.3f sec total (%.3f sec user, %.3f sec system)\n",
+//           ttim, utim, stim);
+//    printf("  Total time elapsed:  %.3f sec\n\n", tott);
 
     /*
        fftw_print_max_memory_usage();

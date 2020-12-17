@@ -33,7 +33,24 @@ sys	0m18.620s
 """
 
 
+class TestThread(Thread):
+    def __init__(self, func, args=()):
+        super(TestThread, self).__init__()
+        self.func = func
+        self.args = args
+
+    def run(self):
+        self.result = self.func(*self.args)
+
+    def get_result(self):
+        try:
+            return self.result  # 如果子线程不使用join方法，此处可能会报没有self.result的错误
+        except Exception:
+            return None
+
+
 def prepsubbandFunc(i, dml):
+    resList = []
     lodm = dml[0]
     subDM = np.mean(dml)
     if maskfile:
@@ -45,7 +62,7 @@ def prepsubbandFunc(i, dml):
             subDM, Nsub, subdownsamp, rootname, '../' + filename)
     print("prepsubband : " + prepsubband)
     output = getoutput(prepsubband)
-    logfile.write(output)
+    resList.append(output)
     # print output
     # print "========================================================================"
     subnames = rootname + "_DM%.2f.sub[0-9]*" % subDM
@@ -56,7 +73,8 @@ def prepsubbandFunc(i, dml):
         'root': rootname, 'subfile': subnames}
     print("prepsubcmd : " + prepsubcmd)
     output = getoutput(prepsubcmd)
-    logfile.write(output)
+    resList.append(output)
+    return resList
 
 
 def fftcmdFunc(i, df):
@@ -82,7 +100,7 @@ def foldcmdFunc(i, cand):
     print(foldcmd)
     # os.system(foldcmd)
     output = getoutput(foldcmd)
-    logfile.write(output)
+    return output
 
 
 def dur(op=None, clock=[time.time()]):
@@ -252,18 +270,22 @@ try:
         if threadSwitchPrep == 1:
             threads = []
             for i, dml in enumerate(dmlist):
-                t = Thread(target=sub_f, args=(i, dml))
+                t = TestThread(sub_f, args=(i, dml))
                 threads.append(t)
                 t.start()
             for t in threads:
                 t.join()
+                for res in t.get_result():
+                    logfile.write(res)
         elif threadSwitchPrep == 2:
             with Pool(processes=len(dmlist)) as p:
                 result = []
                 for i, dml in enumerate(dmlist):
                     a = p.apply_async(sub_f, args=(i, dml))
                     result.append(a)
-                res = [i.get() for i in result]
+                for i in result:
+                    for res in i.get():
+                        logfile.write(res)
         else:
             # random.shuffle(dmlist)
             # TODO 这里cpu跑起来只显示用了一个核的10%左右 应该是时间都在频繁的读写文件上 下一步可以找到prepsubband的源代码改一下（现在还没找到）
@@ -324,18 +346,20 @@ try:
     if threadSwitchFFT == 1:
         threads = []
         for i, df in enumerate(datfiles):
-            t = Thread(target=sub_f, args=(i, df))
+            t = TestThread(sub_f, args=(i, df))
             threads.append(t)
             t.start()
         for t in threads:
             t.join()
+            logfile.write(t.get_result())
     elif threadSwitchFFT == 2:
         with Pool(processes=len(datfiles)) as p:
             result = []
             for i, df in enumerate(datfiles):
                 a = p.apply_async(sub_f, args=(i, df))
             result.append(a)
-            res = [i.get() for i in result]
+            for i in result:
+                logfile.write(i.get())
     else:
         for df in datfiles:
             fftcmd = "realfft %s" % df
@@ -352,18 +376,20 @@ try:
     if threadSwitchSearch == 1:
         threads = []
         for i, fftf in enumerate(fftfiles):
-            t = Thread(target=sub_f, args=(i, zmax, fftf))
+            t = TestThread(sub_f, args=(i, zmax, fftf))
             threads.append(t)
             t.start()
         for t in threads:
             t.join()
+            logfile.write(t.get_result())
     elif threadSwitchSearch == 2:
         with Pool(processes=len(fftfiles)) as p:
             result = []
             for i, fftf in enumerate(fftfiles):
                 a = p.apply_async(sub_f, args=(i, zmax, fftf))
                 result.append(a)
-            res = [i.get() for i in result]
+            for i in result:
+                logfile.write(i.get())
     else:
         for fftf in fftfiles:
             searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
@@ -498,18 +524,20 @@ try:
     if threadSwitchFolding == 1:
         threads = []
         for i, cand in enumerate(cands):
-            t = Thread(target=sub_f, args=(i, cand))
+            t = TestThread(sub_f, args=(i, cand))
             threads.append(t)
             t.start()
         for t in threads:
             t.join()
+            logfile.write(t.get_result())
     elif threadSwitchFolding == 2:
         with Pool(processes=len(cands)) as p:
             result = []
             for i, cand in enumerate(cands):
                 a = p.apply_async(sub_f, args=(i, cand))
                 result.append(a)
-            res = [i.get() for i in result]
+            for i in result:
+                logfile.write(i.get())
     else:
         for cand in cands:
             # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {

@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
 #ifdef _OPENMP
     //    cmd->ncpus = omp_get_num_procs();
 #endif
-    printf("cmd->ncpus : %d\n", cmd->ncpus);
+//    printf("cmd->ncpus : %d\n", cmd->ncpus);
 //TODO why set num threads 1
     if (cmd->ncpus > 1) {
 #ifdef _OPENMP

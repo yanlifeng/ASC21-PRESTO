@@ -1,0 +1,22 @@
+
+   Real-Valued Data FFT Program v3.0
+        by Scott M. Ransom
+            3 Oct, 2000
+
+Checking data in 1 input file(s):
+   1:  '/home/asc/ylf/ASC/presto/TestData1/subbands/Sband_DM46.50.dat'
+
+Data OK.  There are 531000 floats.
+
+Result will be written to 1 output file(s):
+   1:  '/home/asc/ylf/ASC/presto/TestData1/subbands/Sband_DM46.50.fft'
+
+Performing in-core forward FFT on data:
+   Reading.
+   Transforming.
+   Writing.
+Finished.
+
+Timing summary:
+  CPU usage: 0.030 sec total (0.030 sec user, 0.000 sec system)
+  Total time elapsed:  0.470 sec

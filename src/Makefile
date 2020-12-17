@@ -48,7 +48,7 @@ CC = gcc
 FC = gfortran
 
 # Set this to true if you want to use OpenMP.  false otherwise
-USEOPENMP = false
+USEOPENMP = true
 
 # Set this to true if you want to profile.
 USEPROFILE = false

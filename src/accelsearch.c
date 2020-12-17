@@ -296,13 +296,13 @@ int main(int argc, char *argv[])
         printf("  %d harmonics:  %9lld\n", 1 << ii, obs.numindep[ii]);
 
     printf("\nTiming summary:\n");
-    tott = times(&runtimes) / (double) CLK_TCK - tott;
-    utim = runtimes.tms_utime / (double) CLK_TCK;
-    stim = runtimes.tms_stime / (double) CLK_TCK;
-    ttim = utim + stim;
-    printf("    CPU time: %.3f sec (User: %.3f sec, System: %.3f sec)\n",
-           ttim, utim, stim);
-    printf("  Total time: %.3f sec\n\n", tott);
+//    tott = times(&runtimes) / (double) CLK_TCK - tott;
+//    utim = runtimes.tms_utime / (double) CLK_TCK;
+//    stim = runtimes.tms_stime / (double) CLK_TCK;
+//    ttim = utim + stim;
+//    printf("    CPU time: %.3f sec (User: %.3f sec, System: %.3f sec)\n",
+//           ttim, utim, stim);
+//    printf("  Total time: %.3f sec\n\n", tott);
 
     printf("Final candidates in binary format are in '%s'.\n", obs.candnm);
     printf("Final Candidates in a text format are in '%s'.\n\n", obs.accelnm);
