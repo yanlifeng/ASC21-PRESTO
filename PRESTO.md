@@ -18,6 +18,11 @@ TODO
 - [ ] 解决_ACCEL_0.cand文件check出错的问题
 - [x] 输出log，并做check
 - [ ] 解决上次输出没有清空的时候运行变慢（maybe）
+- [ ] ~~把prepsubb里面的两个脚本拆开~~
+- [ ] 规定python线程库的threadNumber测试加速比
+- [ ] 关于第1，3个热点加速比一般的原因
+- [ ] check pfd!!
+- [ ] 去内部的.c文件并行
 - [ ] 
 - [ ] 
 - [ ] 
@@ -219,11 +224,213 @@ user	1m42.092s
 sys	0m7.736s
 ```
 
-
-
 而且还发现，如果上次运行的文件没有delet，运行速度会慢一点点（15s - 18s。16s - 20s。）
 
+对于多线程输出的log信息进行了check，注意修改了fft和acc里面的源代码，把输出时间的信息删除了。
 
 
 
+#### 1218
 
+原来没有设置线程数，都是用的系统最大线程数，现在规定最多用两个线程，测测加速比：
+
+```bash
+threadNumber : 1
+threadController : 0
+Read Header                    === 0.004745 
+Generate Dedispersion          === 0.698147 
+Dedisperse Subbands            === 8.167462 
+fft-search subbands            === 36.117673 
+sifting candidates             === 0.126861 
+folding candidates             === 23.866634 
+real	1m9.455s
+user	1m15.576s
+sys	0m18.248s
+
+threadNumber : 2
+threadController : 1
+Read Header                    === 0.004749 
+Generate Dedispersion          === 0.687718 
+Dedisperse Subbands            === 5.090773 
+fft-search subbands            === 18.340052 
+sifting candidates             === 0.134790 
+folding candidates             === 14.080581
+real	0m38.853s
+user	1m15.668s
+sys	0m15.196s
+
+threadNumber : 2
+threadController : 2
+Read Header                    === 0.005871 
+Generate Dedispersion          === 0.677867 
+Dedisperse Subbands            === 4.877742 
+fft-search subbands            === 18.177540 
+sifting candidates             === 0.128444 
+folding candidates             === 14.660598 
+real	0m39.062s
+user	1m13.852s
+sys	0m14.528s
+```
+
+然后开开4个，8个线程看看
+
+```bash
+threadNumber : 4
+threadController : 1
+Read Header                    === 0.004651 
+Generate Dedispersion          === 0.656757 
+Dedisperse Subbands            === 2.812546 
+fft-search subbands            === 9.494797 
+sifting candidates             === 0.123413 
+folding candidates             === 8.098120 
+real	0m21.689s
+user	1m18.644s
+sys	0m12.588s
+
+
+threadController : 2
+Read Header                    === 0.007292 
+Generate Dedispersion          === 0.679479 
+Dedisperse Subbands            === 3.175703 
+fft-search subbands            === 9.339058 
+sifting candidates             === 0.133920 
+folding candidates             === 8.234024 
+real	0m22.099s
+user	1m18.204s
+sys	0m12.084s
+
+
+threadNumber : 8
+threadController : 1
+Read Header                    === 0.004564 
+Generate Dedispersion          === 0.682917 
+Dedisperse Subbands            === 2.209518 
+fft-search subbands            === 6.698296 
+sifting candidates             === 0.124717 
+folding candidates             === 6.465857 
+real	0m16.659s
+user	1m39.072s
+sys	0m7.936s
+
+
+threadController : 2
+Read Header                    === 0.004681 
+Generate Dedispersion          === 0.654542 
+Dedisperse Subbands            === 2.280438 
+fft-search subbands            === 6.756281 
+sifting candidates             === 0.135264 
+folding candidates             === 6.736000 
+real	0m17.054s
+user	1m39.872s
+sys	0m8.528s
+```
+
+可以看出fft-search部分的加速比不错，除了最后的8个线程，基本能达到线性；Dedisperse Subbands和folding candidates的加速比一般，具体原因还要详细分析。
+
+
+
+workload2
+
+```bash
+threadNumber : 1
+threadController : 0
+Read Header                    === 0.004555 
+Generate Dedispersion          === 0.680577 
+Dedisperse Subbands            === 67.029553 
+fft-search subbands            === 137.133240 
+sifting candidates             === 0.737182 
+folding candidates             === 161.940028 
+real	6m8.004s
+user	6m29.932s
+sys	0m57.404s
+
+
+threadNumber : 2
+threadController : 1
+Read Header                    === 0.004893 
+Generate Dedispersion          === 0.721812 
+Dedisperse Subbands            === 38.149455 
+fft-search subbands            === 72.775450 
+sifting candidates             === 0.764052 
+folding candidates             === 90.056885 
+real	3m22.992s
+user	6m46.880s
+sys	0m51.604s
+
+threadController : 2
+Read Header                    === 0.004899 
+Generate Dedispersion          === 0.697218 
+Dedisperse Subbands            === 38.411429 
+fft-search subbands            === 69.955862 
+sifting candidates             === 0.732876 
+folding candidates             === 87.764126 
+real	3m18.052s
+user	6m39.664s
+sys	0m48.044s
+
+threadNumber : 4
+threadController : 1
+Read Header                    === 0.004809 
+Generate Dedispersion          === 0.684369 
+Dedisperse Subbands            === 23.693192 
+fft-search subbands            === 36.188843 
+sifting candidates             === 0.761820 
+folding candidates             === 54.648859 
+real	1m56.466s
+user	7m29.084s
+sys	0m39.128s
+
+threadController : 2
+Read Header                    === 0.005172 
+Generate Dedispersion          === 0.669492 
+Dedisperse Subbands            === 23.844496 
+fft-search subbands            === 35.982335 
+sifting candidates             === 0.709400 
+folding candidates             === 56.136693 
+real	1m57.832s
+user	7m33.400s
+sys	0m38.952s
+
+threadNumber 8 :
+threadController : 1
+Read Header                    === 0.004862 
+Generate Dedispersion          === 0.714885 
+Dedisperse Subbands            === 23.633118 
+fft-search subbands            === 25.297910 
+sifting candidates             === 0.756298 
+folding candidates             === 51.120357 
+real	1m42.007s
+user	11m42.932s
+sys	0m27.380s
+
+
+threadController : 2
+Read Header                    === 0.005387 
+Generate Dedispersion          === 0.680157 
+Dedisperse Subbands            === 23.123590 
+fft-search subbands            === 25.285303 
+sifting candidates             === 0.737998 
+folding candidates             === 50.347805 
+real	1m40.656s
+user	11m41.304s
+sys	0m26.700s
+```
+
+大数据下8线层的加速比就很差了，线程调度是一方面，还有就是Dedisperse Subbands和folding candidates的执行次数一个是19一个是36，都不算多，可能线程调度的开销就不小，这里测试了一下7个线程的：
+
+```bash
+threadController : 1
+Read Header                    === 0.004921 
+Generate Dedispersion          === 0.705147 
+Dedisperse Subbands            === 21.788566 
+fft-search subbands            === 27.050926 
+sifting candidates             === 0.751524 
+folding candidates             === 47.345187 
+real	1m38.154s
+user	10m31.036s
+sys	0m29.580s
+```
+
+可以看到De和fold甚至快了一点。
+
+所以下一步还是需要去内部并行。

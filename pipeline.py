@@ -9,8 +9,8 @@ zhuwwpku@gmail.com
 
 import os, sys, glob, re
 from multiprocessing import Pool
-from threading import Thread
-
+import multiprocessing
+import threading
 import presto.sifting as sifting
 from subprocess import getoutput
 import numpy as np
@@ -33,7 +33,7 @@ sys	0m18.620s
 """
 
 
-class TestThread(Thread):
+class TestThread(threading.Thread):
     def __init__(self, func, args=()):
         super(TestThread, self).__init__()
         self.func = func
@@ -50,6 +50,8 @@ class TestThread(Thread):
 
 
 def prepsubbandFunc(i, dml):
+    if threadController == 1:
+        sm.acquire()
     resList = []
     lodm = dml[0]
     subDM = np.mean(dml)
@@ -74,24 +76,36 @@ def prepsubbandFunc(i, dml):
     print("prepsubcmd : " + prepsubcmd)
     output = getoutput(prepsubcmd)
     resList.append(output)
+    if threadController == 1:
+        sm.release()
     return resList
 
 
 def fftcmdFunc(i, df):
+    if threadController == 1:
+        sm.acquire()
     fftcmd = "realfft %s" % df
     print(fftcmd)
     output = getoutput(fftcmd)
+    if threadController == 1:
+        sm.release()
     return output
 
 
 def serachcmdFunc(i, zmax, fftf):
+    if threadController == 1:
+        sm.acquire()
     searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
     print(searchcmd)
     output = getoutput(searchcmd)
+    if threadController == 1:
+        sm.release()
     return output
 
 
 def foldcmdFunc(i, cand):
+    if threadController == 1:
+        sm.acquire()
     # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
     # 'dm':cand.DM,  'accelfile':cand.filename+'.cand', 'candnum':cand.candnum, 'datfile':('%s_DM%s.dat' % (rootname, cand.DMstr))} #simple plots
     foldcmd = "prepfold -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
@@ -100,6 +114,8 @@ def foldcmdFunc(i, cand):
     print(foldcmd)
     # os.system(foldcmd)
     output = getoutput(foldcmd)
+    if threadController == 1:
+        sm.release()
     return output
 
 
@@ -124,7 +140,14 @@ Nint = 64  # 64 sub integration
 Tres = 0.5  # ms
 zmax = 0
 
+maxThreadNumber = 8
+
 threadController = int(sys.argv[2])
+if threadController == 1:
+    sm = threading.Semaphore(maxThreadNumber)
+
+if threadController == 2:
+    print("cpu count : %d" % multiprocessing.cpu_count())
 
 print("threadController %d\n" % threadController)
 
@@ -245,9 +268,9 @@ try:
     # 对于DDplan的输出信息们（其实就一行） 生成一个lowDM-highDM 间隔为dDm的数组 分成calls份
     # 然后每一份 运行prepsubband 先写一些信息到临时文件里 然后读出来 把有用的信息写到Sband_DMxx.xx里面
     # 最后删掉临时文件 并把log信息存在 dedisperse.log 里面
+    print("ddplan size : ")
+    print(len(ddplan))
     for line in ddplan:
-        # print "ddplanSize : "
-        # print ddplanSize
         ddplanSize += 1
         ddpl = line.split()
         lowDM = float(ddpl[0])
@@ -259,8 +282,8 @@ try:
         Nout = Nsamp / DownSamp
         Nout -= (Nout % 500)
         dmlist = np.split(np.arange(lowDM, hiDM, dDM), calls)
-        # print "dmlist : "
-        # print dmlist
+        print("dmlist size : ")
+        print(len(dmlist))
         # copy from $PRESTO/python/Dedisp.py
         subdownsamp = DownSamp / 2
         datdownsamp = 2
@@ -278,7 +301,7 @@ try:
                 for res in t.get_result():
                     logfile.write(res)
         elif threadSwitchPrep == 2:
-            with Pool(processes=len(dmlist)) as p:
+            with Pool(processes=maxThreadNumber) as p:
                 result = []
                 for i, dml in enumerate(dmlist):
                     a = p.apply_async(sub_f, args=(i, dml))
@@ -353,11 +376,11 @@ try:
             t.join()
             logfile.write(t.get_result())
     elif threadSwitchFFT == 2:
-        with Pool(processes=len(datfiles)) as p:
+        with Pool(processes=maxThreadNumber) as p:
             result = []
             for i, df in enumerate(datfiles):
                 a = p.apply_async(sub_f, args=(i, df))
-            result.append(a)
+                result.append(a)
             for i in result:
                 logfile.write(i.get())
     else:
@@ -383,7 +406,7 @@ try:
             t.join()
             logfile.write(t.get_result())
     elif threadSwitchSearch == 2:
-        with Pool(processes=len(fftfiles)) as p:
+        with Pool(processes=maxThreadNumber) as p:
             result = []
             for i, fftf in enumerate(fftfiles):
                 a = p.apply_async(sub_f, args=(i, zmax, fftf))
@@ -531,7 +554,7 @@ try:
             t.join()
             logfile.write(t.get_result())
     elif threadSwitchFolding == 2:
-        with Pool(processes=len(cands)) as p:
+        with Pool(processes=maxThreadNumber) as p:
             result = []
             for i, cand in enumerate(cands):
                 a = p.apply_async(sub_f, args=(i, cand))
