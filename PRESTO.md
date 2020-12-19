@@ -438,4 +438,31 @@ sys	0m29.580s
 
 #### 1219
 
-原来的check所有文件的方法写的太丑了，现在换了一个比较简洁的方法，
+原来的check所有文件的方法写的太丑了，现在换了一个比较简洁的方法。
+
+在开始研究PRESTO的源代码之前，先看看文档里面的描述：
+
+```
+#首先，脉冲星的性质：
+#1 信号被星际介质分散
+#2 信号是周期的
+
+#脉冲星搜索算法的步骤：
+#1 去色散，即测试许多（通常是数千个）可能的色散测量（DM）并对其进行星际延迟校正
+#2 使用fft搜索一段时间
+
+#PRESTO中用于脉冲星搜索的三步：
+#1 Data Preparation: Interference detection (rfifind) and removal (zapbirds) ,
+# de-dispersion (prepdata, prepsubband, and mpiprepsubband), barycentering (via TEMPO)
+#2 Searching: Fourier-domain acceleration (accelsearch), single-pulse (single_pulse_search.py)
+# and phase-modulation or sideband searches (search_bin).
+
+#3 Folding: Candidate optimization (prepfold) and Time-of-Arrival (TOA) generation (get_TOAs.py).
+```
+
+然后提交要求是：
+
+![image-20201219105555686](/Users/ylf9811/Library/Application Support/typora-user-images/image-20201219105555686.png)
+
+ps里面有输出时间信息，把那几行砍掉之后直接test md5值来check。
+

@@ -203,6 +203,26 @@ print('''
 ============Generate Dedispersion===============
 
 ''')
+
+#首先，脉冲星的性质：
+#1 信号被星际介质分散
+#2 信号是周期的
+
+#脉冲星搜索算法的步骤：
+#1 去色散，即测试许多（通常是数千个）可能的色散测量（DM）并对其进行星际延迟校正
+#2 使用fft搜索一段时间
+
+#PRESTO中用于脉冲星搜索的三步：
+#1 Data Preparation: Interference detection (rfifind) and removal (zapbirds) ,
+# de-dispersion (prepdata, prepsubband, and mpiprepsubband), barycentering (via TEMPO)
+#2 Searching: Fourier-domain acceleration (accelsearch), single-pulse (single_pulse_search.py)
+# and phase-modulation or sideband searches (search_bin).
+
+#3 Folding: Candidate optimization (prepfold) and Time-of-Arrival (TOA) generation (get_TOAs.py).
+
+
+
+# 执行 去色散的过程
 dur()
 try:
     Nchan = int(header['Number of channels'])

@@ -21,9 +21,6 @@ assert (len(ls1) == len(ls1))
 ok = 1
 for i in range(len(ls1)):
     try:
-        if ".pfd.ps" in ls1[i]:
-            # print("jump this test because pds.ps")
-            continue
         if "_ACCEL_0.cand" in ls1[i]:
             # print("jump this test because cand")
             continue
@@ -31,11 +28,17 @@ for i in range(len(ls1)):
         f1 = ls1[i]
         with open(f1, 'rb') as fp:
             data = fp.read()
+            if ".pfd.ps" in f1:
+                data = str(data).split("\n")[10:]
+                data = bytes(data)
         m1 = hashlib.md5(data).hexdigest()
         # print(m1)
         f2 = ls2[i]
         with open(f2, 'rb') as fp:
             data = fp.read()
+            if ".pfd.ps" in f2:
+                data = str(data).split("\n")[10:]
+                data = bytes(data)
         m2 = hashlib.md5(data).hexdigest()
         if m1 != m2:
             print("GG on check ", f1, f2)
