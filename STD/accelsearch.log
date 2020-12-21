@@ -185,9 +185,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.270 sec (User: 0.270 sec, System: 0.000 sec)
-  Total time: 0.270 sec
-
 Final candidates in binary format are in 'Sband_DM0.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM0.00_ACCEL_0'.
 
@@ -385,9 +382,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.240 sec (User: 0.240 sec, System: 0.000 sec)
-  Total time: 0.250 sec
-
 Final candidates in binary format are in 'Sband_DM9.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM9.50_ACCEL_0'.
 
@@ -560,9 +554,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM59.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM59.50_ACCEL_0'.
 
@@ -746,9 +737,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.150 sec
-
 Final candidates in binary format are in 'Sband_DM14.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM14.00_ACCEL_0'.
 
@@ -909,9 +897,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.080 sec (User: 0.080 sec, System: 0.000 sec)
-  Total time: 0.090 sec
-
 Final candidates in binary format are in 'Sband_DM83.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM83.00_ACCEL_0'.
 
@@ -1085,9 +1070,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM69.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM69.50_ACCEL_0'.
 
@@ -1248,9 +1230,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.070 sec (User: 0.070 sec, System: 0.000 sec)
-  Total time: 0.080 sec
-
 Final candidates in binary format are in 'Sband_DM81.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM81.00_ACCEL_0'.
 
@@ -1434,9 +1413,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM31.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM31.50_ACCEL_0'.
 
@@ -1623,9 +1599,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.220 sec (User: 0.220 sec, System: 0.000 sec)
-  Total time: 0.220 sec
-
 Final candidates in binary format are in 'Sband_DM22.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM22.00_ACCEL_0'.
 
@@ -1807,9 +1780,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.170 sec (User: 0.170 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM27.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM27.50_ACCEL_0'.
 
@@ -1994,9 +1964,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM26.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM26.50_ACCEL_0'.
 
@@ -2170,9 +2137,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM56.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM56.50_ACCEL_0'.
 
@@ -2365,9 +2329,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.280 sec (User: 0.280 sec, System: 0.000 sec)
-  Total time: 0.300 sec
-
 Final candidates in binary format are in 'Sband_DM61.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM61.50_ACCEL_0'.
 
@@ -2540,9 +2501,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM58.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM58.00_ACCEL_0'.
 
@@ -2735,9 +2693,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.230 sec (User: 0.220 sec, System: 0.010 sec)
-  Total time: 0.240 sec
-
 Final candidates in binary format are in 'Sband_DM10.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM10.00_ACCEL_0'.
 
@@ -2920,9 +2875,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM21.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM21.00_ACCEL_0'.
 
@@ -3103,9 +3055,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM38.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM38.50_ACCEL_0'.
 
@@ -3281,9 +3230,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.170 sec (User: 0.170 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM43.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM43.50_ACCEL_0'.
 
@@ -3457,9 +3403,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM68.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM68.50_ACCEL_0'.
 
@@ -3634,9 +3577,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.200 sec
-
 Final candidates in binary format are in 'Sband_DM43.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM43.00_ACCEL_0'.
 
@@ -3809,9 +3749,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM55.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM55.50_ACCEL_0'.
 
@@ -3996,9 +3933,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM20.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM20.50_ACCEL_0'.
 
@@ -4182,9 +4116,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.290 sec (User: 0.290 sec, System: 0.000 sec)
-  Total time: 0.300 sec
-
 Final candidates in binary format are in 'Sband_DM63.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM63.50_ACCEL_0'.
 
@@ -4357,9 +4288,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.110 sec (User: 0.110 sec, System: 0.000 sec)
-  Total time: 0.120 sec
-
 Final candidates in binary format are in 'Sband_DM77.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM77.50_ACCEL_0'.
 
@@ -4545,9 +4473,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.190 sec (User: 0.190 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM12.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM12.50_ACCEL_0'.
 
@@ -4721,9 +4646,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM68.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM68.00_ACCEL_0'.
 
@@ -4902,9 +4824,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM41.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM41.50_ACCEL_0'.
 
@@ -5088,9 +5007,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM19.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM19.00_ACCEL_0'.
 
@@ -5280,9 +5196,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.240 sec (User: 0.240 sec, System: 0.000 sec)
-  Total time: 0.250 sec
-
 Final candidates in binary format are in 'Sband_DM8.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM8.00_ACCEL_0'.
 
@@ -5456,9 +5369,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM42.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM42.00_ACCEL_0'.
 
@@ -5635,9 +5545,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM57.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM57.00_ACCEL_0'.
 
@@ -5822,9 +5729,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.150 sec, System: 0.010 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM30.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM30.50_ACCEL_0'.
 
@@ -6004,9 +5908,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM27.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM27.00_ACCEL_0'.
 
@@ -6196,9 +6097,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.260 sec (User: 0.260 sec, System: 0.000 sec)
-  Total time: 0.270 sec
-
 Final candidates in binary format are in 'Sband_DM7.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM7.50_ACCEL_0'.
 
@@ -6386,9 +6284,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.250 sec (User: 0.250 sec, System: 0.000 sec)
-  Total time: 0.260 sec
-
 Final candidates in binary format are in 'Sband_DM7.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM7.00_ACCEL_0'.
 
@@ -6566,9 +6461,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM64.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM64.00_ACCEL_0'.
 
@@ -6745,9 +6637,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.200 sec (User: 0.200 sec, System: 0.000 sec)
-  Total time: 0.200 sec
-
 Final candidates in binary format are in 'Sband_DM72.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM72.50_ACCEL_0'.
 
@@ -6921,9 +6810,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM47.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM47.50_ACCEL_0'.
 
@@ -7102,9 +6988,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.230 sec (User: 0.230 sec, System: 0.000 sec)
-  Total time: 0.230 sec
-
 Final candidates in binary format are in 'Sband_DM5.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM5.00_ACCEL_0'.
 
@@ -7296,9 +7179,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.260 sec (User: 0.260 sec, System: 0.000 sec)
-  Total time: 0.270 sec
-
 Final candidates in binary format are in 'Sband_DM0.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM0.50_ACCEL_0'.
 
@@ -7472,9 +7352,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM75.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM75.50_ACCEL_0'.
 
@@ -7659,9 +7536,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.270 sec (User: 0.270 sec, System: 0.000 sec)
-  Total time: 0.270 sec
-
 Final candidates in binary format are in 'Sband_DM63.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM63.00_ACCEL_0'.
 
@@ -7847,9 +7721,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM17.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM17.50_ACCEL_0'.
 
@@ -8031,9 +7902,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.190 sec (User: 0.190 sec, System: 0.000 sec)
-  Total time: 0.210 sec
-
 Final candidates in binary format are in 'Sband_DM28.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM28.00_ACCEL_0'.
 
@@ -8227,9 +8095,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.220 sec (User: 0.220 sec, System: 0.000 sec)
-  Total time: 0.230 sec
-
 Final candidates in binary format are in 'Sband_DM8.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM8.50_ACCEL_0'.
 
@@ -8402,9 +8267,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM56.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM56.00_ACCEL_0'.
 
@@ -8599,9 +8461,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.220 sec (User: 0.220 sec, System: 0.000 sec)
-  Total time: 0.230 sec
-
 Final candidates in binary format are in 'Sband_DM12.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM12.00_ACCEL_0'.
 
@@ -8765,9 +8624,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.120 sec
-
 Final candidates in binary format are in 'Sband_DM82.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM82.50_ACCEL_0'.
 
@@ -8929,9 +8785,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.090 sec (User: 0.090 sec, System: 0.000 sec)
-  Total time: 0.100 sec
-
 Final candidates in binary format are in 'Sband_DM80.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM80.50_ACCEL_0'.
 
@@ -9104,9 +8957,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM74.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM74.50_ACCEL_0'.
 
@@ -9296,9 +9146,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.260 sec (User: 0.260 sec, System: 0.000 sec)
-  Total time: 0.270 sec
-
 Final candidates in binary format are in 'Sband_DM1.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM1.00_ACCEL_0'.
 
@@ -9480,9 +9327,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM49.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM49.00_ACCEL_0'.
 
@@ -9666,9 +9510,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM18.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM18.00_ACCEL_0'.
 
@@ -9850,9 +9691,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.170 sec (User: 0.170 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM36.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM36.50_ACCEL_0'.
 
@@ -10037,9 +9875,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.260 sec (User: 0.260 sec, System: 0.000 sec)
-  Total time: 0.260 sec
-
 Final candidates in binary format are in 'Sband_DM4.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM4.00_ACCEL_0'.
 
@@ -10228,9 +10063,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM33.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM33.50_ACCEL_0'.
 
@@ -10391,9 +10223,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.060 sec (User: 0.060 sec, System: 0.000 sec)
-  Total time: 0.070 sec
-
 Final candidates in binary format are in 'Sband_DM78.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM78.50_ACCEL_0'.
 
@@ -10572,9 +10401,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.170 sec (User: 0.170 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM41.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM41.00_ACCEL_0'.
 
@@ -10747,9 +10573,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM50.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM50.00_ACCEL_0'.
 
@@ -10938,9 +10761,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.270 sec (User: 0.270 sec, System: 0.000 sec)
-  Total time: 0.270 sec
-
 Final candidates in binary format are in 'Sband_DM5.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM5.50_ACCEL_0'.
 
@@ -11104,9 +10924,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.120 sec
-
 Final candidates in binary format are in 'Sband_DM83.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM83.50_ACCEL_0'.
 
@@ -11271,9 +11088,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.100 sec (User: 0.100 sec, System: 0.000 sec)
-  Total time: 0.100 sec
-
 Final candidates in binary format are in 'Sband_DM81.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM81.50_ACCEL_0'.
 
@@ -11446,9 +11260,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.110 sec (User: 0.110 sec, System: 0.000 sec)
-  Total time: 0.120 sec
-
 Final candidates in binary format are in 'Sband_DM75.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM75.00_ACCEL_0'.
 
@@ -11638,9 +11449,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.200 sec (User: 0.200 sec, System: 0.000 sec)
-  Total time: 0.210 sec
-
 Final candidates in binary format are in 'Sband_DM23.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM23.50_ACCEL_0'.
 
@@ -11830,9 +11638,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.280 sec (User: 0.280 sec, System: 0.000 sec)
-  Total time: 0.280 sec
-
 Final candidates in binary format are in 'Sband_DM4.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM4.50_ACCEL_0'.
 
@@ -12005,9 +11810,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM52.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM52.00_ACCEL_0'.
 
@@ -12191,9 +11993,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.190 sec (User: 0.190 sec, System: 0.000 sec)
-  Total time: 0.210 sec
-
 Final candidates in binary format are in 'Sband_DM13.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM13.00_ACCEL_0'.
 
@@ -12367,9 +12166,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM57.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM57.50_ACCEL_0'.
 
@@ -12544,9 +12340,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM60.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM60.50_ACCEL_0'.
 
@@ -12719,9 +12512,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM77.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM77.00_ACCEL_0'.
 
@@ -12910,9 +12700,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.270 sec (User: 0.270 sec, System: 0.000 sec)
-  Total time: 0.280 sec
-
 Final candidates in binary format are in 'Sband_DM62.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM62.00_ACCEL_0'.
 
@@ -13091,9 +12878,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.200 sec (User: 0.200 sec, System: 0.000 sec)
-  Total time: 0.210 sec
-
 Final candidates in binary format are in 'Sband_DM61.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM61.00_ACCEL_0'.
 
@@ -13275,9 +13059,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.150 sec
-
 Final candidates in binary format are in 'Sband_DM16.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM16.00_ACCEL_0'.
 
@@ -13463,9 +13244,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM40.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM40.00_ACCEL_0'.
 
@@ -13654,9 +13432,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.220 sec (User: 0.220 sec, System: 0.000 sec)
-  Total time: 0.230 sec
-
 Final candidates in binary format are in 'Sband_DM29.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM29.50_ACCEL_0'.
 
@@ -13841,9 +13616,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM16.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM16.50_ACCEL_0'.
 
@@ -14027,9 +13799,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.170 sec (User: 0.170 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM37.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM37.00_ACCEL_0'.
 
@@ -14202,9 +13971,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM50.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM50.50_ACCEL_0'.
 
@@ -14385,9 +14151,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM35.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM35.50_ACCEL_0'.
 
@@ -14584,9 +14347,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.210 sec (User: 0.210 sec, System: 0.000 sec)
-  Total time: 0.220 sec
-
 Final candidates in binary format are in 'Sband_DM11.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM11.00_ACCEL_0'.
 
@@ -14767,9 +14527,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.170 sec (User: 0.170 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM22.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM22.50_ACCEL_0'.
 
@@ -14961,9 +14718,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.270 sec (User: 0.270 sec, System: 0.000 sec)
-  Total time: 0.280 sec
-
 Final candidates in binary format are in 'Sband_DM1.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM1.50_ACCEL_0'.
 
@@ -15135,9 +14889,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM45.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM45.00_ACCEL_0'.
 
@@ -15298,9 +15049,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM82.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM82.00_ACCEL_0'.
 
@@ -15475,9 +15223,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM72.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM72.00_ACCEL_0'.
 
@@ -15658,9 +15403,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM67.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM67.00_ACCEL_0'.
 
@@ -15846,9 +15588,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.210 sec (User: 0.210 sec, System: 0.000 sec)
-  Total time: 0.210 sec
-
 Final candidates in binary format are in 'Sband_DM23.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM23.00_ACCEL_0'.
 
@@ -16023,9 +15762,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM70.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM70.00_ACCEL_0'.
 
@@ -16210,9 +15946,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.220 sec (User: 0.220 sec, System: 0.000 sec)
-  Total time: 0.230 sec
-
 Final candidates in binary format are in 'Sband_DM40.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM40.50_ACCEL_0'.
 
@@ -16389,9 +16122,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM60.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM60.00_ACCEL_0'.
 
@@ -16576,9 +16306,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM14.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM14.50_ACCEL_0'.
 
@@ -16754,9 +16481,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.150 sec
-
 Final candidates in binary format are in 'Sband_DM66.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM66.00_ACCEL_0'.
 
@@ -16934,9 +16658,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM76.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM76.50_ACCEL_0'.
 
@@ -17109,9 +16830,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM70.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM70.50_ACCEL_0'.
 
@@ -17284,9 +17002,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM58.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM58.50_ACCEL_0'.
 
@@ -17460,9 +17175,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM49.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM49.50_ACCEL_0'.
 
@@ -17651,9 +17363,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.260 sec (User: 0.260 sec, System: 0.000 sec)
-  Total time: 0.270 sec
-
 Final candidates in binary format are in 'Sband_DM2.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM2.50_ACCEL_0'.
 
@@ -17841,9 +17550,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.190 sec (User: 0.190 sec, System: 0.000 sec)
-  Total time: 0.200 sec
-
 Final candidates in binary format are in 'Sband_DM39.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM39.50_ACCEL_0'.
 
@@ -18024,9 +17730,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM37.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM37.50_ACCEL_0'.
 
@@ -18187,9 +17890,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.080 sec (User: 0.080 sec, System: 0.000 sec)
-  Total time: 0.090 sec
-
 Final candidates in binary format are in 'Sband_DM78.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM78.00_ACCEL_0'.
 
@@ -18362,9 +18062,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM52.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM52.50_ACCEL_0'.
 
@@ -18545,9 +18242,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM18.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM18.50_ACCEL_0'.
 
@@ -18720,9 +18414,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM65.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM65.50_ACCEL_0'.
 
@@ -18908,9 +18599,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM25.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM25.50_ACCEL_0'.
 
@@ -19082,9 +18770,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.110 sec (User: 0.110 sec, System: 0.000 sec)
-  Total time: 0.110 sec
-
 Final candidates in binary format are in 'Sband_DM46.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM46.50_ACCEL_0'.
 
@@ -19267,9 +18952,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM19.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM19.50_ACCEL_0'.
 
@@ -19450,9 +19132,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM20.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM20.00_ACCEL_0'.
 
@@ -19633,9 +19312,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM54.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM54.00_ACCEL_0'.
 
@@ -19818,9 +19494,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM34.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM34.50_ACCEL_0'.
 
@@ -19981,9 +19654,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.070 sec (User: 0.070 sec, System: 0.000 sec)
-  Total time: 0.080 sec
-
 Final candidates in binary format are in 'Sband_DM79.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM79.50_ACCEL_0'.
 
@@ -20158,9 +19828,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.120 sec
-
 Final candidates in binary format are in 'Sband_DM71.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM71.00_ACCEL_0'.
 
@@ -20345,9 +20012,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.190 sec (User: 0.190 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM76.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM76.00_ACCEL_0'.
 
@@ -20530,9 +20194,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM34.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM34.00_ACCEL_0'.
 
@@ -20719,9 +20380,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.220 sec (User: 0.220 sec, System: 0.000 sec)
-  Total time: 0.230 sec
-
 Final candidates in binary format are in 'Sband_DM28.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM28.50_ACCEL_0'.
 
@@ -20896,9 +20554,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.110 sec (User: 0.110 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM45.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM45.50_ACCEL_0'.
 
@@ -21084,9 +20739,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.290 sec (User: 0.290 sec, System: 0.000 sec)
-  Total time: 0.300 sec
-
 Final candidates in binary format are in 'Sband_DM3.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM3.00_ACCEL_0'.
 
@@ -21269,9 +20921,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.200 sec (User: 0.200 sec, System: 0.000 sec)
-  Total time: 0.210 sec
-
 Final candidates in binary format are in 'Sband_DM38.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM38.00_ACCEL_0'.
 
@@ -21455,9 +21104,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.150 sec
-
 Final candidates in binary format are in 'Sband_DM31.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM31.00_ACCEL_0'.
 
@@ -21649,9 +21295,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.200 sec (User: 0.200 sec, System: 0.000 sec)
-  Total time: 0.210 sec
-
 Final candidates in binary format are in 'Sband_DM29.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM29.00_ACCEL_0'.
 
@@ -21834,9 +21477,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM35.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM35.00_ACCEL_0'.
 
@@ -22015,9 +21655,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM48.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM48.50_ACCEL_0'.
 
@@ -22179,9 +21816,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.100 sec (User: 0.100 sec, System: 0.000 sec)
-  Total time: 0.110 sec
-
 Final candidates in binary format are in 'Sband_DM80.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM80.00_ACCEL_0'.
 
@@ -22364,9 +21998,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.340 sec
-
 Final candidates in binary format are in 'Sband_DM15.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM15.50_ACCEL_0'.
 
@@ -22554,9 +22185,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.290 sec (User: 0.280 sec, System: 0.010 sec)
-  Total time: 0.310 sec
-
 Final candidates in binary format are in 'Sband_DM62.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM62.50_ACCEL_0'.
 
@@ -22728,9 +22356,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.120 sec
-
 Final candidates in binary format are in 'Sband_DM44.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM44.00_ACCEL_0'.
 
@@ -22903,9 +22528,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM46.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM46.00_ACCEL_0'.
 
@@ -23078,9 +22700,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.120 sec
-
 Final candidates in binary format are in 'Sband_DM54.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM54.50_ACCEL_0'.
 
@@ -23255,9 +22874,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM64.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM64.50_ACCEL_0'.
 
@@ -23440,9 +23056,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM15.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM15.00_ACCEL_0'.
 
@@ -23615,9 +23228,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.130 sec
-
 Final candidates in binary format are in 'Sband_DM73.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM73.50_ACCEL_0'.
 
@@ -23800,9 +23410,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.170 sec (User: 0.170 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM24.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM24.00_ACCEL_0'.
 
@@ -23976,9 +23583,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM67.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM67.50_ACCEL_0'.
 
@@ -24151,9 +23755,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM51.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM51.50_ACCEL_0'.
 
@@ -24326,9 +23927,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.120 sec
-
 Final candidates in binary format are in 'Sband_DM69.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM69.00_ACCEL_0'.
 
@@ -24510,9 +24108,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM24.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM24.50_ACCEL_0'.
 
@@ -24705,9 +24300,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.220 sec (User: 0.220 sec, System: 0.000 sec)
-  Total time: 0.230 sec
-
 Final candidates in binary format are in 'Sband_DM11.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM11.50_ACCEL_0'.
 
@@ -24888,9 +24480,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM26.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM26.00_ACCEL_0'.
 
@@ -25066,9 +24655,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.150 sec
-
 Final candidates in binary format are in 'Sband_DM33.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM33.00_ACCEL_0'.
 
@@ -25257,9 +24843,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.270 sec (User: 0.270 sec, System: 0.000 sec)
-  Total time: 0.270 sec
-
 Final candidates in binary format are in 'Sband_DM3.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM3.50_ACCEL_0'.
 
@@ -25432,9 +25015,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM55.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM55.00_ACCEL_0'.
 
@@ -25610,9 +25190,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.150 sec, System: 0.010 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM53.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM53.00_ACCEL_0'.
 
@@ -25786,9 +25363,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM65.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM65.00_ACCEL_0'.
 
@@ -25965,9 +25539,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.170 sec (User: 0.170 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM53.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM53.50_ACCEL_0'.
 
@@ -26148,9 +25719,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.170 sec (User: 0.170 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM21.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM21.50_ACCEL_0'.
 
@@ -26325,9 +25893,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.150 sec
-
 Final candidates in binary format are in 'Sband_DM47.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM47.00_ACCEL_0'.
 
@@ -26512,9 +26077,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM36.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM36.00_ACCEL_0'.
 
@@ -26675,9 +26237,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.080 sec (User: 0.080 sec, System: 0.000 sec)
-  Total time: 0.080 sec
-
 Final candidates in binary format are in 'Sband_DM79.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM79.00_ACCEL_0'.
 
@@ -26855,9 +26414,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM51.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM51.00_ACCEL_0'.
 
@@ -27035,9 +26591,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.180 sec
-
 Final candidates in binary format are in 'Sband_DM59.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM59.00_ACCEL_0'.
 
@@ -27211,9 +26764,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM73.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM73.00_ACCEL_0'.
 
@@ -27386,9 +26936,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.150 sec
-
 Final candidates in binary format are in 'Sband_DM71.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM71.50_ACCEL_0'.
 
@@ -27567,9 +27114,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.190 sec (User: 0.190 sec, System: 0.000 sec)
-  Total time: 0.200 sec
-
 Final candidates in binary format are in 'Sband_DM66.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM66.50_ACCEL_0'.
 
@@ -27755,9 +27299,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.200 sec (User: 0.200 sec, System: 0.000 sec)
-  Total time: 0.200 sec
-
 Final candidates in binary format are in 'Sband_DM13.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM13.50_ACCEL_0'.
 
@@ -27941,9 +27482,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM32.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM32.00_ACCEL_0'.
 
@@ -28126,9 +27664,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM30.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM30.00_ACCEL_0'.
 
@@ -28315,9 +27850,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.230 sec (User: 0.230 sec, System: 0.000 sec)
-  Total time: 0.240 sec
-
 Final candidates in binary format are in 'Sband_DM6.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM6.50_ACCEL_0'.
 
@@ -28501,9 +28033,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM32.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM32.50_ACCEL_0'.
 
@@ -28684,9 +28213,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.150 sec (User: 0.150 sec, System: 0.000 sec)
-  Total time: 0.160 sec
-
 Final candidates in binary format are in 'Sband_DM39.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM39.00_ACCEL_0'.
 
@@ -28860,9 +28386,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.130 sec (User: 0.130 sec, System: 0.000 sec)
-  Total time: 1.320 sec
-
 Final candidates in binary format are in 'Sband_DM42.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM42.50_ACCEL_0'.
 
@@ -29036,9 +28559,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.160 sec (User: 0.160 sec, System: 0.000 sec)
-  Total time: 0.170 sec
-
 Final candidates in binary format are in 'Sband_DM48.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM48.00_ACCEL_0'.
 
@@ -29211,9 +28731,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.120 sec (User: 0.120 sec, System: 0.000 sec)
-  Total time: 0.140 sec
-
 Final candidates in binary format are in 'Sband_DM74.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM74.00_ACCEL_0'.
 
@@ -29403,9 +28920,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.300 sec (User: 0.300 sec, System: 0.000 sec)
-  Total time: 0.320 sec
-
 Final candidates in binary format are in 'Sband_DM2.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM2.00_ACCEL_0'.
 
@@ -29588,9 +29102,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.230 sec (User: 0.230 sec, System: 0.000 sec)
-  Total time: 0.240 sec
-
 Final candidates in binary format are in 'Sband_DM6.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM6.00_ACCEL_0'.
 
@@ -29762,9 +29273,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.110 sec (User: 0.110 sec, System: 0.000 sec)
-  Total time: 0.120 sec
-
 Final candidates in binary format are in 'Sband_DM44.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM44.50_ACCEL_0'.
 
@@ -29963,9 +29471,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.240 sec (User: 0.240 sec, System: 0.000 sec)
-  Total time: 0.250 sec
-
 Final candidates in binary format are in 'Sband_DM9.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM9.00_ACCEL_0'.
 
@@ -30151,9 +29656,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.140 sec (User: 0.140 sec, System: 0.000 sec)
-  Total time: 0.150 sec
-
 Final candidates in binary format are in 'Sband_DM17.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM17.00_ACCEL_0'.
 
@@ -30348,9 +29850,6 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.230 sec (User: 0.230 sec, System: 0.000 sec)
-  Total time: 0.240 sec
-
 Final candidates in binary format are in 'Sband_DM10.50_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM10.50_ACCEL_0'.
 
@@ -30541,8 +30040,5 @@ Searched the following approx numbers of independent points:
   8 harmonics:      33182
 
 Timing summary:
-    CPU time: 0.180 sec (User: 0.180 sec, System: 0.000 sec)
-  Total time: 0.190 sec
-
 Final candidates in binary format are in 'Sband_DM25.00_ACCEL_0.cand'.
 Final Candidates in a text format are in 'Sband_DM25.00_ACCEL_0'.

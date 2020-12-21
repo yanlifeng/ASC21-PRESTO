@@ -1,8 +1,8 @@
 #include "accel.h"
 
-double max_rzw_arr(fcomplex * data, long numdata, double rin, double zin,
+double max_rzw_arr(fcomplex *data, long numdata, double rin, double zin,
                    double win, double *rout, double *zout,
-                   double *wout, rderivs * derivs)
+                   double *wout, rderivs *derivs)
 /* Return the Fourier frequency, f-dot, and fdotdot that    */
 /* maximizes the power.                                     */
 /* This isn't a true optimization, but just maximizing the  */
@@ -10,23 +10,25 @@ double max_rzw_arr(fcomplex * data, long numdata, double rin, double zin,
 {
     float locpow = get_localpower3d(data, numdata, rin, zin, win);
     float maxpow = 0, pow, powargr, powargi;
-    int extra = 10, startbin = (int)(rin) - 1;
+    int extra = 10, startbin = (int) (rin) - 1;
     int numr, numz, numw, nextbin, fftlen, numbetween;
     // The factor beyond ACCEL_DR, ACCEL_DZ, ACCEL_DW will interpolate
     int interpfac = 4, wind = 0, zind = 0, rind = 0;
     fcomplex ***vol, amp;
     // Use a more conservative length kernel
-    int kern_half_width = w_resp_halfwidth(fabs(zin)+2, fabs(win)+20, LOWACC);
+    int kern_half_width = w_resp_halfwidth(fabs(zin) + 2, fabs(win) + 20, LOWACC);
 
     numr = 3 * interpfac * ACCEL_RDR;
     numz = numw = 2 * interpfac + 1;
-
+#ifdef PACC
+    printf("\n\nnumr %d numz %d numw %d\n\n", numr, numz, numw);
+#endif
     numbetween = interpfac * ACCEL_RDR;
     fftlen = next2_to_n(numbetween * (2 * kern_half_width + extra));
     // printf("fftlen = %d\n", fftlen);
-    vol = corr_rzw_vol(data, numdata, numbetween, startbin, 
-                       zin-ACCEL_DZ, zin+ACCEL_DZ, numz,
-                       win-ACCEL_DW, win+ACCEL_DW, numw, 
+    vol = corr_rzw_vol(data, numdata, numbetween, startbin,
+                       zin - ACCEL_DZ, zin + ACCEL_DZ, numz,
+                       win - ACCEL_DW, win + ACCEL_DW, numw,
                        fftlen, LOWACC, &nextbin);
     {
         int ii, jj, kk;
@@ -46,8 +48,8 @@ double max_rzw_arr(fcomplex * data, long numdata, double rin, double zin,
         }
     }
     *rout = startbin + rind * ACCEL_DR / (double) interpfac;
-    *zout = zin-ACCEL_DZ + zind * ACCEL_DZ / (double) interpfac;
-    *wout = win-ACCEL_DW + wind * ACCEL_DW  / (double) interpfac;
+    *zout = zin - ACCEL_DZ + zind * ACCEL_DZ / (double) interpfac;
+    *wout = win - ACCEL_DW + wind * ACCEL_DW / (double) interpfac;
     vect_free(vol[0][0]);
     vect_free(vol[0]);
     vect_free(vol);
@@ -56,17 +58,18 @@ double max_rzw_arr(fcomplex * data, long numdata, double rin, double zin,
 }
 
 
-double max_rzw_file(FILE * fftfile, double rin, double zin, double win,
-                    double *rout, double *zout, double *wout, rderivs * derivs)
+double max_rzw_file(FILE *fftfile, double rin, double zin, double win,
+                    double *rout, double *zout, double *wout, rderivs *derivs)
 /* Return the Fourier frequency, f-dot, and fdotdot that    */
 /* maximizes the power of the candidate in 'fftfile'.       */
 {
+
     double maxpow, rin_int, rin_frac;
     int filedatalen, extra = 10;
     long startbin;
     fcomplex *filedata;
     // Use a more conservative length kernel
-    int kern_half_width = w_resp_halfwidth(fabs(zin)+2, fabs(win)+20, LOWACC);
+    int kern_half_width = w_resp_halfwidth(fabs(zin) + 2, fabs(win) + 20, LOWACC);
 
     rin_frac = modf(rin, &rin_int);
     filedatalen = 2 * kern_half_width + extra;
@@ -101,6 +104,10 @@ void max_rzw_arr_harmonics(fcomplex data[], long numdata,
     int rind = 0, zind = 0, wind = 0;
     double dr = 1.0 / (double) numbetween;
 
+#ifdef PACC
+    printf("\n\nnumr %d numz %d numw %d\n\n", numr, numz, numw);
+#endif
+
     // The summed power spectrum, initialized to zeros
     float ***powsum = gen_f3Darr(numw, numz, numr);
     for (ii = 0; ii < numw * numz * numr; ii++)
@@ -110,7 +117,7 @@ void max_rzw_arr_harmonics(fcomplex data[], long numdata,
         int n = num_harmonics - hind; // harmonic number, starting from highest
         double rh = rin * n, zh = zin * n, wh = win * n;
         // Use a more conservative length kernel
-        int kern_half_width = w_resp_halfwidth(fabs(zh)+2, fabs(wh)+20, LOWACC);
+        int kern_half_width = w_resp_halfwidth(fabs(zh) + 2, fabs(wh) + 20, LOWACC);
         fcomplex ***vol, amp;
         double rh_int, rh_frac, hfrac = n / (double) num_harmonics;
 
@@ -118,23 +125,23 @@ void max_rzw_arr_harmonics(fcomplex data[], long numdata,
         rh_frac = modf(rh, &rh_int);
         // Will do 1+ bins below and 1+ bins above rin
         lobin = (long) rh_int - 1;
-        if (hind==0) hhlobin = lobin;
+        if (hind == 0) hhlobin = lobin;
         fftlen = next2_to_n(numbetween * (2 * kern_half_width + extra));
         // Create the RZW volume for the harmonic.
         // Note that we are computing the z and w values in exact harmonic
         // ratios.  But the r values are on a power-of-two grid.
         vol = corr_rzw_vol(data, numdata, numbetween, lobin,
-                           zh-numwid*hfrac*ACCEL_DZ,
-                           zh+numwid*hfrac*ACCEL_DZ, numz,
-                           wh-numwid*hfrac*ACCEL_DW,
-                           wh+numwid*hfrac*ACCEL_DW, numw,
+                           zh - numwid * hfrac * ACCEL_DZ,
+                           zh + numwid * hfrac * ACCEL_DZ, numz,
+                           wh - numwid * hfrac * ACCEL_DW,
+                           wh + numwid * hfrac * ACCEL_DW, numw,
                            fftlen, LOWACC, &nextbin);
         // Calculate and sum the powers
         for (ii = 0; ii < numw; ii++) {
             for (jj = 0; jj < numz; jj++) {
                 for (kk = 0; kk < numr; kk++) {
                     rind = (long) round(((hhlobin + kk * dr) * hfrac
-                                        - lobin) * numbetween);
+                                         - lobin) * numbetween);
                     amp = vol[ii][jj][rind];
                     powsum[ii][jj][kk] += POWER(amp.r, amp.i) / locpow;
                 }

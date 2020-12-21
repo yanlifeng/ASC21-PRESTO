@@ -204,22 +204,21 @@ print('''
 
 ''')
 
-#首先，脉冲星的性质：
-#1 信号被星际介质分散
-#2 信号是周期的
+# 首先，脉冲星的性质：
+# 1 信号被星际介质分散
+# 2 信号是周期的
 
-#脉冲星搜索算法的步骤：
-#1 去色散，即测试许多（通常是数千个）可能的色散测量（DM）并对其进行星际延迟校正
-#2 使用fft搜索一段时间
+# 脉冲星搜索算法的步骤：
+# 1 去色散，即测试许多（通常是数千个）可能的色散测量（DM）并对其进行星际延迟校正
+# 2 使用fft搜索一段时间
 
-#PRESTO中用于脉冲星搜索的三步：
-#1 Data Preparation: Interference detection (rfifind) and removal (zapbirds) ,
+# PRESTO中用于脉冲星搜索的三步：
+# 1 Data Preparation: Interference detection (rfifind) and removal (zapbirds) ,
 # de-dispersion (prepdata, prepsubband, and mpiprepsubband), barycentering (via TEMPO)
-#2 Searching: Fourier-domain acceleration (accelsearch), single-pulse (single_pulse_search.py)
+# 2 Searching: Fourier-domain acceleration (accelsearch), single-pulse (single_pulse_search.py)
 # and phase-modulation or sideband searches (search_bin).
 
-#3 Folding: Candidate optimization (prepfold) and Time-of-Arrival (TOA) generation (get_TOAs.py).
-
+# 3 Folding: Candidate optimization (prepfold) and Time-of-Arrival (TOA) generation (get_TOAs.py).
 
 
 # 执行 去色散的过程
@@ -331,8 +330,7 @@ try:
                         logfile.write(res)
         else:
             # random.shuffle(dmlist)
-            # TODO 这里cpu跑起来只显示用了一个核的10%左右 应该是时间都在频繁的读写文件上 下一步可以找到prepsubband的源代码改一下（现在还没找到）
-            # TODO mutithread test
+            # TODO 这里cpu跑起来只显示用了一个核的10%左右 应该是时间都在频繁的读写文件上 下一步可以找到prepsubband的源代码改一下
             # TODO 这里的运行结果里面有个error
             for i, dml in enumerate(dmlist):
                 lodm = dml[0]
@@ -376,8 +374,8 @@ print('''
 ================fft-search subbands==================
 
 ''')
-dur()
 try:
+    dur()
     os.chdir('subbands')
     datfiles = glob.glob("*.dat")
     logfile = open('fft.log', 'wt')
@@ -410,6 +408,9 @@ try:
             output = getoutput(fftcmd)
             logfile.write(output)
     logfile.close()
+    timeLog += dur("realfft")
+
+    dur()
     logfile = open('accelsearch.log', 'wt')
     fftfiles = glob.glob("*.fft")
     print("fftfiles size : " + str(len(fftfiles)))
@@ -441,12 +442,12 @@ try:
             logfile.write(output)
     logfile.close()
     os.chdir(cwd)
+    timeLog += dur("accelsearch")
+
 except:
     print('failed at fft search.')
     os.chdir(cwd)
     sys.exit(0)
-
-timeLog += dur("fft-search subbands")
 
 
 # """

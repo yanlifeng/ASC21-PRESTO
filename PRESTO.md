@@ -1,7 +1,7 @@
 # PRESTO
 TODO
 
-（1207）
+（截止到目前）
 
 - [ ] 编译器换成icc
 - [ ] fortan换成intel的
@@ -15,15 +15,20 @@ TODO
 - [x] 尝试python脚本级别的并行
 - [ ] 解决CPU使用率低的问题
 - [x] 解决只能检测到一个线程的问题
-- [ ] 解决_ACCEL_0.cand文件check出错的问题
+- [x] 解决_ACCEL_0.cand文件check出错的问题
 - [x] 输出log，并做check
 - [ ] 解决上次输出没有清空的时候运行变慢（maybe）
 - [x] ~~把prepsubb里面的两个脚本拆开~~
 - [x] 规定python线程库的threadNumber测试加速比
 - [x] 关于第1，3个热点加速比一般的原因
-- [ ] check pfd!!
-- [ ] 去内部的.c文件并行
+- [x] check pfd!!
+- [x] 去内部的.c文件并行
 - [x] 更换简洁的check方法
+- [ ] 去6148上用root配一下环境
+- [ ] 去ylff上用非root配一下环境
+- [ ] 解决-mavx2 folding.log和pfd报错的问题
+- [ ] 研究一下amoeba为啥那么慢
+- [ ] 解决fold中没有权限的问题
 - [ ] 
 - [ ] 
 - [ ] 
@@ -464,5 +469,42 @@ sys	0m29.580s
 
 ![image-20201219105555686](/Users/ylf9811/Library/Application Support/typora-user-images/image-20201219105555686.png)
 
-ps里面有输出时间信息，把那几行砍掉之后直接test md5值来check。
+ps里面有输出时间信息，把那几行砍掉之后直接test md5值来check。题目要求的是所有文件的文件名一样，然后列出的这几个文件需要提交；现在的check方式，只有.cand文件(二进制文件)过不了check，查看源代码发现是输出的float，存在精度的问题，所以过不了check也是正常，鉴于最后不提交这个文件，就不浪费时间了读进来做check了。
 
+记过分析prepsubband.c的源代码，找到了
+
+```bash
+Error in chkfopen(): No such file or directory
+   path = 'Sband_DM2.10.dat'
+```
+
+的原因，不知道为啥，要读取的时候dat数据不存在，现在怀疑配的环境有问题。关于环境又加了几个TODO。
+
+#### 1220&1221
+
+都不知道在干什么都
+
+上午find了accelsearch的热点，主要是来自optimize_accelcand的第一个for循环，里面还有一层for，但是两层加起来大约是10*10，也不太适合并行。
+
+为了确定for1里面没有别的循环，可以做一下timer，accelsearch执行了168次，32秒，一次0.19，time一下时间差不多，继续发掘里面的热点，发现是max_rz_arr_harmonics里面的amoeba，但是很奇怪的是，一次amoeba循环几十次，但是却运行了0.02s，都不知道时间花在哪了。
+
+现在先看fold吧，它每次运行的时间最长，可能是最好收拾的一个。
+
+好家伙
+
+```c++
+sh: 1: pstoimg: Permission denied
+Error running pstoimg in prepfold_plot(): Success
+```
+
+仔细一看log，又有个奇奇怪怪的东西。
+
+最后定位到了prefold.c->prepfold_plot()里面的retval = system(command)这个，执行
+
+```
+pstoimg -density 200 -antialias -flip cw -quiet -type png -out %.*s.png %.*s
+```
+
+这个命令的时候没有权限然后报错了，可能环境配置的真的有问题，先不管了，先看能不能并行。
+
+fold里面本身有一个加在for上面的omp，但是看top发现线程的利用率并不高。热点是Folded和后面的操作，并且发现执行脚本只占了一半不到的时间，另一半大概是python文件的开销，这个还要再具体测一下。

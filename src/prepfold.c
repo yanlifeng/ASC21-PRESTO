@@ -11,26 +11,34 @@
 
 #define RAWDATA (cmd->filterbankP || cmd->psrfitsP)
 
-extern int getpoly(double mjd, double duration, double *dm, FILE * fp, char *pname);
+extern int getpoly(double mjd, double duration, double *dm, FILE *fp, char *pname);
+
 extern int phcalc(double mjd0, double mjd1, int last_index,
                   double *phase, double *psrfreq);
-extern int get_psr_from_parfile(char *parfilenm, double epoch, psrparams * psr);
-extern char *make_polycos(char *parfilenm, infodata * idata, char *polycofilenm,
+
+extern int get_psr_from_parfile(char *parfilenm, double epoch, psrparams *psr);
+
+extern char *make_polycos(char *parfilenm, infodata *idata, char *polycofilenm,
                           int debug_tempo);
+
 extern int *ranges_to_ivect(char *str, int minval, int maxval, int *numvals);
-void set_posn(prepfoldinfo * in, infodata * idata);
+
+void set_posn(prepfoldinfo *in, infodata *idata);
 
 /*
  * The main program
  */
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
+#ifdef PFOL
+    clock_t t = clock();
+    clock_t t0 = clock();
+#endif
     FILE *filemarker;
     float *data = NULL, *ppdot = NULL;
     double f = 0.0, fd = 0.0, fdd = 0.0, foldf = 0.0, foldfd = 0.0, foldfdd = 0.0;
     double recdt = 0.0, barydispdt = 0.0, N = 0.0, T = 0.0, proftime, startTday =
-        0.0;
+            0.0;
     double polyco_phase = 0.0, polyco_phase0 = 0.0;
     double *obsf = NULL, *parttimes = NULL, *Ep = NULL, *tp = NULL;
     double *barytimes = NULL, *topotimes = NULL, *bestprof, dtmp;
@@ -199,13 +207,13 @@ int main(int argc, char *argv[])
             insubs = 1;
         } else {
             printf
-                ("Error:  Unable to identify input data files.  Please specify type.\n\n");
+                    ("Error:  Unable to identify input data files.  Please specify type.\n\n");
             exit(1);
         }
     }
 
     if (!RAWDATA)
-        s.files = (FILE **) malloc(sizeof(FILE *) * s.num_files);
+        s.files = (FILE **) malloc(sizeof(FILE * ) * s.num_files);
     if (RAWDATA || insubs) {
         char description[40];
         psrdatatype_description(description, s.datatype);
@@ -222,10 +230,10 @@ int main(int argc, char *argv[])
         if (RAWDATA) {
             read_rawdata_files(&s);
             if (cmd->ignorechanstrP) {
-                s.ignorechans = get_ignorechans(cmd->ignorechanstr, 0, s.num_channels-1,
+                s.ignorechans = get_ignorechans(cmd->ignorechanstr, 0, s.num_channels - 1,
                                                 &s.num_ignorechans, &s.ignorechans_str);
-                if (s.ignorechans_str==NULL) {
-                    s.ignorechans_str = (char *)malloc(strlen(cmd->ignorechanstr)+1);
+                if (s.ignorechans_str == NULL) {
+                    s.ignorechans_str = (char *) malloc(strlen(cmd->ignorechanstr) + 1);
                     strcpy(s.ignorechans_str, cmd->ignorechanstr);
                 }
             }
@@ -320,8 +328,8 @@ int main(int argc, char *argv[])
                 print_spectra_info_summary(&s);
             } else {
                 printf
-                    ("\nThe input files (%s) must be subbands!  (i.e. *.sub##)\n\n",
-                     cmd->argv[0]);
+                        ("\nThe input files (%s) must be subbands!  (i.e. *.sub##)\n\n",
+                         cmd->argv[0]);
                 exit(1);
             }
             /* Read an input mask if wanted */
@@ -497,8 +505,8 @@ int main(int argc, char *argv[])
             reads_per_part = 1;
             cmd->npart = numrec;
             printf
-                ("Overriding -npart to be %lld, the number of raw (requested) records.\n",
-                 numrec);
+                    ("Overriding -npart to be %lld, the number of raw (requested) records.\n",
+                     numrec);
         }
 
         /* Correct numrec so that each part will contain */
@@ -521,8 +529,8 @@ int main(int argc, char *argv[])
                 /* This converts the barycentric time to infinite frequency.  */
                 if (cmd->dm > 0.0) {
                     barydispdt = delay_from_dm(cmd->dm, idata.freq +
-                                               (idata.num_chan -
-                                                1) * idata.chan_wid);
+                                                        (idata.num_chan -
+                                                         1) * idata.chan_wid);
                     search.bepoch -= (barydispdt / SECPERDAY);
                 }
             }
@@ -571,7 +579,7 @@ int main(int argc, char *argv[])
         /* Until I figure out a better way to do this... */
 
         search.telescope =
-            (char *) calloc(strlen(idata.telescope) + 1, sizeof(char));
+                (char *) calloc(strlen(idata.telescope) + 1, sizeof(char));
         strcpy(search.telescope, idata.telescope);
 
         if (idata.mjd_i) {
@@ -594,6 +602,11 @@ int main(int argc, char *argv[])
     printf("Output data file is '%s'.\n", outfilenm);
     printf("Output plot file is '%s'.\n", plotfilenm);
     printf("Best profile is in  '%s.bestprof'.\n", outfilenm);
+
+#ifdef PFOL
+    printf("\n pre cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+    t = clock();
+#endif
 
     /* Generate polycos if required and set the pulsar name */
     if (((cmd->timingP || cmd->parnameP) && (!idata.bary)) ||
@@ -632,8 +645,8 @@ int main(int argc, char *argv[])
                 printf("Overriding polyco DM = %f with %f\n", polyco_dm, cmd->dm);
             } else {
                 printf
-                    ("\nRead %d set(s) of polycos for PSR %s at %18.12f (DM = %.5g)\n",
-                     numsets, cmd->psrname, epoch, polyco_dm);
+                        ("\nRead %d set(s) of polycos for PSR %s at %18.12f (DM = %.5g)\n",
+                         numsets, cmd->psrname, epoch, polyco_dm);
                 cmd->dm = polyco_dm;
             }
             polyco_index = phcalc(idata.mjd_i, idata.mjd_f + startTday,
@@ -653,7 +666,7 @@ int main(int argc, char *argv[])
 
             if (search.bepoch == 0.0) {
                 printf
-                    ("\nYou cannot fold topocentric data with the pulsar database.\n");
+                        ("\nYou cannot fold topocentric data with the pulsar database.\n");
                 printf("Use '-timing' or polycos instead.  Exiting.\n\n");
                 exit(1);
             }
@@ -880,7 +893,7 @@ int main(int argc, char *argv[])
         /* Correct the barycentric time for the dispersion delay.     */
         /* This converts the barycentric time to infinite frequency.  */
         barydispdt = delay_from_dm(cmd->dm, idata.freq +
-                                   (idata.num_chan - 1) * idata.chan_wid);
+                                            (idata.num_chan - 1) * idata.chan_wid);
         search.bepoch -= (barydispdt / SECPERDAY);
     }
 
@@ -945,11 +958,11 @@ int main(int argc, char *argv[])
     if (!cmd->eventsP) {
         if (T / cmd->npart < 5.0 / f)
             printf
-                ("\nWARNING:  The pulse period is close to the duration of a folding\n"
-                 "  sub-interval.  This may cause artifacts in the plot and/or excessive\n"
-                 "  loss of data during the fold.  I recommend re-running with -npart set\n"
-                 "  to a significantly smaller value than the current value of %d.\n",
-                 cmd->npart);
+                    ("\nWARNING:  The pulse period is close to the duration of a folding\n"
+                     "  sub-interval.  This may cause artifacts in the plot and/or excessive\n"
+                     "  loss of data during the fold.  I recommend re-running with -npart set\n"
+                     "  to a significantly smaller value than the current value of %d.\n",
+                     cmd->npart);
     } else {
         if (T / cmd->npart < 5.0 / f) {
             cmd->npart = (int) (T * f / 5.0);
@@ -1008,7 +1021,7 @@ int main(int argc, char *argv[])
                 double mjdf = idata.mjd_f + startTday + event / SECPERDAY;
                 /* Calculate the pulse phase for the event  */
                 polyco_index =
-                    phcalc(idata.mjd_i, mjdf, polyco_index, &phase, &foldf);
+                        phcalc(idata.mjd_i, mjdf, polyco_index, &phase, &foldf);
                 if (ii == 0)
                     orig_foldf = foldf;
             }
@@ -1066,24 +1079,24 @@ int main(int argc, char *argv[])
                 calctotalphs += numwraps;
                 if (numwraps > 0)
                     search.rawfolds[ii * search.proflen + jj] *=
-                        (totalphs / numwraps);
+                            (totalphs / numwraps);
             }
             /* printf("\n"); */
             calctotalphs /= search.proflen;
             if (fabs(totalphs - calctotalphs) > 0.00001)
                 printf
-                    ("\nThere seems to be a problem in the \"exposure\" calculation\n"
-                     "  in prepfold (npart = %ld):  totalphs = %.6f but calctotalphs = %0.6f\n",
-                     ii, totalphs, calctotalphs);
+                        ("\nThere seems to be a problem in the \"exposure\" calculation\n"
+                         "  in prepfold (npart = %ld):  totalphs = %.6f but calctotalphs = %0.6f\n",
+                         ii, totalphs, calctotalphs);
             cts = 0.0;
             for (jj = ii * search.proflen; jj < (ii + 1) * search.proflen; jj++)
                 cts += search.rawfolds[jj];
             search.stats[ii].numdata = ceil((T / cmd->npart) / search.dt);
             search.stats[ii].numprof = search.proflen;
             search.stats[ii].prof_avg = search.stats[ii].prof_var =
-                cts / search.proflen;
+                    cts / search.proflen;
             search.stats[ii].data_avg = search.stats[ii].data_var =
-                search.stats[ii].prof_avg / search.stats[ii].numdata;
+                    search.stats[ii].prof_avg / search.stats[ii].numdata;
             /* Compute the Chi-Squared probability that there is a signal */
             /* See Leahy et al., ApJ, Vol 266, pp. 160-170, 1983 March 1. */
             search.stats[ii].redchi = 0.0;
@@ -1149,7 +1162,7 @@ int main(int argc, char *argv[])
             /* topocentric times in days from data start */
 
             for (ii = 0; ii < numbarypts; ii++)
-                topotimes[ii] = search.tepoch + (double) ii *TDT / SECPERDAY;
+                topotimes[ii] = search.tepoch + (double) ii * TDT / SECPERDAY;
 
             /* Call TEMPO for the barycentering */
 
@@ -1278,8 +1291,8 @@ int main(int argc, char *argv[])
 
                 if (RAWDATA) {
                     numread =
-                        read_subbands(data, idispdts, cmd->nsub, &s, 1, &padding,
-                                      maskchans, &nummasked, &obsmask);
+                            read_subbands(data, idispdts, cmd->nsub, &s, 1, &padding,
+                                          maskchans, &nummasked, &obsmask);
                 } else if (insubs) {
                     numread = read_PRESTO_subbands(s.files, s.num_files, data, recdt,
                                                    maskchans, &nummasked, &obsmask,
@@ -1312,7 +1325,7 @@ int main(int argc, char *argv[])
 
                 if (cmd->polycofileP) { /* Update the period/phase */
                     double mjdf, currentsec, currentday, offsetphase, orig_cmd_phs =
-                        0.0;
+                            0.0;
 
                     if (ii == 0 && jj == 0)
                         orig_cmd_phs = cmd->phs;
@@ -1321,16 +1334,16 @@ int main(int argc, char *argv[])
                     mjdf = idata.mjd_f + startTday + currentday;
                     /* Calculate the pulse phase at the start of the current block */
                     polyco_index =
-                        phcalc(idata.mjd_i, mjdf, polyco_index, &polyco_phase,
-                               &foldf);
+                            phcalc(idata.mjd_i, mjdf, polyco_index, &polyco_phase,
+                                   &foldf);
                     if (!cmd->absphaseP)
                         polyco_phase -= polyco_phase0;
                     if (polyco_phase < 0.0)
                         polyco_phase += 1.0;
                     /* Calculate the folding frequency at the middle of the current block */
                     polyco_index =
-                        phcalc(idata.mjd_i, mjdf + 0.5 * proftime / SECPERDAY,
-                               polyco_index, &offsetphase, &foldf);
+                            phcalc(idata.mjd_i, mjdf + 0.5 * proftime / SECPERDAY,
+                                   polyco_index, &offsetphase, &foldf);
                     cmd->phs = orig_cmd_phs + polyco_phase;
                     fold_time0 = 0.0;
                 } else {
@@ -1378,7 +1391,10 @@ int main(int argc, char *argv[])
     /*
      *   Perform the candidate optimization search
      */
-
+#ifdef PFOL
+    printf("\n pre cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+    t = clock();
+#endif
     printf("\n\nOptimizing...\n\n");
     bestprof = gen_dvect(search.proflen);
     {
@@ -1458,7 +1474,7 @@ int main(int argc, char *argv[])
             long long totnumtrials, currtrial = 0;
             int oldper = -1, newper = 0;
             int idm, ip, ipd, ipdd, bestidm = 0, bestip = 0, bestipd = 0, bestipdd =
-                0;
+                    0;
             double lodm = 0.0, ddm = 0.0;
             double *delays, *pd_delays, *pdd_delays, *ddprofs = search.rawfolds;
             foldstats *ddstats = search.stats;
@@ -1506,11 +1522,11 @@ int main(int argc, char *argv[])
 
                 if (cmd->searchpddP)
                     printf
-                        ("  Searching %d DMs, %d periods, %d p-dots, and %d p-dotdots...\n",
-                         cmd->nodmsearchP ? 1 : search.numdms,
-                         cmd->nopsearchP ? 1 : search.numperiods,
-                         cmd->nopdsearchP ? 1 : search.numpdots,
-                         cmd->searchpddP ? search.numpdots : 1);
+                            ("  Searching %d DMs, %d periods, %d p-dots, and %d p-dotdots...\n",
+                             cmd->nodmsearchP ? 1 : search.numdms,
+                             cmd->nopsearchP ? 1 : search.numperiods,
+                             cmd->nopdsearchP ? 1 : search.numpdots,
+                             cmd->searchpddP ? search.numpdots : 1);
                 else
                     printf("  Searching %d DMs, %d periods, and %d p-dots...\n",
                            cmd->nodmsearchP ? 1 : search.numdms,
@@ -1522,10 +1538,10 @@ int main(int argc, char *argv[])
                     ppdot = gen_fvect(search.numpdots * search.numperiods);
                 if (cmd->searchpddP)
                     printf
-                        ("  Searching %d periods, %d p-dots, and %d p-dotdots...\n",
-                         cmd->nopsearchP ? 1 : search.numperiods,
-                         cmd->nopdsearchP ? 1 : search.numpdots,
-                         cmd->searchpddP ? search.numpdots : 1);
+                            ("  Searching %d periods, %d p-dots, and %d p-dotdots...\n",
+                             cmd->nopsearchP ? 1 : search.numperiods,
+                             cmd->nopdsearchP ? 1 : search.numpdots,
+                             cmd->searchpddP ? search.numpdots : 1);
                 else
                     printf("  Searching %d periods, and %d p-dots...\n",
                            cmd->nopsearchP ? 1 : search.numperiods,
@@ -1540,9 +1556,9 @@ int main(int argc, char *argv[])
             }
             /* The total number of search trials */
             totnumtrials = (cmd->nodmsearchP ? 1l : numdmtrials) *
-                (cmd->nopsearchP ? 1l : numtrials) *
-                (cmd->nopdsearchP ? 1l : numtrials) *
-                (cmd->searchpddP ? numpdds : 1);
+                           (cmd->nopsearchP ? 1l : numtrials) *
+                           (cmd->nopdsearchP ? 1l : numtrials) *
+                           (cmd->searchpddP ? numpdds : 1);
             if (totnumtrials < 100000000l) {
                 printf("     (%lld total trials)\n", totnumtrials);
             } else if (totnumtrials < 1000000000l) {
@@ -1567,8 +1583,8 @@ int main(int argc, char *argv[])
                         good_ipdd = ipdd;
                     for (ii = 0; ii < cmd->npart; ii++)
                         pdd_delays[ii] = cmd->searchpddP ?
-                            fdotdot2phasedelay(fdotdots[ipdd],
-                                               parttimes[ii]) * search.proflen : 0.0;
+                                         fdotdot2phasedelay(fdotdots[ipdd],
+                                                            parttimes[ii]) * search.proflen : 0.0;
 
                     for (ipd = 0; ipd < numtrials; ipd++) {     /* Loop over the pds */
                         if (!cmd->nopdsearchP)
@@ -1578,8 +1594,8 @@ int main(int argc, char *argv[])
                             continue;
                         for (ii = 0; ii < cmd->npart; ii++)
                             pd_delays[ii] = pdd_delays[ii] +
-                                fdot2phasedelay(fdots[ipd],
-                                                parttimes[ii]) * search.proflen;
+                                            fdot2phasedelay(fdots[ipd],
+                                                            parttimes[ii]) * search.proflen;
 
                         for (ip = 0; ip < numtrials; ip++) {    /* Loop over the ps */
                             if (!cmd->nopsearchP)
@@ -1590,8 +1606,8 @@ int main(int argc, char *argv[])
                             totpdelay = search.pstep * (ip - (numtrials - 1) / 2);
                             for (ii = 0; ii < cmd->npart; ii++)
                                 delays[ii] =
-                                    pd_delays[ii] +
-                                    (double) (ii * totpdelay) / cmd->npart;
+                                        pd_delays[ii] +
+                                        (double) (ii * totpdelay) / cmd->npart;
 
                             /* Combine the profiles usingthe above computed delays */
                             combine_profs(ddprofs, ddstats, cmd->npart,
@@ -1601,7 +1617,7 @@ int main(int argc, char *argv[])
                             /* If this is a simple fold, create the chi-square p-pdot plane */
                             if (cmd->nsub == 1 && !cmd->searchpddP)
                                 ppdot[ipd * search.numpdots + ip] =
-                                    currentstats.redchi;
+                                        currentstats.redchi;
 
                             /* If this is the best profile or if it is the specific */
                             /* profile that we are looking for, save it.            */
@@ -1621,8 +1637,8 @@ int main(int argc, char *argv[])
                             }
                             currtrial += 1;
                             newper =
-                                (int) (((double) currtrial) / totnumtrials * 100.0 +
-                                       0.5);
+                                    (int) (((double) currtrial) / totnumtrials * 100.0 +
+                                           0.5);
                             if (newper > oldper) {
                                 printf("\r  Amount Complete = %3d%%", newper);
                                 fflush(stdout);
@@ -1665,6 +1681,11 @@ int main(int argc, char *argv[])
         vect_free(fdotdots);
     }
     printf("  Done searching.\n\n");
+
+#ifdef PFOL
+    printf("\n searching cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+    t = clock();
+#endif
 
     /* Write and plot the results and cleanup */
 
@@ -1799,7 +1820,7 @@ int main(int argc, char *argv[])
     /*
      *   Plot our results
      */
-
+//TODO 这里面有个ERROR
     prepfold_plot(&search, &pflags, !cmd->noxwinP, ppdot);
 
     /* Free our memory  */
@@ -1829,5 +1850,8 @@ int main(int argc, char *argv[])
         vect_free(idispdts);
     }
     printf("Done.\n\n");
+#ifdef PFOL
+    printf("\n last cost %.5f s\n", (double) (clock() - t0) / CLOCKS_PER_SEC);
+#endif
     return (0);
 }

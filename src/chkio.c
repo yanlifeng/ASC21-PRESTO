@@ -8,26 +8,25 @@
 
 #ifndef SWAP
 /* Swaps two variables of undetermined type */
-#define SWAP(a,b) tmpswap=(a);(a)=(b);(b)=tmpswap;
+#define SWAP(a, b) tmpswap=(a);(a)=(b);(b)=tmpswap;
 #endif
 
 static unsigned char tmpswap;
 
-FILE *chkfopen(char *path, const char *mode)
-{
+FILE *chkfopen(char *path, const char *mode) {
     FILE *file;
 
     if ((file = fopen(path, mode)) == NULL) {
         perror("\nError in chkfopen()");
         printf("   path = '%s'\n", path);
         exit(-1);
+//        return NULL;
     }
     return (file);
 }
 
 
-size_t chkfread(void *data, size_t type, size_t number, FILE * stream)
-{
+size_t chkfread(void *data, size_t type, size_t number, FILE *stream) {
     size_t num;
 
     num = fread(data, type, number, stream);
@@ -40,8 +39,7 @@ size_t chkfread(void *data, size_t type, size_t number, FILE * stream)
 }
 
 
-size_t chkfwrite(void *data, size_t type, size_t number, FILE * stream)
-{
+size_t chkfwrite(void *data, size_t type, size_t number, FILE *stream) {
     size_t num;
 
     num = fwrite(data, type, number, stream);
@@ -54,7 +52,7 @@ size_t chkfwrite(void *data, size_t type, size_t number, FILE * stream)
 }
 
 
-size_t chkfseek(FILE * stream, long offset, int whence)
+size_t chkfseek(FILE *stream, long offset, int whence)
 /* NOTE:  This is meant only for backwards compatibility.  */
 /* You should probably be calling chkfileseek() directly.  */
 {
@@ -62,8 +60,7 @@ size_t chkfseek(FILE * stream, long offset, int whence)
 }
 
 
-size_t chkfileseek(FILE * stream, off_t offset, size_t size, int whence)
-{
+size_t chkfileseek(FILE *stream, off_t offset, size_t size, int whence) {
     int rt;
 
     if ((rt = fseeko(stream, offset * size, whence)) == -1) {
@@ -75,8 +72,7 @@ size_t chkfileseek(FILE * stream, off_t offset, size_t size, int whence)
 }
 
 
-long long chkfilelen(FILE * file, size_t size)
-{
+long long chkfilelen(FILE *file, size_t size) {
     int filenum, rt;
     struct stat buf;
 
@@ -90,7 +86,7 @@ long long chkfilelen(FILE * file, size_t size)
     return (long long) (buf.st_size / size);
 }
 
-int read_int(FILE * infile, int byteswap)
+int read_int(FILE *infile, int byteswap)
 /* Reads a binary integer value from the file 'infile' */
 {
     int itmp;
@@ -104,7 +100,7 @@ int read_int(FILE * infile, int byteswap)
     return itmp;
 }
 
-float read_float(FILE * infile, int byteswap)
+float read_float(FILE *infile, int byteswap)
 /* Reads a binary float value from the file 'infile' */
 {
     float ftmp;
@@ -118,7 +114,7 @@ float read_float(FILE * infile, int byteswap)
     return ftmp;
 }
 
-double read_double(FILE * infile, int byteswap)
+double read_double(FILE *infile, int byteswap)
 /* Reads a double precision value from the file 'infile' */
 {
     double dtmp;

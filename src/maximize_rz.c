@@ -5,9 +5,9 @@
 #define UNUSED(x) (void)(x)
 
 void amoeba(double p[3][2], double *y, double ftol,
-            double (*funk) (double[], fcomplex[], long[], float[], int[], int[]),
+            double (*funk)(double[], fcomplex[], long[], float[], int[], int[]),
             int *nfunk, fcomplex data[], long *numdata, float *locpows, int *numharm, int *kernhw);
-    
+
 static double power_call_rz(double rz[], fcomplex data[], long *numdata,
                             float *locpows, int *numharm, int *kernhw)
 /* f-fdot plane power function */
@@ -21,8 +21,8 @@ static double power_call_rz(double rz[], fcomplex data[], long *numdata,
     return -POWER(ans.r, ans.i);
 }
 
-double max_rz_arr(fcomplex * data, long numdata, double rin, double zin,
-                  double *rout, double *zout, rderivs * derivs)
+double max_rz_arr(fcomplex *data, long numdata, double rin, double zin,
+                  double *rout, double *zout, rderivs *derivs)
 /* Return the Fourier frequency and Fourier f-dot that      */
 /* maximizes the power.                                     */
 {
@@ -92,8 +92,8 @@ double max_rz_arr(fcomplex * data, long numdata, double rin, double zin,
 }
 
 
-double max_rz_file(FILE * fftfile, double rin, double zin,
-                   double *rout, double *zout, rderivs * derivs)
+double max_rz_file(FILE *fftfile, double rin, double zin,
+                   double *rout, double *zout, rderivs *derivs)
 /* Return the Fourier frequency and Fourier f-dot that      */
 /* maximizes the power of the candidate in 'fftfile'.       */
 {
@@ -117,8 +117,7 @@ double max_rz_file(FILE * fftfile, double rin, double zin,
 }
 
 static double power_call_rz_harmonics(double rz[], fcomplex data[], long *numdata,
-                                      float *locpows, int *numharm, int *kernhw)
-{
+                                      float *locpows, int *numharm, int *kernhw) {
     int ii;
     double total_power = 0.;
     double powargr, powargi;
@@ -132,6 +131,8 @@ static double power_call_rz_harmonics(double rz[], fcomplex data[], long *numdat
     return -total_power;
 }
 
+#include <time.h>
+
 void max_rz_arr_harmonics(fcomplex data[], long numdata,
                           int num_harmonics,
                           double rin, double zin,
@@ -140,17 +141,23 @@ void max_rz_arr_harmonics(fcomplex data[], long numdata,
 /* Return the Fourier frequency and Fourier f-dot that      */
 /* maximizes the power.                                     */
 {
+    clock_t t = clock();
     double y[3], x[3][2], step = 0.4;
     float *locpow;
     int numeval, ii, max_kernhw;
 
     locpow = gen_fvect(num_harmonics);
-
+#ifdef PACC
+    printf("num_harmonics %d\n", num_harmonics);
+#endif
     for (ii = 0; ii < num_harmonics; ii++) {
         int n = ii + 1;
         locpow[ii] = get_localpower3d(data, numdata, rin * n, zin * n, 0.0);
     }
-
+#ifdef PACC
+    printf(" for0 %.8f\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+#endif
+    t = clock();
     /*  Now prep the maximization at LOWACC for speed */
 
     /* Use a slightly larger working value for 'z' just incase */
@@ -173,18 +180,27 @@ void max_rz_arr_harmonics(fcomplex data[], long numdata,
     y[0] = power_call_rz_harmonics(x[0], data, &numdata, locpow, &num_harmonics, &max_kernhw);
     y[1] = power_call_rz_harmonics(x[1], data, &numdata, locpow, &num_harmonics, &max_kernhw);
     y[2] = power_call_rz_harmonics(x[2], data, &numdata, locpow, &num_harmonics, &max_kernhw);
-
+#ifdef PACC
+    printf(" power_call_rz_harmonics %.8f\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+#endif
+    t = clock();
     /* Call the solver: */
 
     numeval = 0;
     amoeba(x, y, 1.0e-7, power_call_rz_harmonics, &numeval,
            data, &numdata, locpow, &num_harmonics, &max_kernhw);
-
+#ifdef PACC
+    printf(" amoeba1 %.8f\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+#endif
+    t = clock();
     /*  Restart at minimum using HIGHACC to get a better result */
 
     max_kernhw = z_resp_halfwidth(fabs(x[0][1] * num_harmonics)
                                   + 4.0, HIGHACC);
-
+#ifdef PACC
+    printf(" z_resp_halfwidth %.8f\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+#endif
+    t = clock();
     /* Re-Initialize some of the starting simplex */
 
     x[1][0] = x[0][0] + 0.01;
@@ -197,13 +213,19 @@ void max_rz_arr_harmonics(fcomplex data[], long numdata,
     y[0] = power_call_rz_harmonics(x[0], data, &numdata, locpow, &num_harmonics, &max_kernhw);
     y[1] = power_call_rz_harmonics(x[1], data, &numdata, locpow, &num_harmonics, &max_kernhw);
     y[2] = power_call_rz_harmonics(x[2], data, &numdata, locpow, &num_harmonics, &max_kernhw);
-
+#ifdef PACC
+    printf(" power_call_rz_harmonics %.8f\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+#endif
+    t = clock();
     /* Call the solver: */
 
     numeval = 0;
     amoeba(x, y, 1.0e-10, power_call_rz_harmonics, &numeval,
            data, &numdata, locpow, &num_harmonics, &max_kernhw);
-
+#ifdef PACC
+    printf(" amoeba2 %.8f\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+#endif
+    t = clock();
     /* The following calculates derivatives at the peak           */
 
     *rout = x[0][0];
@@ -216,5 +238,9 @@ void max_rz_arr_harmonics(fcomplex data[], long numdata,
         powers[ii] = -power_call_rz(x[0], data, &numdata, locpow, &num_harmonics, &max_kernhw);
         get_derivs3d(data, numdata, *rout * n, *zout * n, 0.0, locpow[ii], &(derivs[ii]));
     }
+#ifdef PACC
+    printf(" for num_harmonics %.8f\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+#endif
+    t = clock();
     vect_free(locpow);
 }
