@@ -43,9 +43,13 @@ CFITSIOLINK := $(shell pkg-config --libs cfitsio)
 # The standard PRESTO libraries to link into executables
 PRESTOLINK = $(CFITSIOLINK) -L$(PRESTO)/lib -lpresto $(FFTLINK)
 
-CC = gcc
+CC = icc
+FC = ifort
+#CC = icx
+#FC = ifx
+#CC = gcc
+#FC = gfortran
 #CC = clang-3.6
-FC = gfortran
 
 # Set this to true if you want to use OpenMP.  false otherwise
 USEOPENMP = true
@@ -54,9 +58,13 @@ USEOPENMP = true
 USEPROFILE = false
 
 # Very recent Intel CPUs might see a few percent speedup using -mavx
-CFLAGS = -I$(PRESTO)/include $(GLIBINC) $(CFITSIOINC) $(PGPLOTINC) $(FFTINC) \
+#CFLAGS = -I$(PRESTO)/include $(GLIBINC) $(CFITSIOINC) $(PGPLOTINC) $(FFTINC) \
+#	-DUSEMMAP -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
+#	-g -Wall -W -fPIC -O3 -ffast-math
+CFLAGS = -I$(PRESTO)/include $(GLIBINC) $(CFITSIOINC) $(PGPLOTINC) \
+  -L/opt/intel/oneapi/mkl/latest/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -I/opt/intel/oneapi/mkl/latest/include/fftw -I/opt/intel/oneapi/mkl/latest/include \
 	-DUSEMMAP -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
-	-g -Wall -W -fPIC -O3 -ffast-math
+	-g -Wall -W -fPIC -Ofast -mavx2 -xHost -ipo
 CLINKFLAGS = $(CFLAGS)
 
 # Add some GCC-specific flags that are useful
@@ -70,13 +78,13 @@ endif
 # NOTE:  Be careful of upping the optimization on the
 #        FFLAGs.  Certain compilers (i.e. on Intel Macs) will
 #        cause errors for the code in least_squares.f
-FFLAGS = -g -fPIC
+FFLAGS = -g -fPIC -nofor-main
 FLINKFLAGS = $(FFLAGS)
 
 # Add flags we need for openmp
 ifeq ($(USEOPENMP),true)
 	ifeq ($(CC),icc)
-		OMPFLAGS = -openmp
+		OMPFLAGS = -qopenmp
 		CFLAGS += $(OMPFLAGS)
 		FLINKFLAGS += $(OMPFLAGS)
 # for GCC and clang

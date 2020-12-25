@@ -3,6 +3,7 @@ build*/
 Doxygen_doc/
 tmp_dev
 cmake-build*/
+.idea/
 CMakeLists.txt
 
 # Prerequisites
