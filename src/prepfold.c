@@ -987,7 +987,10 @@ int main(int argc, char *argv[]) {
     }
     if (numdelays == 0)
         flags = 0;
-
+#ifdef PFOL
+    double readSubbandsCost = 0;
+    double ompKCost = 0;
+#endif
     if (cmd->eventsP) {         /* Fold events instead of a time series */
         double event, dtmp, cts, phase, begphs, endphs, dphs, lphs, rphs;
         double tf, tfd, tfdd, totalphs, calctotalphs, numwraps;
@@ -1281,18 +1284,25 @@ int main(int argc, char *argv[]) {
         /* sub-integrations in time  */
 
         dtmp = (double) cmd->npart;
+//cmd->npart 54   reads_per_part 1    cmd->nsub 32
+
         for (ii = 0; ii < cmd->npart; ii++) {
             parttimes[ii] = ii * reads_per_part * proftime;
 
             /* reads per sub-integration */
-
             for (jj = 0; jj < reads_per_part; jj++) {
                 double fold_time0;
 
                 if (RAWDATA) {
+#ifdef PFOL
+                    clock_t t0 = clock();
+#endif
                     numread =
                             read_subbands(data, idispdts, cmd->nsub, &s, 1, &padding,
                                           maskchans, &nummasked, &obsmask);
+#ifdef PFOL
+                    readSubbandsCost += (double) (clock() - t0) / CLOCKS_PER_SEC;
+#endif
                 } else if (insubs) {
                     numread = read_PRESTO_subbands(s.files, s.num_files, data, recdt,
                                                    maskchans, &nummasked, &obsmask,
@@ -1349,9 +1359,10 @@ int main(int argc, char *argv[]) {
                 } else {
                     fold_time0 = parttimes[ii] + jj * proftime;
                 }
-
+#ifdef PFOL
+                clock_t t_omp = clock();
+#endif
                 /* Fold the frequency sub-bands */
-
 #ifdef _OPENMP
 #pragma omp parallel for default(shared)
 #endif
@@ -1372,6 +1383,9 @@ int main(int argc, char *argv[]) {
                          numdelays, NULL, &(search.stats[ii * cmd->nsub + kk]),
                          !cmd->samplesP);
                 }
+#ifdef PFOL
+                ompKCost += (double) (clock() - t_omp) / CLOCKS_PER_SEC;
+#endif
                 totnumfolded += numread;
             }
 
@@ -1392,6 +1406,8 @@ int main(int argc, char *argv[]) {
      *   Perform the candidate optimization search
      */
 #ifdef PFOL
+    printf("readSubbands cost %.5f s\n", readSubbandsCost);
+    printf("ompKCost cost %.5f s\n", ompKCost);
     printf("\n pre cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
     t = clock();
 #endif

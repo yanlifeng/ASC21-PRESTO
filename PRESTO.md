@@ -9,7 +9,7 @@ TODO
 - [x] 初步寻找热点
 - [x] 做好check
 - [x] 测试get_num_threads
-- [ ] 修改编译参数
+- [x] 修改编译参数
 - [ ] 解决python tests的报错
 - [ ] 解决prepsubband运行的error
 - [x] 尝试python脚本级别的并行
@@ -482,7 +482,7 @@ Error in chkfopen(): No such file or directory
 
 #### 1220&1221
 
-都不知道在干什么都
+**都不知道在干什么都**
 
 上午find了accelsearch的热点，主要是来自optimize_accelcand的第一个for循环，里面还有一层for，但是两层加起来大约是10*10，也不太适合并行。
 
@@ -508,3 +508,35 @@ pstoimg -density 200 -antialias -flip cw -quiet -type png -out %.*s.png %.*s
 这个命令的时候没有权限然后报错了，可能环境配置的真的有问题，先不管了，先看能不能并行。
 
 fold里面本身有一个加在for上面的omp，但是看top发现线程的利用率并不高。热点是Folded和后面的操作，并且发现执行脚本只占了一半不到的时间，另一半大概是python文件的开销，这个还要再具体测一下。
+
+#### 1222&&1223
+
+形势不太乐观哟，先find一下folding的热点吧。
+
+尝试用一下vtune：
+
+```bash
+/home/asc/intel/vtune_profiler_2020.1.0.607630/bin64/vtune -collect hotspots 
+```
+
+![image-20201223202255922](/Users/ylf9811/Library/Application Support/typora-user-images/image-20201223202255922.png)
+
+热点居然是这个。。然后clip_times()是backend_common.c里面的函数，apply_gcd没有源文件，经过测试应该就是fftwf_execute_r2r()。不过这俩不太好改都，还是要先想办法并行。。。。
+
+先打开自带的omp试试，方法一是修改python中的脚本，方法二是修改c文件中omp，暂时采用方法一。
+
+
+
+#### 1224
+
+先测一下自带的omp效果怎么样（需要打开PFOL看omp对应那一步的时间，因为它本来就不是热点，所以看总时间看不出来）
+
+好家伙，开8线程跑了一个世纪
+
+![image-20201224103543410](/Users/ylf9811/Library/Application Support/typora-user-images/image-20201224103543410.png)
+
+看时间不对应，一看就是里面某个巴拉巴拉还有omp，果然，
+
+![image-20201224103631573](/Users/ylf9811/Library/Application Support/typora-user-images/image-20201224103631573.png)
+
+本来不咋花时间的p5变的很慢了，可能是计时函数的锅，还是跑一下vtune

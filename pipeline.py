@@ -57,11 +57,11 @@ def prepsubbandFunc(i, dml):
     subDM = np.mean(dml)
     if maskfile:
         # print "maskfile has open"
-        prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
-            subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
+        prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
+            Cthread1, subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
     else:
-        prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
-            subDM, Nsub, subdownsamp, rootname, '../' + filename)
+        prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
+            Cthread1, subDM, Nsub, subdownsamp, rootname, '../' + filename)
     print("prepsubband : " + prepsubband)
     output = getoutput(prepsubband)
     resList.append(output)
@@ -70,9 +70,9 @@ def prepsubbandFunc(i, dml):
     subnames = rootname + "_DM%.2f.sub[0-9]*" % subDM
     # prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s ../%(filfile)s" % {
     # 'Nsub':Nsub, 'lowdm':lodm, 'dDM':dDM, 'NDMs':NDMs, 'Nout':Nout, 'DownSamp':datdownsamp, 'root':rootname, 'filfile':filename}
-    prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
-        'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout, 'DownSamp': datdownsamp,
-        'root': rootname, 'subfile': subnames}
+    prepsubcmd = "prepsubband -ncpus %(Cthread1)d -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
+        'Cthread1': Cthread1, 'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout,
+        'DownSamp': datdownsamp, 'root': rootname, 'subfile': subnames}
     print("prepsubcmd : " + prepsubcmd)
     output = getoutput(prepsubcmd)
     resList.append(output)
@@ -84,7 +84,7 @@ def prepsubbandFunc(i, dml):
 def fftcmdFunc(i, df):
     if threadController == 1:
         sm.acquire()
-    fftcmd = "realfft %s" % df
+    fftcmd = "realfft  %s" % df
     print(fftcmd)
     output = getoutput(fftcmd)
     if threadController == 1:
@@ -95,7 +95,7 @@ def fftcmdFunc(i, df):
 def serachcmdFunc(i, zmax, fftf):
     if threadController == 1:
         sm.acquire()
-    searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
+    searchcmd = "accelsearch -ncpus %d -zmax %d %s" % (Cthread3, zmax, fftf)
     print(searchcmd)
     output = getoutput(searchcmd)
     if threadController == 1:
@@ -108,8 +108,8 @@ def foldcmdFunc(i, cand):
         sm.acquire()
     # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
     # 'dm':cand.DM,  'accelfile':cand.filename+'.cand', 'candnum':cand.candnum, 'datfile':('%s_DM%s.dat' % (rootname, cand.DMstr))} #simple plots
-    foldcmd = "prepfold -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
-        'Nint': Nint, 'Nsub': Nsub, 'dm': cand.DM, 'period': cand.p, 'filfile': filename,
+    foldcmd = "prepfold -ncpus %(Cthread4)d -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
+        'Cthread4': Cthread4, 'Nint': Nint, 'Nsub': Nsub, 'dm': cand.DM, 'period': cand.p, 'filfile': filename,
         'outfile': rootname + '_DM' + cand.DMstr}  # full plots
     print(foldcmd)
     # os.system(foldcmd)
@@ -141,6 +141,11 @@ Tres = 0.5  # ms
 zmax = 0
 
 maxThreadNumber = 8
+
+Cthread1 = 1
+Cthread2 = 1
+Cthread3 = 1
+Cthread4 = 1
 
 threadController = int(sys.argv[2])
 if threadController == 1:
@@ -337,11 +342,11 @@ try:
                 subDM = np.mean(dml)
                 if maskfile:
                     # print "maskfile has open"
-                    prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
-                        subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
+                    prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
+                        Cthread1, subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
                 else:
-                    prepsubband = "prepsubband -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
-                        subDM, Nsub, subdownsamp, rootname, '../' + filename)
+                    prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
+                        Cthread1, subDM, Nsub, subdownsamp, rootname, '../' + filename)
                 print("prepsubband : " + prepsubband)
                 output = getoutput(prepsubband)
                 logfile.write(output)
@@ -350,9 +355,9 @@ try:
                 subnames = rootname + "_DM%.2f.sub[0-9]*" % subDM
                 # prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s ../%(filfile)s" % {
                 # 'Nsub':Nsub, 'lowdm':lodm, 'dDM':dDM, 'NDMs':NDMs, 'Nout':Nout, 'DownSamp':datdownsamp, 'root':rootname, 'filfile':filename}
-                prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
-                    'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout, 'DownSamp': datdownsamp,
-                    'root': rootname, 'subfile': subnames}
+                prepsubcmd = "prepsubband -ncpus %(Cthread1)d -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
+                    'Cthread1': Cthread1, 'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout,
+                    'DownSamp': datdownsamp, 'root': rootname, 'subfile': subnames}
                 print("prepsubcmd : " + prepsubcmd)
                 output = getoutput(prepsubcmd)
                 logfile.write(output)
@@ -436,7 +441,7 @@ try:
                 logfile.write(i.get())
     else:
         for fftf in fftfiles:
-            searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
+            searchcmd = "accelsearch -ncpus %d -zmax %d %s" % (Cthread3, zmax, fftf)
             print(searchcmd)
             output = getoutput(searchcmd)
             logfile.write(output)
@@ -586,8 +591,8 @@ try:
         for cand in cands:
             # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
             # 'dm':cand.DM,  'accelfile':cand.filename+'.cand', 'candnum':cand.candnum, 'datfile':('%s_DM%s.dat' % (rootname, cand.DMstr))} #simple plots
-            foldcmd = "prepfold -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
-                'Nint': Nint, 'Nsub': Nsub, 'dm': cand.DM, 'period': cand.p, 'filfile': filename,
+            foldcmd = "prepfold -ncpus %(Cthread4)d -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
+                'Cthread4': Cthread4, 'Nint': Nint, 'Nsub': Nsub, 'dm': cand.DM, 'period': cand.p, 'filfile': filename,
                 'outfile': rootname + '_DM' + cand.DMstr}  # full plots
             print(foldcmd)
             # os.system(foldcmd)
