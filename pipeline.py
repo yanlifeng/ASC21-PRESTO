@@ -5,6 +5,7 @@ Weiwei Zhu
 2015-08-14
 Max-Plank Institute for Radio Astronomy
 zhuwwpku@gmail.com
+prepfold -ncpus 1 -n 64 -nsub 32 -dm 49.500000 -p 1.853673 GBT_Lband_PSR.fil -o Sband_DM49.50 -noxwin -nodmsearch
 """
 
 import os, sys, glob, re
@@ -141,11 +142,11 @@ Tres = 0.5  # ms
 zmax = 0
 
 maxThreadNumber = 8
-
-Cthread1 = 1
-Cthread2 = 1
-Cthread3 = 1
-Cthread4 = 1
+CThreadNumber = 2
+Cthread1 = CThreadNumber
+Cthread2 = CThreadNumber
+Cthread3 = CThreadNumber
+Cthread4 = CThreadNumber
 
 threadController = int(sys.argv[2])
 if threadController == 1:

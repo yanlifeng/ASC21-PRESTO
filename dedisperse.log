@@ -366,10 +366,10 @@ Simple statistics of the output data:
              Data points written:  524318
           Padding points written:  6682
     Bins added for barycentering:  30
-           Maximum value of data:  918.00
-           Minimum value of data:  681.00
+           Maximum value of data:  970.00
+           Minimum value of data:  622.00
               Data average value:  785.56
-         Data standard deviation:  23.51
+         Data standard deviation:  61.27
 
 
           Pulsar Subband De-dispersion Routine
@@ -738,10 +738,10 @@ Simple statistics of the output data:
              Data points written:  524318
           Padding points written:  6682
     Bins added for barycentering:  30
-           Maximum value of data:  889.00
-           Minimum value of data:  685.00
+           Maximum value of data:  933.00
+           Minimum value of data:  636.00
               Data average value:  785.56
-         Data standard deviation:  23.05
+         Data standard deviation:  40.69
 
 
           Pulsar Subband De-dispersion Routine
@@ -1110,10 +1110,10 @@ Simple statistics of the output data:
              Data points written:  524318
           Padding points written:  6682
     Bins added for barycentering:  30
-           Maximum value of data:  895.00
-           Minimum value of data:  679.00
+           Maximum value of data:  943.00
+           Minimum value of data:  642.00
               Data average value:  785.56
-         Data standard deviation:  22.82
+         Data standard deviation:  49.96
 
 
           Pulsar Subband De-dispersion Routine
@@ -1482,10 +1482,10 @@ Simple statistics of the output data:
              Data points written:  524318
           Padding points written:  6682
     Bins added for barycentering:  30
-           Maximum value of data:  887.00
-           Minimum value of data:  685.00
+           Maximum value of data:  894.00
+           Minimum value of data:  659.00
               Data average value:  785.56
-         Data standard deviation:  22.58
+         Data standard deviation:  27.98
 
 
           Pulsar Subband De-dispersion Routine
@@ -1854,10 +1854,10 @@ Simple statistics of the output data:
              Data points written:  524318
           Padding points written:  6682
     Bins added for barycentering:  30
-           Maximum value of data:  894.00
-           Minimum value of data:  673.00
+           Maximum value of data:  923.00
+           Minimum value of data:  641.00
               Data average value:  785.56
-         Data standard deviation:  22.37
+         Data standard deviation:  36.15
 
 
           Pulsar Subband De-dispersion Routine
@@ -2226,10 +2226,10 @@ Simple statistics of the output data:
              Data points written:  524318
           Padding points written:  6682
     Bins added for barycentering:  30
-           Maximum value of data:  888.00
-           Minimum value of data:  682.00
+           Maximum value of data:  883.00
+           Minimum value of data:  686.00
               Data average value:  785.56
-         Data standard deviation:  22.22
+         Data standard deviation:  22.16
 
 
           Pulsar Subband De-dispersion Routine
@@ -2598,7 +2598,7 @@ Simple statistics of the output data:
              Data points written:  524318
           Padding points written:  6682
     Bins added for barycentering:  30
-           Maximum value of data:  887.00
-           Minimum value of data:  677.00
+           Maximum value of data:  931.00
+           Minimum value of data:  658.00
               Data average value:  785.56
-         Data standard deviation:  22.03
+         Data standard deviation:  33.25

@@ -656,7 +656,7 @@ int prep_subbands(float *fdata, float *rawdata, int *delays, int numsubbands,
 // for masking.  If 'transpose'==0, the data will be kept in time
 // order instead of arranged by subband as above.
 {
-#ifdef PFOL
+#ifdef PFOL2
     clock_t t = clock();
 #endif
     int ii, jj, offset;
@@ -665,6 +665,10 @@ int prep_subbands(float *fdata, float *rawdata, int *delays, int numsubbands,
     static float *currentdata, *lastdata;
     static int firsttime = 1, mask = 0;
     static fftwf_plan tplan1, tplan2;
+//    float *tmpswap, *rawdata1, *rawdata2;
+//    float *currentdata, *lastdata;
+//    int firsttime = 1, mask = 0;
+//    fftwf_plan tplan1, tplan2;
 
     *nummasked = 0;
     if (firsttime) {
@@ -686,7 +690,7 @@ int prep_subbands(float *fdata, float *rawdata, int *delays, int numsubbands,
     starttime = currentspectra * s->dt; // or -1 subint?
     if (mask)
         *nummasked = check_mask(starttime, s->time_per_subint, obsmask, maskchans);
-#ifdef PFOL
+#ifdef PFOL2
     printf("\n p1 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
     t = clock();
 #endif
@@ -694,7 +698,7 @@ int prep_subbands(float *fdata, float *rawdata, int *delays, int numsubbands,
     if ((s->clip_sigma > 0.0) && !(mask && (*nummasked == -1)))
         clip_times(currentdata, s->spectra_per_subint, s->num_channels,
                    s->clip_sigma, s->padvals);
-#ifdef PFOL
+#ifdef PFOL2
     printf("\n clip_times cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
     t = clock();
 #endif
@@ -725,7 +729,7 @@ int prep_subbands(float *fdata, float *rawdata, int *delays, int numsubbands,
             }
         }
     }
-#ifdef PFOL
+#ifdef PFOL2
     printf("\n p2 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
     t = clock();
 #endif
@@ -737,14 +741,14 @@ int prep_subbands(float *fdata, float *rawdata, int *delays, int numsubbands,
     // Now transpose the raw block of data so that the times in each
     // channel are the most rapidly varying index
     fftwf_execute_r2r(tplan1, currentdata, currentdata);
-#ifdef PFOL
+#ifdef PFOL2
     printf("\n p3 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
     t = clock();
 #endif
     if (firsttime) {
         SWAP(currentdata, lastdata);
         firsttime = 0;
-#ifdef PFOL
+#ifdef PFOL2
         printf("\n p4 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
 #endif
         return 0;
@@ -755,7 +759,7 @@ int prep_subbands(float *fdata, float *rawdata, int *delays, int numsubbands,
         // Transpose the resulting data into spectra as a function of time
         if (transpose == 0)
             fftwf_execute_r2r(tplan2, fdata, fdata);
-#ifdef PFOL
+#ifdef PFOL2
         printf("\n p5 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
 #endif
         return s->spectra_per_subint;
@@ -763,6 +767,133 @@ int prep_subbands(float *fdata, float *rawdata, int *delays, int numsubbands,
 
 }
 
+
+int prep_subbandss(float *fdata, float *rawdata, int *delays, int numsubbands,
+                   struct spectra_info *s, int transpose,
+                   int *maskchans, int *nummasked, mask *obsmask)
+// This routine preps a block of raw spectra for subbanding.  It uses
+// dispersion delays in 'delays' to de-disperse the data into
+// 'numsubbands' subbands.  It stores the resulting data in vector
+// 'fdata' of length 'numsubbands' * 's->spectra_per_subint'.  The low
+// freq subband is stored first, then the next highest subband etc,
+// with 's->spectra_per_subint' floating points per subband. It
+// returns the # of points read if succesful, 0 otherwise.
+// 'maskchans' is an array of length numchans which contains a list of
+// the number of channels that were masked.  The # of channels masked
+// is returned in 'nummasked'.  'obsmask' is the mask structure to use
+// for masking.  If 'transpose'==0, the data will be kept in time
+// order instead of arranged by subband as above.
+{
+#ifdef PFOL2
+    clock_t t = clock();
+#endif
+    int ii, jj, offset;
+    double starttime = 0.0;
+//    static float *tmpswap, *rawdata1, *rawdata2;
+//    static float *currentdata, *lastdata;
+//    static int firsttime = 1, mask = 0;
+//    static fftwf_plan tplan1, tplan2;
+    float *tmpswap, *rawdata1, *rawdata2;
+    float *currentdata, *lastdata;
+    int firsttime = 1, mask = 0;
+    fftwf_plan tplan1, tplan2;
+
+    *nummasked = 0;
+    if (firsttime) {
+        if (obsmask->numchan)
+            mask = 1;
+        rawdata1 = gen_fvect(s->spectra_per_subint * s->num_channels);
+        rawdata2 = gen_fvect(s->spectra_per_subint * s->num_channels);
+        currentdata = rawdata1;
+        lastdata = rawdata2;
+        // Make plans to do fast transposes using FFTW
+        tplan1 = plan_transpose(s->spectra_per_subint, s->num_channels,
+                                currentdata, currentdata);
+        tplan2 = plan_transpose(numsubbands, s->spectra_per_subint, fdata, fdata);
+    }
+
+    /* Read and de-disperse */
+    memcpy(currentdata, rawdata,
+           s->spectra_per_subint * s->num_channels * sizeof(float));
+    starttime = currentspectra * s->dt; // or -1 subint?
+    if (mask)
+        *nummasked = check_mask(starttime, s->time_per_subint, obsmask, maskchans);
+#ifdef PFOL2
+    printf("\n p1 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+    t = clock();
+#endif
+    /* Clip nasty RFI if requested and we're not masking all the channels */
+    if ((s->clip_sigma > 0.0) && !(mask && (*nummasked == -1)))
+        clip_times(currentdata, s->spectra_per_subint, s->num_channels,
+                   s->clip_sigma, s->padvals);
+#ifdef PFOL2
+    printf("\n clip_times cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+    t = clock();
+#endif
+    if (mask) {
+        if (*nummasked == -1) { /* If all channels are masked */
+            for (ii = 0; ii < s->spectra_per_subint; ii++)
+                memcpy(currentdata + ii * s->num_channels,
+                       s->padvals, s->num_channels * sizeof(float));
+        } else if (*nummasked > 0) {    /* Only some of the channels are masked */
+            int channum;
+            for (ii = 0; ii < s->spectra_per_subint; ii++) {
+                offset = ii * s->num_channels;
+                for (jj = 0; jj < *nummasked; jj++) {
+                    channum = maskchans[jj];
+                    currentdata[offset + channum] = s->padvals[channum];
+                }
+            }
+        }
+    }
+
+    if (s->num_ignorechans) { // These are channels we explicitly zero
+        int channum;
+        for (ii = 0; ii < s->spectra_per_subint; ii++) {
+            offset = ii * s->num_channels;
+            for (jj = 0; jj < s->num_ignorechans; jj++) {
+                channum = s->ignorechans[jj];
+                currentdata[offset + channum] = 0.0;
+            }
+        }
+    }
+#ifdef PFOL2
+    printf("\n p2 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+    t = clock();
+#endif
+    // In mpiprepsubband, the nodes do not call read_subbands() where
+    // currentspectra gets incremented.
+    if (using_MPI)
+        currentspectra += s->spectra_per_subint;
+
+    // Now transpose the raw block of data so that the times in each
+    // channel are the most rapidly varying index
+    fftwf_execute_r2r(tplan1, currentdata, currentdata);
+#ifdef PFOL2
+    printf("\n p3 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+    t = clock();
+#endif
+    if (firsttime) {
+        SWAP(currentdata, lastdata);
+        firsttime = 0;
+#ifdef PFOL2
+        printf("\n p4 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+#endif
+        return 0;
+    } else {
+        dedisp_subbands(currentdata, lastdata, s->spectra_per_subint,
+                        s->num_channels, delays, numsubbands, fdata);
+        SWAP(currentdata, lastdata);
+        // Transpose the resulting data into spectra as a function of time
+        if (transpose == 0)
+            fftwf_execute_r2r(tplan2, fdata, fdata);
+#ifdef PFOL2
+        printf("\n p5 cost %.5f s\n", (double) (clock() - t) / CLOCKS_PER_SEC);
+#endif
+        return s->spectra_per_subint;
+    }
+
+}
 
 int read_subbands(float *fdata, int *delays, int numsubbands,
                   struct spectra_info *s, int transpose, int *padding,
@@ -781,9 +912,12 @@ int read_subbands(float *fdata, int *delays, int numsubbands,
 // 'nummasked'.  'obsmask' is the mask structure to use for masking.
 // If 'transpose'==0, the data will be kept in time order instead of
 // arranged by subband as above.
+
 {
     static int firsttime = 1;
     static float *frawdata;
+//    int firsttime = 1;
+//    float *frawdata;
 
     if (firsttime) {
         // Check to make sure there isn't more dispersion across a
@@ -818,6 +952,63 @@ int read_subbands(float *fdata, int *delays, int numsubbands,
     }
 }
 
+
+int read_subbandss(float *fdata, int *delays, int numsubbands,
+                   struct spectra_info *s, int transpose, int *padding,
+                   int *maskchans, int *nummasked, mask *obsmask)
+// This routine reads a spectral block/subint from the input raw data
+// files. The routine uses dispersion delays in 'delays' to
+// de-disperse the data into 'numsubbands' subbands.  It stores the
+// resulting data in vector 'fdata' of length 'numsubbands' *
+// 's->spectra_per_subint'.  The low freq subband is stored first,
+// then the next highest subband etc, with 's->spectra_per_subint'
+// floating points per subband.  It returns the # of points read if
+// successful, 0 otherwise. If padding is returned as 1, then padding
+// was added and statistics should not be calculated.  'maskchans' is
+// an array of length numchans which contains a list of the number of
+// channels that were masked.  The # of channels masked is returned in
+// 'nummasked'.  'obsmask' is the mask structure to use for masking.
+// If 'transpose'==0, the data will be kept in time order instead of
+// arranged by subband as above.
+
+{
+//    static int firsttime = 1;
+//    static float *frawdata;
+    int firsttime = 1;
+    float *frawdata;
+
+    if (firsttime) {
+        // Check to make sure there isn't more dispersion across a
+        // subband than time in a block of data
+        if (delays[0] > s->spectra_per_subint) {
+            perror("\nError: there is more dispersion across a subband than time\n"
+                   "in a block of data.  Increase spectra_per_subint if possible.");
+            exit(-1);
+        }
+        // Needs to be twice as large for buffering if adding observations together
+        frawdata = gen_fvect(2 * s->num_channels * s->spectra_per_subint);
+        if (!s->get_rawblock(frawdata, s, padding)) {
+            perror("Error: problem reading the raw data file in read_subbands()");
+            exit(-1);
+        }
+        if (0 != prep_subbandss(fdata, frawdata, delays, numsubbands, s,
+                               transpose, maskchans, nummasked, obsmask)) {
+            perror("Error: problem initializing prep_subbandss() in read_subbands()");
+            exit(-1);
+        }
+        firsttime = 0;
+    }
+    if (!s->get_rawblock(frawdata, s, padding)) {
+        return 0;
+    }
+    if (prep_subbandss(fdata, frawdata, delays, numsubbands, s, transpose,
+                      maskchans, nummasked, obsmask) == s->spectra_per_subint) {
+        currentspectra += s->spectra_per_subint;
+        return s->spectra_per_subint;
+    } else {
+        return 0;
+    }
+}
 
 void flip_band(float *fdata, struct spectra_info *s)
 // Flip the bandpass

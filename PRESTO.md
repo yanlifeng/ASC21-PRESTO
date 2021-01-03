@@ -3,14 +3,14 @@ TODO
 
 （截止到目前）
 
-- [ ] 编译器换成icc
-- [ ] fortan换成intel的
+- [x] 编译器换成icc
+- [x] fortan换成intel的
 - [x] 完成环境配置
 - [x] 初步寻找热点
 - [x] 做好check
 - [x] 测试get_num_threads
 - [x] 修改编译参数
-- [ ] 解决python tests的报错
+- [x] 解决python tests的报错
 - [ ] 解决prepsubband运行的error
 - [x] 尝试python脚本级别的并行
 - [ ] 解决CPU使用率低的问题
@@ -26,9 +26,13 @@ TODO
 - [x] 更换简洁的check方法
 - [ ] 去6148上用root配一下环境
 - [ ] 去ylff上用非root配一下环境
-- [ ] 解决-mavx2 folding.log和pfd报错的问题
+- [x] 解决-mavx2 folding.log和pfd报错的问题
 - [ ] 研究一下amoeba为啥那么慢
-- [ ] 解决fold中没有权限的问题
+- [x] 解决fold中没有权限的问题
+- [ ] fftw换成mkl的
+- [ ] 解决icc和gcc答案不一样
+- [ ] 解决Ofast ffast-math
+- [ ] 
 - [ ] 
 - [ ] 
 - [ ] 
@@ -540,3 +544,64 @@ fold里面本身有一个加在for上面的omp，但是看top发现线程的利�
 ![image-20201224103631573](/Users/ylf9811/Library/Application Support/typora-user-images/image-20201224103631573.png)
 
 本来不咋花时间的p5变的很慢了，可能是计时函数的锅，还是跑一下vtune
+
+### 1231
+
+```c++
+threadController : 0
+Read Header                    === 0.004928 
+Generate Dedispersion          === 0.672033 
+Dedisperse Subbands            === 8.402275 
+realfft                        === 5.552962 
+accelsearch                    === 32.698424 
+sifting candidates             === 0.123537 
+folding candidates             === 27.612722 
+
+
+real	1m15.576s
+user	1m20.608s
+sys	0m19.584s
+  
+threadController : 0
+Read Header                    === 0.004879 
+Generate Dedispersion          === 0.730260 
+Dedisperse Subbands            === 8.333516 
+realfft                        === 4.672712 
+accelsearch                    === 31.148279 
+sifting candidates             === 0.135620 
+folding candidates             === 28.281242 
+
+
+real	1m13.810s
+user	1m19.304s
+sys	0m18.772s
+```
+
+#### 0102
+
+终究还是把2020年的bug留到了新的一年
+
+现在解决三个事，一个是icc答案和gcc不一样，初步猜测是Ofast和ffast-math的是原因；二是使用mkl的fftw；三是
+
+folding里面的并行。显然第三个比较急，启鑫在6148上配环境了，先把多线程搞好测测拓展性。
+
+```c++
+threadController : 0
+Read Header                    === 0.004921 
+Generate Dedispersion          === 0.815033 
+Dedisperse Subbands            === 8.990688 
+realfft                        === 5.519845 
+accelsearch                    === 35.766682 
+sifting candidates             === 0.191183 
+folding candidates             === 30.777607 
+
+
+real	1m22.654s
+user	1m25.728s
+sys	0m17.956s
+```
+
+#### 0103
+
+不太妙啊不太妙，fold内部的并行出现了一些问题，来不及写文档了，直接干了。
+

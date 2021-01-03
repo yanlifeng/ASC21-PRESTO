@@ -3,7 +3,7 @@
 #include "prepfold_cmd.h"
 #include "mask.h"
 #include "backend_common.h"
-
+#include <assert.h>
 // Use OpenMP
 #ifdef _OPENMP
 #include <omp.h>
@@ -32,7 +32,7 @@ void set_posn(prepfoldinfo *in, infodata *idata);
 int main(int argc, char *argv[]) {
 #ifdef PFOL
     clock_t t = clock();
-    clock_t t0 = clock();
+    clock_t tInit = clock();
 #endif
     FILE *filemarker;
     float *data = NULL, *ppdot = NULL;
@@ -1284,10 +1284,39 @@ int main(int argc, char *argv[]) {
         /* sub-integrations in time  */
 
         dtmp = (double) cmd->npart;
-//cmd->npart 54   reads_per_part 1    cmd->nsub 32
 
+        //********************************************************************************
+
+        //********************************************************************************
+
+
+
+//cmd->npart 54   reads_per_part 1    cmd->nsub 32 worklen 2400
+        long long foldAns[cmd->npart];
+#ifdef UOMP
+#pragma omp parallel for default(shared) reduction(+:totnumfolded)
+#endif
         for (ii = 0; ii < cmd->npart; ii++) {
+//            printf("now ii %ld\n ", ii);
+//        for (ii = cmd->npart - 1; ii >= 0; ii--) {
             parttimes[ii] = ii * reads_per_part * proftime;
+
+            float *dataNow = gen_fvect(cmd->nsub * worklen);
+            int paddingNow = 0;
+            int *maskchansNow = NULL;
+            int nummaskedNow = 0;
+            long numreadNow = 0;
+            if (cmd->maskfileP)
+                maskchansNow = gen_ivect(obsmask.numchan);
+//            double *buffersNow = NULL;
+//            double *phasesaddedNow = NULL;
+//            buffersNow = gen_dvect(cmd->nsub * search.proflen);
+//            phasesaddedNow = gen_dvect(cmd->nsub);
+//            for (int i = 0; i < cmd->nsub * search.proflen; i++)
+//                buffersNow[i] = 0.0;
+//            for (int i = 0; i < cmd->nsub; i++)
+//                phasesaddedNow[i] = 0.0;/
+
 
             /* reads per sub-integration */
             for (jj = 0; jj < reads_per_part; jj++) {
@@ -1297,30 +1326,34 @@ int main(int argc, char *argv[]) {
 #ifdef PFOL
                     clock_t t0 = clock();
 #endif
-                    numread =
-                            read_subbands(data, idispdts, cmd->nsub, &s, 1, &padding,
-                                          maskchans, &nummasked, &obsmask);
+                    numreadNow =
+                            read_subbands(dataNow, idispdts, cmd->nsub, &s, 1, &paddingNow,
+                                          maskchansNow, &nummaskedNow, &obsmask);
 #ifdef PFOL
                     readSubbandsCost += (double) (clock() - t0) / CLOCKS_PER_SEC;
 #endif
                 } else if (insubs) {
-                    numread = read_PRESTO_subbands(s.files, s.num_files, data, recdt,
-                                                   maskchans, &nummasked, &obsmask,
-                                                   s.padvals);
+                    printf("GG\n");
+                    exit(1);
+                    numreadNow = read_PRESTO_subbands(s.files, s.num_files, dataNow, recdt,
+                                                      maskchansNow, &nummaskedNow, &obsmask,
+                                                      s.padvals);
                 } else {
+                    printf("GG\n");
+                    exit(1);
                     int mm;
                     float runavg = 0.0;
                     static float oldrunavg = 0.0;
                     static int firsttime = 1;
 
                     if (useshorts)
-                        numread = read_shorts(s.files[0], data, worklen, numchan);
+                        numreadNow = read_shorts(s.files[0], dataNow, worklen, numchan);
                     else
-                        numread = read_floats(s.files[0], data, worklen, numchan);
+                        numreadNow = read_floats(s.files[0], dataNow, worklen, numchan);
                     if (cmd->runavgP) {
-                        for (mm = 0; mm < numread; mm++)
-                            runavg += data[mm];
-                        runavg /= numread;
+                        for (mm = 0; mm < numreadNow; mm++)
+                            runavg += dataNow[mm];
+                        runavg /= numreadNow;
                         if (firsttime) {
                             firsttime = 0;
                         } else {
@@ -1328,12 +1361,15 @@ int main(int argc, char *argv[]) {
                             runavg = 0.95 * oldrunavg + 0.05 * runavg;
                         }
                         oldrunavg = runavg;
-                        for (mm = 0; mm < numread; mm++)
-                            data[mm] -= runavg;
+                        for (mm = 0; mm < numreadNow; mm++)
+                            dataNow[mm] -= runavg;
                     }
                 }
 
                 if (cmd->polycofileP) { /* Update the period/phase */
+                    printf("GG\n");
+                    exit(1);
+
                     double mjdf, currentsec, currentday, offsetphase, orig_cmd_phs =
                             0.0;
 
@@ -1363,35 +1399,54 @@ int main(int argc, char *argv[]) {
                 clock_t t_omp = clock();
 #endif
                 /* Fold the frequency sub-bands */
-#ifdef _OPENMP
-#pragma omp parallel for default(shared)
-#endif
+//#ifdef _OPENMP
+//#pragma omp parallel for default(shared)
+//#endif
+
                 for (kk = 0; kk < cmd->nsub; kk++) {
                     /* This is a quick hack to see if it will remove power drifts */
-                    if (cmd->runavgP && (numread > 0)) {
+                    if (cmd->runavgP && (numreadNow > 0)) {
                         int dataptr;
                         double avg, var;
-                        avg_var(data + kk * worklen, numread, &avg, &var);
+                        avg_var(dataNow + kk * worklen, numreadNow, &avg, &var);
                         for (dataptr = 0; dataptr < worklen; dataptr++)
-                            data[kk * worklen + dataptr] -= avg;
+                            dataNow[kk * worklen + dataptr] -= avg;
                     }
-                    fold(data + kk * worklen, numread, search.dt,
+
+                    fold(dataNow + kk * worklen, numreadNow, search.dt,
                          fold_time0,
                          search.rawfolds + (ii * cmd->nsub + kk) * search.proflen,
                          search.proflen, cmd->phs, buffers + kk * search.proflen,
                          phasesadded + kk, foldf, foldfd, foldfdd, flags, Ep, tp,
                          numdelays, NULL, &(search.stats[ii * cmd->nsub + kk]),
                          !cmd->samplesP);
+//                    fold(dataNow + kk * worklen, numreadNow, search.dt,
+//                         fold_time0,
+//                         search.rawfolds + (ii * cmd->nsub + kk) * search.proflen,
+//                         search.proflen, cmd->phs, buffersNow + kk * search.proflen,
+//                         phasesaddedNow + kk, foldf, foldfd, foldfdd, flags, Ep, tp,
+//                         numdelays, NULL, &(search.stats[ii * cmd->nsub + kk]),
+//                         !cmd->samplesP);
                 }
+
 #ifdef PFOL
                 ompKCost += (double) (clock() - t_omp) / CLOCKS_PER_SEC;
 #endif
-                totnumfolded += numread;
+                totnumfolded += numreadNow;
             }
+            foldAns[ii] = totnumfolded;
+            vect_free(dataNow);
+//            vect_free(buffersNow);
+//            vect_free(phasesaddedNow);
 
             printf("\r  Folded %lld points of %.0f", totnumfolded, N);
             fflush(NULL);
         }
+
+//        for (ii = 0; ii < cmd->npart; ii++) {
+//            printf("\r  Folded %lld points of %.0f", foldAns[ii], N);
+//            fflush(NULL);
+//        }
         vect_free(buffers);
         vect_free(phasesadded);
     }
@@ -1867,7 +1922,7 @@ int main(int argc, char *argv[]) {
     }
     printf("Done.\n\n");
 #ifdef PFOL
-    printf("\n last cost %.5f s\n", (double) (clock() - t0) / CLOCKS_PER_SEC);
+    printf("\n last cost %.5f s\n", (double) (clock() - tInit) / CLOCKS_PER_SEC);
 #endif
     return (0);
 }

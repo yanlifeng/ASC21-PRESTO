@@ -11,20 +11,39 @@ def listdir(path, list_name):
             list_name.append(file_path)
 
 
+# ls1 = []
+# ls11 = []
+# listdir("./subbands/", ls11)
+# for it in ls11:
+#     if "pfd" not in it:
+#         ls1.append(it)
+# ls1.sort()
+# ls2 = []
+# ls22 = []
+# listdir("../../STD2/subbands/", ls22)
+# for it in ls22:
+#     if "pfd" not in it:
+#         ls2.append(it)
+# ls2.sort()
+
 ls1 = []
 listdir("./subbands/", ls1)
 ls1.sort()
 ls2 = []
 listdir("../../STD2/subbands/", ls2)
 ls2.sort()
-assert (len(ls1) == len(ls1))
+
+print(len(ls1), len(ls2))
+assert (len(ls1) == len(ls2))
 ok = 1
 for i in range(len(ls1)):
     try:
         if "_ACCEL_0.cand" in ls1[i]:
             # print("jump this test because cand")
             continue
-
+        if ".png" in ls1[i]:
+            # print("jump this test because cand")
+            continue
         f1 = ls1[i]
         with open(f1, 'rb') as fp:
             data = fp.read()
