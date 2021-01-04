@@ -30,6 +30,7 @@ void set_posn(prepfoldinfo *in, infodata *idata);
  */
 
 int main(int argc, char *argv[]) {
+
 #ifdef PFOL
     clock_t t = clock();
     clock_t tInit = clock();
@@ -1471,10 +1472,10 @@ int main(int argc, char *argv[]) {
 
         float *dataNow[cmd->npart][reads_per_part];
 
-        clock_t tt0 = clock();
-#ifdef UOMP
-#pragma omp parallel for default(shared) reduction(+:totnumfolded)
-#endif
+//        clock_t tt0 = clock();
+//#ifdef UOMP
+//#pragma omp parallel for default(shared) reduction(+:totnumfolded)
+//#endif
         for (int idi = 0; idi < cmd->npart; idi++) {
             int id = indexs[idi];
             parttimes[id] = id * reads_per_part * proftime;
@@ -1501,8 +1502,8 @@ int main(int argc, char *argv[]) {
             foldAns[id] = totnumfolded;
         }
 
-        printf("111111cost : %.5f\n", (double) (clock() - tt0) / CLOCKS_PER_SEC);
-        tt0 = clock();
+//        printf("111111cost : %.5f\n", (double) (clock() - tt0) / CLOCKS_PER_SEC);
+//        tt0 = clock();
         int falg = 0;
 
 
@@ -1522,6 +1523,7 @@ int main(int argc, char *argv[]) {
                 }
                 double fold_time0;
                 fold_time0 = parttimes[ii] + jj * proftime;
+
                 for (kk = 0; kk < cmd->nsub; kk++) {
                     /* This is a quick hack to see if it will remove power drifts */
                     if (cmd->runavgP && (numreads[ii][jj] > 0)) {
@@ -1557,7 +1559,7 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        printf("222222cost : %.5f\n", (double) (clock() - tt0) / CLOCKS_PER_SEC);
+//        printf("222222cost : %.5f\n", (double) (clock() - tt0) / CLOCKS_PER_SEC);
 
 
         for (ii = 0; ii < cmd->npart; ii++) {

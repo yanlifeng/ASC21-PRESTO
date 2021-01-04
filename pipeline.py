@@ -5,7 +5,7 @@ Weiwei Zhu
 2015-08-14
 Max-Plank Institute for Radio Astronomy
 zhuwwpku@gmail.com
-prepfold -ncpus 1 -n 64 -nsub 32 -dm 49.500000 -p 1.853673 GBT_Lband_PSR.fil -o Sband_DM49.50 -noxwin -nodmsearch
+prepfold -ncpus 4 -n 64 -nsub 32 -dm 49.500000 -p 1.853673 GBT_Lband_PSR.fil -o Sband_DM49.50 -noxwin -nodmsearch
 
 prepfold -ncpus 1 -n 64 -nsub 32 -dm 83.400000 -p 8.241807 Dec+1554_arcdrift+23.4-M12_0194.fil -o Sband_DM83.40 -noxwin -nodmsearch
 """
@@ -144,7 +144,7 @@ Tres = 0.5  # ms
 zmax = 0
 
 maxThreadNumber = 8
-CThreadNumber = 2
+CThreadNumber = 4
 Cthread1 = CThreadNumber
 Cthread2 = CThreadNumber
 Cthread3 = CThreadNumber

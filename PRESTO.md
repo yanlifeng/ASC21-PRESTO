@@ -605,3 +605,188 @@ sys	0m17.956s
 
 不太妙啊不太妙，fold内部的并行出现了一些问题，来不及写文档了，直接干了。
 
+
+
+
+
+
+
+huaweiyun
+
+
+
+
+
+omp in c files
+
+```c++
+TestData1 
+
+thread 1 -------> 1m10s
+
+thread 2 -------> 1m09s
+
+thread 4 -------> 1m07s
+
+thread 8 -------> 1m09s
+
+thread 16 -------> 1m13s
+
+TestData2
+
+thread 1 -------> 6m47s
+
+thread 2 -------> 6m46s
+
+thread 4 -------> x
+
+thread 8 -------> 6m55s
+
+thread 16 -------> x
+```
+
+
+
+
+
+Parallel in python file
+
+```c++
+TestData1
+  
+  thread 1
+  threadController : 1
+Read Header                    === 0.009291 
+Generate Dedispersion          === 0.804071 
+Dedisperse Subbands            === 8.505732 
+realfft                        === 4.651085 
+accelsearch                    === 26.772940 
+sifting candidates             === 0.115611 
+folding candidates             === 31.138197
+real	1m12.512s
+user	1m7.089s
+sys	0m10.152s
+  
+  thread 2
+  threadController : 1
+Read Header                    === 0.009391 
+Generate Dedispersion          === 0.802235 
+Dedisperse Subbands            === 4.961636 
+realfft                        === 2.355048 
+accelsearch                    === 13.764378 
+sifting candidates             === 0.110673 
+folding candidates             === 17.521174 
+real	0m40.035s
+user	1m8.135s
+sys	0m10.778s
+    
+    thread 4
+    threadController : 1
+Read Header                    === 0.009345 
+Generate Dedispersion          === 0.794564 
+Dedisperse Subbands            === 2.530166 
+realfft                        === 1.218100 
+accelsearch                    === 6.884483 
+sifting candidates             === 0.114649 
+folding candidates             === 8.225789 
+real	0m20.293s
+user	1m8.571s
+sys	0m10.380s
+      
+      thread 8
+      threadController : 1
+Read Header                    === 0.009293 
+Generate Dedispersion          === 0.801965 
+Dedisperse Subbands            === 1.399944 
+realfft                        === 0.767894 
+accelsearch                    === 4.059757 
+sifting candidates             === 0.111212 
+folding candidates             === 5.562208 
+real	0m13.222s
+user	1m14.597s
+sys	0m10.883s
+        
+        thread 16
+        threadController : 1
+Read Header                    === 0.009295 
+Generate Dedispersion          === 0.801793 
+Dedisperse Subbands            === 1.371154 
+realfft                        === 0.533915 
+accelsearch                    === 2.919311 
+sifting candidates             === 0.112751 
+folding candidates             === 3.906745 
+real	0m10.168s
+user	1m35.041s
+sys	0m11.343s
+          
+          
+          
+          
+          
+TestData2
+          thread 1
+          threadController : 0
+Read Header                    === 0.009302 
+Generate Dedispersion          === 0.800848 
+Dedisperse Subbands            === 81.646578 
+realfft                        === 5.008840 
+accelsearch                    === 110.613099 
+sifting candidates             === 0.633296 
+folding candidates             === 208.369890 
+real	6m47.599s
+user	6m35.853s
+sys	0m19.429s
+            
+            thread 2
+            threadController : 1
+Read Header                    === 0.009331 
+Generate Dedispersion          === 0.799104 
+Dedisperse Subbands            === 43.321533 
+realfft                        === 3.179594 
+accelsearch                    === 57.808893 
+sifting candidates             === 0.662162 
+folding candidates             === 106.202895 
+real	3m32.501s
+user	6m43.390s
+sys	0m22.892s
+          
+              thread 4
+              threadController : 1
+Read Header                    === 0.009208 
+Generate Dedispersion          === 0.802750 
+Dedisperse Subbands            === 22.139673 
+realfft                        === 1.607336 
+accelsearch                    === 28.545756 
+sifting candidates             === 0.679785 
+folding candidates             === 54.164069 
+real	1m48.460s
+user	6m45.416s
+sys	0m23.414s
+          
+                thread 8
+                threadController : 1
+Read Header                    === 0.009494 
+Generate Dedispersion          === 0.806059 
+Dedisperse Subbands            === 14.293050 
+realfft                        === 1.088761 
+accelsearch                    === 16.042637 
+sifting candidates             === 0.663501 
+folding candidates             === 32.220073 
+real	1m5.640s
+user	7m27.879s
+sys	0m23.269s
+                  
+                  thread 16
+                  threadController : 1
+Read Header                    === 0.009347 
+Generate Dedispersion          === 0.804752 
+Dedisperse Subbands            === 12.658421 
+realfft                        === 0.933014 
+accelsearch                    === 11.914109 
+sifting candidates             === 0.662286 
+folding candidates             === 28.144343 
+real	0m55.642s
+user	11m28.272s
+sys	0m26.203s
+```
+
