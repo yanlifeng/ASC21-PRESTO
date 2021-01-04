@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "presto.h"
 #include "mask.h"
 #include "sigproc_fb.h"
@@ -12,16 +13,14 @@ extern void add_padding(float *fdata, float *padding, int numchan, int numtopad)
 /* Note:  Much of this has been ripped out of SIGPROC      */
 /* and then slightly modified.  Thanks Dunc!               */
 
-static void send_string(char *string, FILE * outfile)
-{
+static void send_string(char *string, FILE *outfile) {
     int len;
     len = strlen(string);
     chkfwrite(&len, sizeof(int), 1, outfile);
     chkfwrite(string, sizeof(char), len, outfile);
 }
 
-static void get_string(FILE * inputfile, int *nbytes, char string[])
-{
+static void get_string(FILE *inputfile, int *nbytes, char string[]) {
     int nchar;
     strcpy(string, "ERROR");
     chkfread(&nchar, sizeof(int), 1, inputfile);
@@ -34,8 +33,7 @@ static void get_string(FILE * inputfile, int *nbytes, char string[])
     *nbytes += nchar;
 }
 
-static int strings_equal(char *string1, char *string2)
-{
+static int strings_equal(char *string1, char *string2) {
     if (!strcmp(string1, string2)) {
         return 1;
     } else {
@@ -43,20 +41,17 @@ static int strings_equal(char *string1, char *string2)
     }
 }
 
-static void send_double(char *name, double double_precision, FILE * outfile)
-{
+static void send_double(char *name, double double_precision, FILE *outfile) {
     send_string(name, outfile);
     chkfwrite(&double_precision, sizeof(double), 1, outfile);
 }
 
-static void send_int(char *name, int integer, FILE * outfile)
-{
+static void send_int(char *name, int integer, FILE *outfile) {
     send_string(name, outfile);
     chkfwrite(&integer, sizeof(int), 1, outfile);
 }
 
-static void send_coords(double raj, double dej, double az, double za, FILE * outfile)
-{
+static void send_coords(double raj, double dej, double az, double za, FILE *outfile) {
     if ((raj != 0.0) || (raj != -1.0))
         send_double("src_raj", raj, outfile);
     if ((dej != 0.0) || (dej != -1.0))
@@ -67,140 +62,137 @@ static void send_coords(double raj, double dej, double az, double za, FILE * out
         send_double("za_start", za, outfile);
 }
 
-void get_telescope_name(int telescope_id, struct spectra_info *s)
-{
+void get_telescope_name(int telescope_id, struct spectra_info *s) {
     float default_beam = 1.0;   // deg
     switch (telescope_id) {
-    case 0:
-        strcpy(s->telescope, "Fake");
-        s->beam_FWHM = default_beam;
-        break;
-    case 1:
-        strcpy(s->telescope, "Arecibo");
-        // Don't use full 305m size for AO.  Use illuminated size.
-        s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 200.0);
-        break;
-    case 2:
-        strcpy(s->telescope, "Ooty");
-        s->beam_FWHM = default_beam;
-        break;
-    case 3:
-        strcpy(s->telescope, "Nancay");
-        s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 100.0);
-        break;
-    case 4:
-        strcpy(s->telescope, "Parkes");
-        s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 64.0);
-        break;
-    case 5:
-        strcpy(s->telescope, "Jodrell");
-        s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 76.0);
-        break;
-    case 6:
-        strcpy(s->telescope, "GBT");
-        s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 100.0);
-        break;
-    case 7:
-        strcpy(s->telescope, "GMRT");
-        s->beam_FWHM = default_beam;
-        break;
-    case 8:
-        strcpy(s->telescope, "Effelsberg");
-        s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 100.0);
-        break;
-    case 9:
-        strcpy(s->telescope, "ATA");
-        s->beam_FWHM = default_beam;
-        break;
-    case 10:
-        strcpy(s->telescope, "SRT");
-        s->beam_FWHM = default_beam;
-        break;
-    case 11:
-        strcpy(s->telescope, "LOFAR");
-        s->beam_FWHM = default_beam;
-        break;
-    case 12:
-        strcpy(s->telescope, "VLA");
-        s->beam_FWHM = default_beam;
-        break;
-    case 20:  // May need to change....
-        strcpy(s->telescope, "CHIME");
-        s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 20.0);
-        break;
-    case 21:  // May need to change....
-        strcpy(s->telescope, "FAST");
-        s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 350.0);
-        break;
-    case 64:
-        strcpy(s->telescope, "MeerKAT");
-        s->beam_FWHM = default_beam;
-        break;
-    case 65:
-        strcpy(s->telescope, "KAT-7");
-        s->beam_FWHM = default_beam;
-        break;
-    default:
-        strcpy(s->telescope, "Unknown");
-        s->beam_FWHM = default_beam;
-        break;
+        case 0:
+            strcpy(s->telescope, "Fake");
+            s->beam_FWHM = default_beam;
+            break;
+        case 1:
+            strcpy(s->telescope, "Arecibo");
+            // Don't use full 305m size for AO.  Use illuminated size.
+            s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 200.0);
+            break;
+        case 2:
+            strcpy(s->telescope, "Ooty");
+            s->beam_FWHM = default_beam;
+            break;
+        case 3:
+            strcpy(s->telescope, "Nancay");
+            s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 100.0);
+            break;
+        case 4:
+            strcpy(s->telescope, "Parkes");
+            s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 64.0);
+            break;
+        case 5:
+            strcpy(s->telescope, "Jodrell");
+            s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 76.0);
+            break;
+        case 6:
+            strcpy(s->telescope, "GBT");
+            s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 100.0);
+            break;
+        case 7:
+            strcpy(s->telescope, "GMRT");
+            s->beam_FWHM = default_beam;
+            break;
+        case 8:
+            strcpy(s->telescope, "Effelsberg");
+            s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 100.0);
+            break;
+        case 9:
+            strcpy(s->telescope, "ATA");
+            s->beam_FWHM = default_beam;
+            break;
+        case 10:
+            strcpy(s->telescope, "SRT");
+            s->beam_FWHM = default_beam;
+            break;
+        case 11:
+            strcpy(s->telescope, "LOFAR");
+            s->beam_FWHM = default_beam;
+            break;
+        case 12:
+            strcpy(s->telescope, "VLA");
+            s->beam_FWHM = default_beam;
+            break;
+        case 20:  // May need to change....
+            strcpy(s->telescope, "CHIME");
+            s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 20.0);
+            break;
+        case 21:  // May need to change....
+            strcpy(s->telescope, "FAST");
+            s->beam_FWHM = 2.0 / 3600.0 * beam_halfwidth(s->fctr, 350.0);
+            break;
+        case 64:
+            strcpy(s->telescope, "MeerKAT");
+            s->beam_FWHM = default_beam;
+            break;
+        case 65:
+            strcpy(s->telescope, "KAT-7");
+            s->beam_FWHM = default_beam;
+            break;
+        default:
+            strcpy(s->telescope, "Unknown");
+            s->beam_FWHM = default_beam;
+            break;
     }
 }
 
-void get_backend_name(int machine_id, struct spectra_info *s)
-{
+void get_backend_name(int machine_id, struct spectra_info *s) {
     char *backend, string[80];
     switch (machine_id) {
-    case 0:
-        strcpy(string, "FAKE");
-        break;
-    case 1:
-        strcpy(string, "PSPM");
-        break;
-    case 2:
-        strcpy(string, "WAPP");
-        break;
-    case 3:
-        strcpy(string, "AOFTM");
-        break;
-    case 4:
-        strcpy(string, "BPP");
-        break;
-    case 5:
-        strcpy(string, "OOTY");
-        break;
-    case 6:
-        strcpy(string, "SCAMP");
-        break;
-    case 7:
-        strcpy(string, "SPIGOT");
-        break;
-    case 11:
-        strcpy(string, "BG/P");
-        break;
-    case 12:
-        strcpy(string, "PDEV");
-        break;
-    case 20:
-        strcpy(string, "CHIME+PSR");
-        break;
-    case 64:
-        strcpy(string, "KAT");
-        break;
-    case 65:
-        strcpy(string, "KAT-DC2");
-        break;
-    default:
-        strcpy(s->backend, "Unknown");
-        break;
+        case 0:
+            strcpy(string, "FAKE");
+            break;
+        case 1:
+            strcpy(string, "PSPM");
+            break;
+        case 2:
+            strcpy(string, "WAPP");
+            break;
+        case 3:
+            strcpy(string, "AOFTM");
+            break;
+        case 4:
+            strcpy(string, "BPP");
+            break;
+        case 5:
+            strcpy(string, "OOTY");
+            break;
+        case 6:
+            strcpy(string, "SCAMP");
+            break;
+        case 7:
+            strcpy(string, "SPIGOT");
+            break;
+        case 11:
+            strcpy(string, "BG/P");
+            break;
+        case 12:
+            strcpy(string, "PDEV");
+            break;
+        case 20:
+            strcpy(string, "CHIME+PSR");
+            break;
+        case 64:
+            strcpy(string, "KAT");
+            break;
+        case 65:
+            strcpy(string, "KAT-DC2");
+            break;
+        default:
+            strcpy(s->backend, "Unknown");
+            break;
     }
     backend = (char *) calloc(strlen(string) + 1, 1);
     strcpy(backend, string);
 }
 
 
-void write_filterbank_header(sigprocfb * fb, FILE * outfile)
-{
+void write_filterbank_header(sigprocfb *fb, FILE *outfile) {
     int ii, jj;
 
     if (fb->machine_id != 0) {
@@ -237,8 +229,7 @@ void write_filterbank_header(sigprocfb * fb, FILE * outfile)
 }
 
 /* attempt to read in the general header info from a pulsar data file */
-int read_filterbank_header(sigprocfb * fb, FILE * inputfile)
-{
+int read_filterbank_header(sigprocfb *fb, FILE *inputfile) {
     char string[80], message[80];
     int itmp, nbytes = 0, totalbytes;
     int expecting_rawdatafile = 0, expecting_source_name = 0;
@@ -351,15 +342,13 @@ int read_filterbank_header(sigprocfb * fb, FILE * inputfile)
 }
 
 
-
-void read_filterbank_files(struct spectra_info *s)
-{
+void read_filterbank_files(struct spectra_info *s) {
     sigprocfb fb;
     int ii;
 
     // s->num_files and s->filenames are assumed to be set
     s->datatype = SIGPROCFB;
-    s->files = (FILE **) malloc(sizeof(FILE *) * s->num_files);
+    s->files = (FILE **) malloc(sizeof(FILE * ) * s->num_files);
     s->header_offset = gen_ivect(s->num_files);
     // The following two aren't used for filterbank data,
     // but they should be initialized for mpiprepsubband
@@ -488,8 +477,8 @@ void read_filterbank_files(struct spectra_info *s)
         }
         s->start_MJD[ii] = fb.tstart;
         s->start_spec[ii] =
-            (long long) ((s->start_MJD[ii] - s->start_MJD[0]) * SECPERDAY / s->dt +
-                         0.5);
+                (long long) ((s->start_MJD[ii] - s->start_MJD[0]) * SECPERDAY / s->dt +
+                             0.5);
         s->num_pad[ii - 1] = s->start_spec[ii] - s->N;
         s->num_spec[ii] = fb.N;
         s->N += s->num_spec[ii] + s->num_pad[ii - 1];
@@ -524,7 +513,7 @@ long long offset_to_filterbank_spectra(long long specnum, struct spectra_info *s
         chkfileseek(s->files[currentfile], 0, 1, SEEK_END);
         numbuffered = 0;
         numpadded =
-            specnum - (s->start_spec[currentfile] + s->num_spec[currentfile]);
+                specnum - (s->start_spec[currentfile] + s->num_spec[currentfile]);
         return specnum;
     }
     // Otherwise, seek to the spectra
@@ -544,6 +533,8 @@ int get_filterbank_rawblock(float *fdata, struct spectra_info *s, int *padding)
 // returned as 1, then padding was added and statistics should not be
 // calculated.  Return 1 on success.
 {
+//    printf("SIGPROC filterbank format\n");
+//    tag
     int numread, numtopad = 0, numtoread;
     float *fdataptr = fdata;
 
@@ -610,7 +601,7 @@ int get_filterbank_rawblock(float *fdata, struct spectra_info *s, int *padding)
         }
     }
 
-  return_block:
+    return_block:
     // Apply the corrections that need a full block
 
     // Invert the band if requested
@@ -708,6 +699,6 @@ void convert_filterbank_block(float *outdata, unsigned char *indata,
         }
     } else {
         printf
-            ("\nYikes!!! Not supposed to be here in convert_filterbank_block()\n\n");
+                ("\nYikes!!! Not supposed to be here in convert_filterbank_block()\n\n");
     }
 }

@@ -6,6 +6,8 @@ Weiwei Zhu
 Max-Plank Institute for Radio Astronomy
 zhuwwpku@gmail.com
 prepfold -ncpus 1 -n 64 -nsub 32 -dm 49.500000 -p 1.853673 GBT_Lband_PSR.fil -o Sband_DM49.50 -noxwin -nodmsearch
+
+prepfold -ncpus 1 -n 64 -nsub 32 -dm 83.400000 -p 8.241807 Dec+1554_arcdrift+23.4-M12_0194.fil -o Sband_DM83.40 -noxwin -nodmsearch
 """
 
 import os, sys, glob, re

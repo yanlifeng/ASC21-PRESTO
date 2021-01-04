@@ -12,7 +12,6 @@ static int cur_file = 0, cur_subint = 1, numbuffered = 0, offs_sub_are_zero = 0;
 static long long cur_spec = 0, new_spec = 0;
 
 extern double slaCldj(int iy, int im, int id, int *j);
-
 extern void add_padding(float *fdata, float *padding, int numchan, int numtopad);
 
 void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info *s);
@@ -136,6 +135,7 @@ int is_PSRFITS(char *filename)
     }
 
 
+
 void read_PSRFITS_files(struct spectra_info *s)
 // Read and convert PSRFITS information from a group of files
 // and place the resulting info into a spectra_info structure.
@@ -146,7 +146,7 @@ void read_PSRFITS_files(struct spectra_info *s)
     char ctmp[80], comment[120], err_text[81];
 
     s->datatype = PSRFITS;
-    s->fitsfiles = (fitsfile **) malloc(sizeof(fitsfile * ) * s->num_files);
+    s->fitsfiles = (fitsfile **) malloc(sizeof(fitsfile *) * s->num_files);
     s->start_subint = gen_ivect(s->num_files);
     s->num_subint = gen_ivect(s->num_files);
     s->start_spec = (long long *) malloc(sizeof(long long) * s->num_files);
@@ -238,7 +238,7 @@ void read_PSRFITS_files(struct spectra_info *s)
         s->chan_dm = 0.0;
         fits_read_key(s->fitsfiles[ii], TDOUBLE, "CHAN_DM",
                       &(s->chan_dm), comment, &status);
-        if (status == KEY_NO_EXIST) status = 0; // Prevents error messages on old files
+        if (status==KEY_NO_EXIST) status=0; // Prevents error messages on old files
         check_read_status("CHAN_DM");
         // Don't use the macros unless you are using the struct!
         fits_read_key(s->fitsfiles[ii], TINT, "STT_IMJD", &IMJD, comment, &status);
@@ -252,7 +252,7 @@ void read_PSRFITS_files(struct spectra_info *s)
         BE_DELAY = 0.0; // Back-end delay.  Will only be applied to STT*-based times
         fits_read_key(s->fitsfiles[ii], TDOUBLE, "BE_DELAY", &BE_DELAY, comment,
                       &status);
-        if (status == KEY_NO_EXIST) status = 0; // Prevents error messages on old files
+        if (status==KEY_NO_EXIST) status=0; // Prevents error messages on old files
         check_read_status("BE_DELAY");
         s->start_MJD[ii] += ((long double) SMJD +
                              (long double) OFFS +
@@ -293,7 +293,7 @@ void read_PSRFITS_files(struct spectra_info *s)
         s->zero_offset = 0.0;
         fits_read_key(s->fitsfiles[ii], TFLOAT, "ZERO_OFF",
                       &(s->zero_offset), comment, &status);
-        if (status == KEY_NO_EXIST) status = 0; // Prevents error messages on old files
+        if (status==KEY_NO_EXIST) status=0; // Prevents error messages on old files
         check_read_status("ZERO_OFF");
         s->zero_offset = fabs(s->zero_offset);
 
@@ -345,13 +345,13 @@ void read_PSRFITS_files(struct spectra_info *s)
                     if (offs_sub != 0.0) {
                         offs_sub_are_zero = 0;
                         perror
-                                ("Error!:  Some, but not all OFFS_SUB are 0.0.  Not good PSRFITS.\n");
+                            ("Error!:  Some, but not all OFFS_SUB are 0.0.  Not good PSRFITS.\n");
                         exit(EXIT_FAILURE);
                     }
                 }
                 if (offs_sub_are_zero) {
                     printf
-                            ("Warning!:  All OFFS_SUB are 0.0.  Assuming no missing rows.\n");
+                        ("Warning!:  All OFFS_SUB are 0.0.  Assuming no missing rows.\n");
                 }
                 // Check to see if there is an INDEXVAL column.  That should tell
                 // us if we are missing any subints.  Use it in lieu of OFFS_SUB
@@ -359,7 +359,7 @@ void read_PSRFITS_files(struct spectra_info *s)
                                 &status);
                 if (status == COL_NOT_FOUND) {
                     printf
-                            ("Warning!:  No INDEXVAL column, either.  This is not proper PSRFITS.\n");
+                        ("Warning!:  No INDEXVAL column, either.  This is not proper PSRFITS.\n");
                     status = 0; // Reset status
                     s->start_subint[ii] = 0;
                 } else {
@@ -460,15 +460,15 @@ void read_PSRFITS_files(struct spectra_info *s)
                         if ((fabs(ftmp - s->df) > 1e-7) && !trigger) {
                             trigger = 1;
                             printf
-                                    ("Warning!:  Channel spacing changes in file %d!\n",
-                                     ii);
+                                ("Warning!:  Channel spacing changes in file %d!\n",
+                                 ii);
                         }
                     }
                 } else {
                     ftmp = fabs(s->df - (freqs[1] - freqs[0]));
                     if (ftmp > 1e-7)
                         printf
-                                ("Warning!:  Channel spacing changes between files!\n");
+                            ("Warning!:  Channel spacing changes between files!\n");
                     ftmp = fabs(s->lo_freq - freqs[0]);
                     if (ftmp > 1e-7)
                         printf("Warning!:  Low channel changes between files!\n");
@@ -520,7 +520,7 @@ void read_PSRFITS_files(struct spectra_info *s)
                         s->dat_offs_col = colnum;
                     } else if (colnum != s->dat_offs_col) {
                         printf
-                                ("Warning!:  DAT_OFFS column changes between files!\n");
+                            ("Warning!:  DAT_OFFS column changes between files!\n");
                     }
                     float *fvec = (float *) malloc(sizeof(float) *
                                                    s->num_channels * s->num_polns);
@@ -746,11 +746,11 @@ int get_PSRFITS_rawblock(float *fdata, struct spectra_info *s, int *padding)
             // Note: need to remove start_subint because that was already put
             // into start_spec.  This is important if initial rows are gone.
             new_spec = s->start_spec[cur_file] +
-                       roundl((offs_sub - (s->start_subint[cur_file] + 0.5)
-                                          * s->time_per_subint) / s->dt);
+                roundl((offs_sub - (s->start_subint[cur_file] + 0.5)
+                        * s->time_per_subint) / s->dt);
         } else {
             new_spec = s->start_spec[cur_file] +
-                       (cur_subint - 1) * s->spectra_per_subint;
+                (cur_subint - 1) * s->spectra_per_subint;
         }
 
         //printf("cur/new_spec = %lld, %lld  s->start_spec[cur_file] = %lld\n",
@@ -786,12 +786,12 @@ int get_PSRFITS_rawblock(float *fdata, struct spectra_info *s, int *padding)
         goto padding_block;
     }
 
-    padding_block:
+  padding_block:
     if (new_spec < cur_spec) {
         // Files out of order?  Shouldn't get here.
         fprintf(stderr, "Error!:  Current subint has earlier time than previous!\n\n"
-                        "\tfilename = '%s', subint = %d\n"
-                        "\tcur_spec = %lld  new_spec = %lld\n",
+                "\tfilename = '%s', subint = %d\n"
+                "\tcur_spec = %lld  new_spec = %lld\n",
                 s->filenames[cur_file], cur_subint, cur_spec, new_spec);
         exit(1);
     }
@@ -815,7 +815,7 @@ int get_PSRFITS_rawblock(float *fdata, struct spectra_info *s, int *padding)
         goto return_block;
     }
 
-    return_block:
+  return_block:
     // Apply the corrections that need a full block
 
     // Invert the band if needed
@@ -834,7 +834,8 @@ int get_PSRFITS_rawblock(float *fdata, struct spectra_info *s, int *padding)
 }
 
 
-void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info *s) {
+void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info *s)
+{
     unsigned char *ctmp = cdata;
     int ii, status = 0, anynull;
     int numtoread = s->samples_per_subint;
@@ -867,7 +868,7 @@ void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info 
 
     if (status) {
         fprintf(stderr, "Error!:  Problem reading record from PSRFITS data file\n"
-                        "\tfilename = '%s', subint = %d.  FITS status = %d.  Exiting.\n",
+                "\tfilename = '%s', subint = %d.  FITS status = %d.  Exiting.\n",
                 s->filenames[cur_file], cur_subint, status);
         exit(1);
     }
@@ -947,11 +948,11 @@ void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info 
                     int jj;
                     float *fptr = fdata + ii * s->num_channels;
                     const short *sptr =
-                            (short *) cdata + ii * s->samples_per_spectra + idx;
+                        (short *) cdata + ii * s->samples_per_spectra + idx;
                     for (jj = 0; jj < s->num_channels; jj++)
                         fptr[jj] =
-                                (((float) sptr[jj] - s->zero_offset) * scales[idx + jj] +
-                                 offsets[idx + jj]) * weights[jj];
+                            (((float) sptr[jj] - s->zero_offset) * scales[idx + jj] +
+                             offsets[idx + jj]) * weights[jj];
                 }
             } else if (s->bits_per_sample == 32) {
 #ifdef _OPENMP
@@ -961,12 +962,12 @@ void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info 
                     int jj;
                     float *fptr = fdata + ii * s->num_channels;
                     const float *ftptr =
-                            (float *) cdata + ii * s->samples_per_spectra + idx;
+                        (float *) cdata + ii * s->samples_per_spectra + idx;
                     for (jj = 0; jj < s->num_channels; jj++)
                         fptr[jj] =
-                                (((float) ftptr[jj] - s->zero_offset) * scales[idx +
-                                                                               jj] +
-                                 offsets[idx + jj]) * weights[jj];
+                            (((float) ftptr[jj] - s->zero_offset) * scales[idx +
+                                                                           jj] +
+                             offsets[idx + jj]) * weights[jj];
                 }
             } else {
 #ifdef _OPENMP
@@ -976,11 +977,11 @@ void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info 
                     int jj;
                     float *fptr = fdata + ii * s->num_channels;
                     const unsigned char *cptr =
-                            cdata + ii * s->samples_per_spectra + idx;
+                        cdata + ii * s->samples_per_spectra + idx;
                     for (jj = 0; jj < s->num_channels; jj++)
                         fptr[jj] =
-                                (((float) cptr[jj] - s->zero_offset) * scales[idx + jj] +
-                                 offsets[idx + jj]) * weights[jj];
+                            (((float) cptr[jj] - s->zero_offset) * scales[idx + jj] +
+                             offsets[idx + jj]) * weights[jj];
                 }
             }
         } else if (sum_polns) { // sum the polns if there are 2 by default
@@ -993,15 +994,15 @@ void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info 
                     int jj;
                     float *fptr = fdata + ii * s->num_channels;
                     const short *sptr =
-                            (short *) cdata + ii * s->samples_per_spectra;
+                        (short *) cdata + ii * s->samples_per_spectra;
                     for (jj = 0; jj < s->num_channels; jj++) {
                         fptr[jj] =
-                                (((float) sptr[jj] - s->zero_offset) * scales[jj] +
-                                 offsets[jj]) * weights[jj];
+                            (((float) sptr[jj] - s->zero_offset) * scales[jj] +
+                             offsets[jj]) * weights[jj];
                         fptr[jj] +=
-                                (((float) sptr[jj + idx] - s->zero_offset) * scales[idx +
-                                                                                    jj] +
-                                 offsets[idx + jj]) * weights[jj];
+                            (((float) sptr[jj + idx] - s->zero_offset) * scales[idx +
+                                                                                jj] +
+                             offsets[idx + jj]) * weights[jj];
                     }
                 }
             } else if (s->bits_per_sample == 32) {
@@ -1012,16 +1013,16 @@ void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info 
                     int jj;
                     float *fptr = fdata + ii * s->num_channels;
                     const float *ftptr =
-                            (float *) cdata + ii * s->samples_per_spectra;
+                        (float *) cdata + ii * s->samples_per_spectra;
                     for (jj = 0; jj < s->num_channels; jj++) {
                         fptr[jj] =
-                                (((float) ftptr[jj] - s->zero_offset) * scales[jj] +
-                                 offsets[jj]) * weights[jj];
+                            (((float) ftptr[jj] - s->zero_offset) * scales[jj] +
+                             offsets[jj]) * weights[jj];
                         fptr[jj] +=
-                                (((float) ftptr[jj + idx] -
-                                  s->zero_offset) * scales[idx + jj] + offsets[idx +
-                                                                               jj]) *
-                                weights[jj];
+                            (((float) ftptr[jj + idx] -
+                              s->zero_offset) * scales[idx + jj] + offsets[idx +
+                                                                           jj]) *
+                            weights[jj];
                     }
                 }
             } else {
@@ -1034,12 +1035,12 @@ void get_PSRFITS_subint(float *fdata, unsigned char *cdata, struct spectra_info 
                     const unsigned char *cptr = cdata + ii * s->samples_per_spectra;
                     for (jj = 0; jj < s->num_channels; jj++) {
                         fptr[jj] =
-                                (((float) cptr[jj] - s->zero_offset) * scales[jj] +
-                                 offsets[jj]) * weights[jj];
+                            (((float) cptr[jj] - s->zero_offset) * scales[jj] +
+                             offsets[jj]) * weights[jj];
                         fptr[jj] +=
-                                (((float) cptr[jj + idx] - s->zero_offset) * scales[idx +
-                                                                                    jj] +
-                                 offsets[idx + jj]) * weights[jj];
+                            (((float) cptr[jj + idx] - s->zero_offset) * scales[idx +
+                                                                                jj] +
+                             offsets[idx + jj]) * weights[jj];
                     }
                 }
             }

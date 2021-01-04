@@ -28,8 +28,10 @@ FILE *chkfopen(char *path, const char *mode) {
 
 size_t chkfread(void *data, size_t type, size_t number, FILE *stream) {
     size_t num;
-
+//    printf("\n\nnow read %d datas ...\n", number);
     num = fread(data, type, number, stream);
+//    printf("success read %d datas ...\n\n", num);
+
     if (num != number && ferror(stream)) {
         perror("\nError in chkfread()");
         printf("\n");

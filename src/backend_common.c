@@ -665,11 +665,6 @@ int prep_subbands(float *fdata, float *rawdata, int *delays, int numsubbands,
     static float *currentdata, *lastdata;
     static int firsttime = 1, mask = 0;
     static fftwf_plan tplan1, tplan2;
-//    float *tmpswap, *rawdata1, *rawdata2;
-//    float *currentdata, *lastdata;
-//    int firsttime = 1, mask = 0;
-//    fftwf_plan tplan1, tplan2;
-
     *nummasked = 0;
     if (firsttime) {
         if (obsmask->numchan)
@@ -799,18 +794,18 @@ int prep_subbandss(float *fdata, float *rawdata, int *delays, int numsubbands,
     fftwf_plan tplan1, tplan2;
 
     *nummasked = 0;
-    if (firsttime) {
-        if (obsmask->numchan)
-            mask = 1;
-        rawdata1 = gen_fvect(s->spectra_per_subint * s->num_channels);
-        rawdata2 = gen_fvect(s->spectra_per_subint * s->num_channels);
-        currentdata = rawdata1;
-        lastdata = rawdata2;
-        // Make plans to do fast transposes using FFTW
-        tplan1 = plan_transpose(s->spectra_per_subint, s->num_channels,
-                                currentdata, currentdata);
-        tplan2 = plan_transpose(numsubbands, s->spectra_per_subint, fdata, fdata);
-    }
+//    if (firsttime) {
+    if (obsmask->numchan)
+        mask = 1;
+    rawdata1 = gen_fvect(s->spectra_per_subint * s->num_channels);
+    rawdata2 = gen_fvect(s->spectra_per_subint * s->num_channels);
+    currentdata = rawdata1;
+    lastdata = rawdata2;
+    // Make plans to do fast transposes using FFTW
+    tplan1 = plan_transpose(s->spectra_per_subint, s->num_channels,
+                            currentdata, currentdata);
+    tplan2 = plan_transpose(numsubbands, s->spectra_per_subint, fdata, fdata);
+//    }
 
     /* Read and de-disperse */
     memcpy(currentdata, rawdata,
@@ -916,9 +911,6 @@ int read_subbands(float *fdata, int *delays, int numsubbands,
 {
     static int firsttime = 1;
     static float *frawdata;
-//    int firsttime = 1;
-//    float *frawdata;
-
     if (firsttime) {
         // Check to make sure there isn't more dispersion across a
         // subband than time in a block of data
@@ -929,6 +921,8 @@ int read_subbands(float *fdata, int *delays, int numsubbands,
         }
         // Needs to be twice as large for buffering if adding observations together
         frawdata = gen_fvect(2 * s->num_channels * s->spectra_per_subint);
+
+
         if (!s->get_rawblock(frawdata, s, padding)) {
             perror("Error: problem reading the raw data file in read_subbands()");
             exit(-1);
@@ -940,6 +934,8 @@ int read_subbands(float *fdata, int *delays, int numsubbands,
         }
         firsttime = 0;
     }
+//    printf(" s->num_channels %d, s->spectra_per_subint %d\n", s->num_channels, s->spectra_per_subint);
+
     if (!s->get_rawblock(frawdata, s, padding)) {
         return 0;
     }
@@ -972,36 +968,37 @@ int read_subbandss(float *fdata, int *delays, int numsubbands,
 // arranged by subband as above.
 
 {
-//    static int firsttime = 1;
-//    static float *frawdata;
-    int firsttime = 1;
+
+    //这里1 ～ npart-1的循环，可以忽略firstime 直接进行后面的操作
+
+//   int firsttime = 1;
     float *frawdata;
 
-    if (firsttime) {
-        // Check to make sure there isn't more dispersion across a
-        // subband than time in a block of data
-        if (delays[0] > s->spectra_per_subint) {
-            perror("\nError: there is more dispersion across a subband than time\n"
-                   "in a block of data.  Increase spectra_per_subint if possible.");
-            exit(-1);
-        }
-        // Needs to be twice as large for buffering if adding observations together
-        frawdata = gen_fvect(2 * s->num_channels * s->spectra_per_subint);
-        if (!s->get_rawblock(frawdata, s, padding)) {
-            perror("Error: problem reading the raw data file in read_subbands()");
-            exit(-1);
-        }
-        if (0 != prep_subbandss(fdata, frawdata, delays, numsubbands, s,
-                               transpose, maskchans, nummasked, obsmask)) {
-            perror("Error: problem initializing prep_subbandss() in read_subbands()");
-            exit(-1);
-        }
-        firsttime = 0;
+//    if (firsttime) {
+    // Check to make sure there isn't more dispersion across a
+    // subband than time in a block of data
+    if (delays[0] > s->spectra_per_subint) {
+        perror("\nError: there is more dispersion across a subband than time\n"
+               "in a block of data.  Increase spectra_per_subint if possible.");
+        exit(-1);
     }
+    // Needs to be twice as large for buffering if adding observations together
+    frawdata = gen_fvect(2 * s->num_channels * s->spectra_per_subint);
+//        if (!s->get_rawblock(frawdata, s, padding)) {
+//            perror("Error: problem reading the raw data file in read_subbands()");
+//            exit(-1);
+//        }
+//        if (0 != prep_subbandss(fdata, frawdata, delays, numsubbands, s,
+//                                transpose, maskchans, nummasked, obsmask)) {
+//            perror("Error: problem initializing prep_subbandss() in read_subbands()");
+//            exit(-1);
+//        }
+//        firsttime = 0;
+//    }
     if (!s->get_rawblock(frawdata, s, padding)) {
         return 0;
     }
-    if (prep_subbandss(fdata, frawdata, delays, numsubbands, s, transpose,
+    if (prep_subbands(fdata, frawdata, delays, numsubbands, s, transpose,
                       maskchans, nummasked, obsmask) == s->spectra_per_subint) {
         currentspectra += s->spectra_per_subint;
         return s->spectra_per_subint;
