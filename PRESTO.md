@@ -31,7 +31,9 @@ TODO
 - [x] 解决fold中没有权限的问题
 - [ ] fftw换成mkl的
 - [ ] 解决icc和gcc答案不一样
-- [ ] 解决Ofast ffast-math
+- [x] 解决Ofast ffast-math
+- [ ] 优化常数
+- [ ] python脚本多线程调度优化
 - [ ] 
 - [ ] 
 - [ ] 
@@ -722,7 +724,7 @@ sys	0m11.343s
           
           
           
-          
+          7。 19
 TestData2
           thread 1
           threadController : 0
@@ -835,6 +837,128 @@ folding candidates             === 193.285013
 real	6m36.949s
 user	6m40.128s
 sys	1m15.584s
-  
+  threadController : 0
+Read Header                    === 0.004236 
+Generate Dedispersion          === 0.779492 
+Dedisperse Subbands            === 64.828926 
+realfft                        === 7.036161 
+accelsearch                    === 130.235032 
+sifting candidates             === 0.802138 
+folding candidates             === 172.534127 
+real	6m16.758s
+user	6m37.204s
+sys	0m59.044s
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    icc 1 mkl
+    Read Header                    === 0.007870 
+Generate Dedispersion          === 0.805529 
+Dedisperse Subbands            === 137.431707 
+sifting candidates             === 0.803115 
+folding candidates             === 153.778808 
+
+
+real	4m53.372s
+user	5m12.488s
+sys	0m59.620s
+    
+    
+    icc thread 4 mkl
+    Read Header                    === 0.010442 
+Generate Dedispersion          === 0.839771 
+Dedisperse Subbands            === 135.803133 
+sifting candidates             === 0.818936 
+folding candidates             === 153.575173 
+
+
+real	4m51.563s
+user	5m57.160s
+sys	1m3.220s
+    
+    
+   icc 2 mkl
+    Read Header                    === 0.007874 
+Generate Dedispersion          === 0.807052 
+Dedisperse Subbands            === 135.600354 
+sifting candidates             === 0.812684 
+folding candidates             === 157.650206 
+
+
+real	4m55.413s
+user	5m31.940s
+sys	1m0.644s
+    
+    
+    icc fftw 1
+    Read Header                    === 0.007823 
+Generate Dedispersion          === 0.819244 
+Dedisperse Subbands            === 136.176202 
+sifting candidates             === 0.805032 
+folding candidates             === 157.569310 
+
+
+real	4m55.936s
+user	5m33.264s
+sys	1m1.588s
+    icc fftw 2
+    Read Header                    === 0.007823 
+Generate Dedispersion          === 0.819684 
+Dedisperse Subbands            === 135.511805 
+sifting candidates             === 0.830741 
+folding candidates             === 157.842225 
+
+
+real	4m55.530s
+user	5m33.772s
+sys	1m0.884s
+    
+    
+    icc fftw 4
+    xxx
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    new python thread 8 TaskData2
+    
+    Read Header                    === 0.004318 
+Generate Dedispersion          === 0.808026 
+Dedisperse Subbands            === 46.589604 
+sifting candidates             === 0.835228 
+folding candidates             === 54.094108 
+real	1m42.832s
+user	12m13.708s
+sys	0m28.788s
+    
+    old ...
+    threadController : 1
+Read Header                    === 0.004347 
+Generate Dedispersion          === 0.777349 
+Dedisperse Subbands            === 23.426509 
+realfft                        === 0.996931 
+accelsearch                    === 24.405913 
+sifting candidates             === 0.827986 
+folding candidates             === 52.915927 
+real	1m43.886s
+user	12m2.004s
+sys	0m28.084s
 ```
 
