@@ -790,3 +790,51 @@ user	11m28.272s
 sys	0m26.203s
 ```
 
+
+
+
+
+
+
+```c++
+now 7788
+  TestData1
+  threadController : 0
+Read Header                    === 0.005434 
+Generate Dedispersion          === 0.788359 
+Dedisperse Subbands            === 8.216465 
+realfft                        === 4.900889 
+accelsearch                    === 30.942969 
+sifting candidates             === 0.150914 
+folding candidates             === 29.973121 
+real	1m15.507s
+user	1m20.492s
+sys	0m20.508s
+threadController : 0
+Read Header                    === 0.004315 
+Generate Dedispersion          === 0.809494 
+Dedisperse Subbands            === 8.163039 
+realfft                        === 4.833643 
+accelsearch                    === 30.673778 
+sifting candidates             === 0.150381 
+folding candidates             === 27.412909 
+real	1m12.572s
+user	1m19.304s
+sys	0m19.980s
+    
+    
+  TestData2
+  threadController : 0
+Read Header                    === 0.004169 
+Generate Dedispersion          === 0.798403 
+Dedisperse Subbands            === 64.531641 
+realfft                        === 6.747967 
+accelsearch                    === 130.243942 
+sifting candidates             === 0.818875 
+folding candidates             === 193.285013 
+real	6m36.949s
+user	6m40.128s
+sys	1m15.584s
+  
+```
+

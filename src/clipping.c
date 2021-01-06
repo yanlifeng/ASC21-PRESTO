@@ -97,6 +97,12 @@ int clip_times(float *rawdata, int ptsperblk, int numchan, float clip_sigma,
     current_std = sqrt(current_std);
     current_med = median(ftmp, ptsperblk);
 
+    //对于二维的rawdata，先统计每行的sum 存在zero_dm_block 和 ftmp
+    //然后用ftmp 求平均值和标准差等 下面做一个筛选
+    //距离中值太远的被过滤 然后那剩下的行 统计每列的sum chan_avg_temp
+    //以及剩下的行的sum ftmp
+    //然后重新计算均值和方差 chan_avg_temp即列的均值
+
     /* Calculate the current standard deviation and mean  */
     /* but only for data points that are within a certain */
     /* fraction of the median value.  This removes the    */
@@ -140,8 +146,12 @@ int clip_times(float *rawdata, int ptsperblk, int numchan, float clip_sigma,
         }
     }
 
+    //这里往后就是不太好改的地方  因为他依赖上次的数据
+    //如果是第一次 running就是currents
+    //否则 就是上次的*0.9 + 这次*0.1
+
     /* Update a pseudo running average and stdev */
-    if (blocksread) {
+    if (blocksread > 0) {
 //        printf("blocksread1\n");
 
         running_avg = 0.9 * running_avg + 0.1 * current_avg;
@@ -180,8 +190,8 @@ int clip_times(float *rawdata, int ptsperblk, int numchan, float clip_sigma,
         clipit = 1;
 
     /* Update the good channel levels */
-    for (ii = 0; ii < numchan; ii++)
-        good_chan_levels[ii] = chan_running_avg[ii];
+//    for (ii = 0; ii < numchan; ii++)
+//        good_chan_levels[ii] = chan_running_avg[ii];
 
     /* Replace the bad channel data with channel median values */
     /* that are scaled to equal the running_avg.               */
@@ -193,7 +203,8 @@ int clip_times(float *rawdata, int ptsperblk, int numchan, float clip_sigma,
                               && current_point <= offbins[onoffindex]))) {
                 powptr = rawdata + ii * numchan;
                 for (jj = 0; jj < numchan; jj++)
-                    *powptr++ = good_chan_levels[jj];
+                    *powptr++ = chan_running_avg[jj];
+//                    *powptr++ = good_chan_levels[jj];
                 clipped++;
 
                 //fprintf(stderr, "zapping %lld\n", current_point);

@@ -50,7 +50,7 @@ FC = gfortran
 #FC = ifort
 
 # Set this to true if you want to use OpenMP.  false otherwise
-USEOPENMP = true
+USEOPENMP = false
 
 # Set this to true if you want to profile.
 USEPROFILE = false
@@ -58,7 +58,7 @@ USEPROFILE = false
 # Very recent Intel CPUs might see a few percent speedup using -mavx
 CFLAGS = -I$(PRESTO)/include $(GLIBINC) $(CFITSIOINC) $(PGPLOTINC) $(FFTINC) \
 	-DUSEMMAP -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
-	-g -Wall -W -fPIC -O3 -ffast-math -DUOMP
+	-g -Wall -W -fPIC -O3 -ffast-math
 #	-g -Wall -W -fPIC -O3 -ffast-math -D PFOL
 #	-g -Wall -W -fPIC -O3 -ffast-math -D PFOL2
 #	-g -Wall -W -fPIC -O3 -ffast-math -D PACCs

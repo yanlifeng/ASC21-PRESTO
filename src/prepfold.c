@@ -1471,12 +1471,7 @@ int main(int argc, char *argv[]) {
 
 
         float *dataNow[cmd->npart][reads_per_part];
-
-//        clock_t tt0 = clock();
-//#ifdef UOMP
-//#pragma omp parallel for default(shared) reduction(+:totnumfolded)
-//#endif
-        for (int idi = 0; idi < cmd->npart; idi++) {
+        for (int idi = 0; idi < 1; idi++) {
             int id = indexs[idi];
             parttimes[id] = id * reads_per_part * proftime;
             for (jj = 0; jj < reads_per_part; jj++) {
@@ -1487,15 +1482,33 @@ int main(int argc, char *argv[]) {
                 long numreadNow = 0;
                 if (cmd->maskfileP)
                     maskchansNow = gen_ivect(obsmask.numchan);
-                if (id == 0) {
-                    numreadNow =
-                            read_subbands(dataNow[id][jj], idispdts, cmd->nsub, &s, 1, &paddingNow,
-                                          maskchansNow, &nummaskedNow, &obsmask);
-                } else {
-                    numreadNow =
-                            read_subbandss(dataNow[id][jj], idispdts, cmd->nsub, &s, 1, &paddingNow,
-                                           maskchansNow, &nummaskedNow, &obsmask);
-                }
+                numreadNow =
+                        read_subbands(dataNow[id][jj], idispdts, cmd->nsub, &s, 1, &paddingNow,
+                                      maskchansNow, &nummaskedNow, &obsmask);
+                numreads[id][jj] = numreadNow;
+                totnumfolded += numreadNow;
+            }
+            foldAns[id] = totnumfolded;
+        }
+
+
+//        clock_t tt0 = clock();
+//#ifdef UOMP
+//#pragma omp parallel for default(shared) reduction(+:totnumfolded)
+//#endif
+        for (int idi = 1; idi < cmd->npart; idi++) {
+            int id = indexs[idi];
+            parttimes[id] = id * reads_per_part * proftime;
+            for (jj = 0; jj < reads_per_part; jj++) {
+                dataNow[id][jj] = gen_fvect(cmd->nsub * worklen);
+                int paddingNow = 0;
+                int *maskchansNow = NULL;
+                int nummaskedNow = 0;
+                long numreadNow = 0;
+                if (cmd->maskfileP)
+                    maskchansNow = gen_ivect(obsmask.numchan);
+                numreadNow = read_subbandss(dataNow[id][jj], idispdts, cmd->nsub, &s, 1, &paddingNow,
+                                            maskchansNow, &nummaskedNow, &obsmask);
                 numreads[id][jj] = numreadNow;
                 totnumfolded += numreadNow;
             }
@@ -1525,6 +1538,7 @@ int main(int argc, char *argv[]) {
                 fold_time0 = parttimes[ii] + jj * proftime;
 
                 for (kk = 0; kk < cmd->nsub; kk++) {
+
                     /* This is a quick hack to see if it will remove power drifts */
                     if (cmd->runavgP && (numreads[ii][jj] > 0)) {
                         int dataptr;
