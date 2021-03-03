@@ -185,7 +185,7 @@ int getIntOpts(int argc, char **argv, int i, int **values, int cmin, int cmax)
         exit(EXIT_FAILURE);
     }
 
-                                  /*****
+                                  /***** 
     alloc a bit more than cmin values. It does not hurt to have room
     for a bit more values than cmax.
   *****/
@@ -301,7 +301,7 @@ int getLongOpts(int argc, char **argv, int i, long **values, int cmin, int cmax)
         exit(EXIT_FAILURE);
     }
 
-                                  /*****
+                                  /***** 
     alloc a bit more than cmin values. It does not hurt to have room
     for a bit more values than cmax.
   *****/
@@ -415,7 +415,7 @@ int getFloatOpts(int argc, char **argv, int i, float **values, int cmin, int cma
         exit(EXIT_FAILURE);
     }
 
-                                  /*****
+                                  /***** 
     alloc a bit more than cmin values.
   *****/
     alloced = cmin + 4;
@@ -525,7 +525,7 @@ int getDoubleOpts(int argc, char **argv, int i, double **values, int cmin, int c
         exit(EXIT_FAILURE);
     }
 
-                                  /*****
+                                  /***** 
     alloc a bit more than cmin values.
   *****/
     alloced = cmin + 4;

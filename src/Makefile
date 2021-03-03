@@ -31,6 +31,13 @@ PGPLOTLINK = -L$(PGPLOT_DIR) -lcpgplot -lpgplot $(X11LINK) $(PNGLINK)
 # Include and link information for the FFTW 3.X single-precision library
 FFTINC := $(shell pkg-config --cflags fftw3f)
 FFTLINK := $(shell pkg-config --libs fftw3f)
+#
+#FFTINC :=-I/usr/local/include
+#FFTLINK := -L/usr/local/lib -lfftw3f_threads -lfftw3f -lm
+#
+#FFTINC :=-I/home/asc/intel/mkl/include/fftw
+#FFTLINK := -L/home/asc/intel/mkl/lib/intel64 -lfftw3f
+#FFTLINK := -L/home/asc/intel/mkl/lib/intel64 -lfftw3f_threads -lfftw3f -lm
 
 # Include and link information for the GLIB 2.0 library
 GLIBINC := $(shell pkg-config --cflags glib-2.0)
@@ -45,7 +52,6 @@ PRESTOLINK = $(CFITSIOLINK) -L$(PRESTO)/lib -lpresto $(FFTLINK)
 
 CC = gcc
 FC = gfortran
-
 #CC = icc
 #FC = ifort
 
@@ -59,11 +65,9 @@ USEPROFILE = false
 CFLAGS = -I$(PRESTO)/include $(GLIBINC) $(CFITSIOINC) $(PGPLOTINC) $(FFTINC) \
 	-DUSEMMAP -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
 	-g -Wall -W -fPIC -O3 -ffast-math
-#	-g -Wall -W -fPIC -O3 -ffast-math -D PFOL
-#	-g -Wall -W -fPIC -O3 -ffast-math -D PFOL2
-#	-g -Wall -W -fPIC -O3 -ffast-math -D PACCs
-
-
+#CFLAGS = -I$(PRESTO)/include $(GLIBINC) $(CFITSIOINC) $(PGPLOTINC) $(FFTINC) \
+	-DUSEMMAP -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 \
+	-g -Wall -W -fPIC -Ofast -fp-model precise
 CLINKFLAGS = $(CFLAGS) -Wl,-rpath,$(PRESTO)/lib
 
 # Add some GCC-specific flags that are useful
@@ -77,8 +81,8 @@ endif
 # NOTE:  Be careful of upping the optimization on the
 #        FFLAGs.  Certain compilers (i.e. on Intel Macs) will
 #        cause errors for the code in least_squares.f
-#FFLAGS = -g -fPIC -nofor-main
 FFLAGS = -g -fPIC
+#FFLAGS = -g -fPIC -nofor-main
 FLINKFLAGS = $(FFLAGS) -Wl,-rpath,$(PRESTO)/lib
 
 # Add flags we need for openmp

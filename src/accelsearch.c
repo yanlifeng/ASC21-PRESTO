@@ -1,5 +1,5 @@
 #include "accel.h"
-#include <time.h>
+
 /*#undef USEMMAP*/
 
 #ifdef USEMMAP
@@ -16,11 +16,11 @@
 extern void set_openmp_numthreads(int numthreads);
 #endif
 
-extern float calc_median_powers(fcomplex *amplitudes, int numamps);
+extern float calc_median_powers(fcomplex * amplitudes, int numamps);
+extern void zapbirds(double lobin, double hibin, FILE * fftfile, fcomplex * fft);
 
-extern void zapbirds(double lobin, double hibin, FILE *fftfile, fcomplex *fft);
-
-static void print_percent_complete(int current, int number, char *what, int reset) {
+static void print_percent_complete(int current, int number, char *what, int reset)
+{
     static int newper = 0, oldper = -1;
 
     if (reset) {
@@ -40,7 +40,8 @@ static void print_percent_complete(int current, int number, char *what, int rese
     }
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     int ii, rstep;
     double ttim, utim, stim, tott;
     struct tms runtimes;
@@ -177,8 +178,8 @@ int main(int argc, char *argv[]) {
                 free_ffdotpows(fundamental);
                 startr = nextr;
             }
-        }
-
+        }    
+        
         /* Reset indices if needed and search for real */
         startr = obs.rlo;
         lastr = 0;
@@ -207,9 +208,9 @@ int main(int argc, char *argv[]) {
                             inmem_add_subharm(fundamental, &obs, harmtosum, harm);
                         } else {
                             subharmonic =
-                                    subharm_fderivs_vol(harmtosum, harm, startr, lastr,
-                                                        &subharminfs[stage][harm - 1],
-                                                        &obs);
+                                subharm_fderivs_vol(harmtosum, harm, startr, lastr,
+                                                    &subharminfs[stage][harm - 1],
+                                                    &obs);
                             add_subharm(fundamental, subharmonic, harmtosum, harm);
                             free_ffdotpows(subharmonic);
                         }
@@ -241,28 +242,23 @@ int main(int argc, char *argv[]) {
             /* Eliminate (most of) the harmonically related candidates */
             if ((cmd->numharm > 1) && !(cmd->noharmremoveP))
                 eliminate_harmonics(cands, &numcands);
-#ifdef PACC
-            clock_t t = clock();
-#endif
+
             /* Now optimize each candidate and its harmonics */
             print_percent_complete(0, 0, NULL, 1);
             listptr = cands;
-            //TODO parallel here
             for (ii = 0; ii < numcands; ii++) {
                 print_percent_complete(ii, numcands, "optimization", 0);
-                cand = (accelcand * )(listptr->data);
+                cand = (accelcand *) (listptr->data);
                 optimize_accelcand(cand, &obs);
                 listptr = listptr->next;
             }
             print_percent_complete(ii, numcands, "optimization", 0);
-#ifdef PACC
-            printf("\n\nfor1 cost %.5f s\n\n", (double) (clock() - t) / CLOCKS_PER_SEC);
-#endif
+
             /* Calculate the properties of the fundamentals */
             props = (fourierprops *) malloc(sizeof(fourierprops) * numcands);
             listptr = cands;
             for (ii = 0; ii < numcands; ii++) {
-                cand = (accelcand * )(listptr->data);
+                cand = (accelcand *) (listptr->data);
                 /* In case the fundamental harmonic is not significant,  */
                 /* send the originally determined r and z from the       */
                 /* harmonic sum in the search.  Note that the derivs are */
@@ -280,7 +276,7 @@ int main(int argc, char *argv[]) {
 
             /* Write the harmonics to the output text file */
             output_harmonics(cands, &obs, &idata);
-
+            
             /* Write the fundamental fourierprops to the cand file */
             obs.workfile = chkfopen(obs.candnm, "wb");
             chkfwrite(props, sizeof(fourierprops), numcands, obs.workfile);
@@ -300,14 +296,15 @@ int main(int argc, char *argv[]) {
         printf("  %d harmonics:  %9lld\n", 1 << ii, obs.numindep[ii]);
 
     printf("\nTiming summary:\n");
-//    tott = times(&runtimes) / (double) CLK_TCK - tott;
-//    utim = runtimes.tms_utime / (double) CLK_TCK;
-//    stim = runtimes.tms_stime / (double) CLK_TCK;
-//    ttim = utim + stim;
-//    printf("    CPU time: %.3f sec (User: %.3f sec, System: %.3f sec)\n",
-//           ttim, utim, stim);
-//    printf("  Total time: %.3f sec\n\n", tott);
-
+/*
+    tott = times(&runtimes) / (double) CLK_TCK - tott;
+    utim = runtimes.tms_utime / (double) CLK_TCK;
+    stim = runtimes.tms_stime / (double) CLK_TCK;
+    ttim = utim + stim;
+    printf("    CPU time: %.3f sec (User: %.3f sec, System: %.3f sec)\n",
+           ttim, utim, stim);
+    printf("  Total time: %.3f sec\n\n", tott);
+*/
     printf("Final candidates in binary format are in '%s'.\n", obs.candnm);
     printf("Final Candidates in a text format are in '%s'.\n\n", obs.accelnm);
 

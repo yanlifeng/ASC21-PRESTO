@@ -5,35 +5,17 @@ Weiwei Zhu
 2015-08-14
 Max-Plank Institute for Radio Astronomy
 zhuwwpku@gmail.com
-prepfold -ncpus 4 -n 64 -nsub 32 -dm 49.500000 -p 1.853673 GBT_Lband_PSR.fil -o Sband_DM49.50 -noxwin -nodmsearch
-
-prepfold -ncpus 1 -n 64 -nsub 32 -dm 83.400000 -p 8.241807 Dec+1554_arcdrift+23.4-M12_0194.fil -o Sband_DM83.40 -noxwin -nodmsearch
 """
 
 import os, sys, glob, re
-from multiprocessing import Pool
-import multiprocessing
 import threading
+
 import presto.sifting as sifting
 from subprocess import getoutput
 import numpy as np
 import time
 import random
 from operator import itemgetter, attrgetter
-
-"""
-Read Header                    === 0.003560 
-Generate Dedispersion          === 0.069920 
-Dedisperse Subbands            === 9.486754 
-fft-search subbands            === 35.692754 
-sifting candidates             === 0.117307 
-folding candidates             === 21.347670 
-
-
-real	1m7.023s
-user	1m12.424s
-sys	0m18.620s
-"""
 
 
 class TestThread(threading.Thread):
@@ -52,63 +34,56 @@ class TestThread(threading.Thread):
             return None
 
 
-def prepsubbandFunc(i, dml):
-    if threadController == 1:
-        sm.acquire()
-    resList = []
-    lodm = dml[0]
-    subDM = np.mean(dml)
-    if maskfile:
-        # print "maskfile has open"
-        prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
-            Cthread1, subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
-    else:
-        prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
-            Cthread1, subDM, Nsub, subdownsamp, rootname, '../' + filename)
-    print("prepsubband : " + prepsubband)
-    output = getoutput(prepsubband)
-    resList.append(output)
-    # print output
-    # print "========================================================================"
-    subnames = rootname + "_DM%.2f.sub[0-9]*" % subDM
-    # prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s ../%(filfile)s" % {
-    # 'Nsub':Nsub, 'lowdm':lodm, 'dDM':dDM, 'NDMs':NDMs, 'Nout':Nout, 'DownSamp':datdownsamp, 'root':rootname, 'filfile':filename}
-    prepsubcmd = "prepsubband -ncpus %(Cthread1)d -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
-        'Cthread1': Cthread1, 'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout,
-        'DownSamp': datdownsamp, 'root': rootname, 'subfile': subnames}
-    print("prepsubcmd : " + prepsubcmd)
-    output = getoutput(prepsubcmd)
-    resList.append(output)
-    if threadController == 1:
-        sm.release()
-    return resList
+def dur(op=None, clock=[time.time()]):
+    res = ''
+    if op != None:
+        duration = time.time() - clock[0]
+        res = '%-30s === %.6f \n' % (op, duration)
+    clock[0] = time.time()
+    return res
 
 
-def fftcmdFunc(i, df):
-    if threadController == 1:
-        sm.acquire()
-    fftcmd = "realfft  %s" % df
-    print(fftcmd)
-    output = getoutput(fftcmd)
-    if threadController == 1:
-        sm.release()
-    return output
+def fft_and_acc(fftcmd, searchcmd):
+    sm.acquire()
+    # print("fft_and_acc")
+    # print(fftcmd)
+    # print(searchcmd)
+    # print()
+    r1 = getoutput(fftcmd)
+    r2 = getoutput(searchcmd)
+    sm.release()
+    return r1, r2
 
 
-def serachcmdFunc(i, zmax, fftf):
-    if threadController == 1:
-        sm.acquire()
-    searchcmd = "accelsearch -ncpus %d -zmax %d %s" % (Cthread3, zmax, fftf)
-    print(searchcmd)
-    output = getoutput(searchcmd)
-    if threadController == 1:
-        sm.release()
-    return output
+def fft_and_accp(fftcmd, searchcmd):
+    r1 = getoutput(fftcmd)
+    r2 = getoutput(searchcmd)
+    return r1, r2
+
+
+def prep(l, r, prepcmd1, prepcmd2):
+    sm.acquire()
+    # print("prep")
+    # print(prepcmd1)
+    # print(prepcmd2)
+    # print()
+    r1 = getoutput(prepcmd1)
+    r2 = getoutput(prepcmd2)
+    for i in range(l, r):
+        hasDone[i] = 1
+    sm.release()
+    return r1, r2
+
+
+def prepp(prepcmd1, prepcmd2):
+    r1 = getoutput(prepcmd1)
+    r2 = getoutput(prepcmd2)
+
+    return r1, r2
 
 
 def foldcmdFunc(i, cand):
-    if threadController == 1:
-        sm.acquire()
+    sm.acquire()
     # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
     # 'dm':cand.DM,  'accelfile':cand.filename+'.cand', 'candnum':cand.candnum, 'datfile':('%s_DM%s.dat' % (rootname, cand.DMstr))} #simple plots
     foldcmd = "prepfold -ncpus %(Cthread4)d -n %(Nint)d -nsub %(Nsub)d -dm %(dm)f -p %(period)f %(filfile)s -o %(outfile)s -noxwin -nodmsearch" % {
@@ -117,18 +92,8 @@ def foldcmdFunc(i, cand):
     print(foldcmd)
     # os.system(foldcmd)
     output = getoutput(foldcmd)
-    if threadController == 1:
-        sm.release()
+    sm.release()
     return output
-
-
-def dur(op=None, clock=[time.time()]):
-    res = ''
-    if op != None:
-        duration = time.time() - clock[0]
-        res = '%-30s === %.6f \n' % (op, duration)
-    clock[0] = time.time()
-    return res
 
 
 # Tutorial_Mode = True
@@ -143,19 +108,18 @@ Nint = 64  # 64 sub integration
 Tres = 0.5  # ms
 zmax = 0
 
-maxThreadNumber = 8
-CThreadNumber = 4
+hasDone = [0 for _ in range(1000)]
+
+CThreadNumber = 1
 Cthread1 = CThreadNumber
 Cthread2 = CThreadNumber
 Cthread3 = CThreadNumber
 Cthread4 = CThreadNumber
 
+maxThreadNumber = 8
 threadController = int(sys.argv[2])
 if threadController == 1:
     sm = threading.Semaphore(maxThreadNumber)
-
-if threadController == 2:
-    print("cpu count : %d" % multiprocessing.cpu_count())
 
 print("threadController %d\n" % threadController)
 
@@ -175,12 +139,14 @@ def query(question, answer, input_type):
     if Ntry == 0: print("The correct answer is:", answer)
 
 
+def cc(cmd):
+    return getoutput(cmd)
+
+
 # """
 
 print('''
-
 ====================Read Header======================
-
 ''')
 # read some canshu from filename
 # 算了 中文注释吧
@@ -207,29 +173,8 @@ for line in output.split('\n'):
 timeLog += dur("Read Header")
 
 print('''
-
 ============Generate Dedispersion===============
-
 ''')
-
-# 首先，脉冲星的性质：
-# 1 信号被星际介质分散
-# 2 信号是周期的
-
-# 脉冲星搜索算法的步骤：
-# 1 去色散，即测试许多（通常是数千个）可能的色散测量（DM）并对其进行星际延迟校正
-# 2 使用fft搜索一段时间
-
-# PRESTO中用于脉冲星搜索的三步：
-# 1 Data Preparation: Interference detection (rfifind) and removal (zapbirds) ,
-# de-dispersion (prepdata, prepsubband, and mpiprepsubband), barycentering (via TEMPO)
-# 2 Searching: Fourier-domain acceleration (accelsearch), single-pulse (single_pulse_search.py)
-# and phase-modulation or sideband searches (search_bin).
-
-# 3 Folding: Candidate optimization (prepfold) and Time-of-Arrival (TOA) generation (get_TOAs.py).
-
-
-# 执行 去色散的过程
 dur()
 try:
     Nchan = int(header['Number of channels'])
@@ -280,24 +225,26 @@ if Tutorial_Mode:
 timeLog += dur("Generate Dedispersion")
 
 print('''
-
 ================Dedisperse Subbands==================
-
 ''')
 dur()
 cwd = os.getcwd()
 try:
+    task_prep = []
+    task_fft_and_acc = []
     if not os.access('subbands', os.F_OK):
         os.mkdir('subbands')
     os.chdir('subbands')
     logfile = open('dedisperse.log', 'wt')
+    logfileFFT = open('fft.log', 'wt')
+    logfileACC = open('accelsearch.log', 'wt')
     ddplanSize = 0
     # 对于DDplan的输出信息们（其实就一行） 生成一个lowDM-highDM 间隔为dDm的数组 分成calls份
     # 然后每一份 运行prepsubband 先写一些信息到临时文件里 然后读出来 把有用的信息写到Sband_DMxx.xx里面
     # 最后删掉临时文件 并把log信息存在 dedisperse.log 里面
-    print("ddplan size : ")
-    print(len(ddplan))
     for line in ddplan:
+        # print "ddplanSize : "
+        # print ddplanSize
         ddplanSize += 1
         ddpl = line.split()
         lowDM = float(ddpl[0])
@@ -309,65 +256,113 @@ try:
         Nout = Nsamp / DownSamp
         Nout -= (Nout % 500)
         dmlist = np.split(np.arange(lowDM, hiDM, dDM), calls)
-        print("dmlist size : ")
-        print(len(dmlist))
+
+        preDm = NDMs
+        print("preDm : ")
+        print(preDm)
+        # print "dmlist : "
+        # print dmlist
         # copy from $PRESTO/python/Dedisp.py
         subdownsamp = DownSamp / 2
         datdownsamp = 2
         if DownSamp < 2: subdownsamp = datdownsamp = 1
-        sub_f = prepsubbandFunc
-        threadSwitchPrep = threadController
-        if threadSwitchPrep == 1:
+
+        # random.shuffle(dmlist)
+        for i, dml in enumerate(dmlist):
+            lodm = dml[0]
+            subDM = np.mean(dml)
+
+            if maskfile:
+        # print "maskfile has open"
+                prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
+                    Cthread1, subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
+            else:
+                prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
+                    Cthread1, subDM, Nsub, subdownsamp, rootname, '../' + filename)
+            # print("prepsubband : " + prepsubband)
+
+            # print output
+            # print "========================================================================"
+            subnames = rootname + "_DM%.2f.sub[0-9]*" % subDM
+            # prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s ../%(filfile)s" % {
+            # 'Nsub':Nsub, 'lowdm':lodm, 'dDM':dDM, 'NDMs':NDMs, 'Nout':Nout, 'DownSamp':datdownsamp, 'root':rootname, 'filfile':filename}
+            prepsubcmd = "prepsubband -ncpus %(Cthread1)d -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
+                'Cthread1': Cthread1, 'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout,
+                'DownSamp': datdownsamp, 'root': rootname, 'subfile': subnames}
+            # print("prepsubcmd : " + prepsubcmd)
+            task_prep.append([prepsubband, prepsubcmd])
+            for idx in dml:
+                df = "Sband_DM%.2f" % idx + ".dat"
+                fftcmd = "realfft %s" % df
+                # print(fftcmd)
+                df = "Sband_DM%.2f" % idx + ".fft"
+                searchcmd = "accelsearch -ncpus %d -zmax %d %s" % (Cthread3, zmax, df)                # print(searchcmd)
+                task_fft_and_acc.append([fftcmd, searchcmd])
+
+            # print output
+            # print "========================================================================"
+
+        if threadController == 1:
             threads = []
-            for i, dml in enumerate(dmlist):
-                t = TestThread(sub_f, args=(i, dml))
+            falgs = []
+            sub_f1 = prep
+            sub_f2 = fft_and_acc
+            for i, it in enumerate(task_prep):
+                t = TestThread(sub_f1, args=(i * preDm, (i + 1) * preDm, it[0], it[1]))
                 threads.append(t)
+                falgs.append(0)
                 t.start()
-            for t in threads:
+            time.sleep(1)
+            tarTask = len(task_fft_and_acc)
+            doneTaskNumber = 0
+            las = [i for i in range(tarTask)]
+            while doneTaskNumber < tarTask:
+                nowlas = []
+                for id in las:
+                    if hasDone[id] == 0:
+                        nowlas.append(id)
+                        continue
+                    # print("%d start fft_acc" % id)
+                    it = task_fft_and_acc[id]
+                    t = TestThread(sub_f2, args=(it[0], it[1]))
+                    threads.append(t)
+                    falgs.append(1)
+                    doneTaskNumber += 1
+                    t.start()
+                las = nowlas
+                time.sleep(0.1)
+            # for i, it in enumerate(task_fft_and_acc):
+            #     while hasDone[i] == 0:
+            #         print("producer is working, %d pending..." % i)
+            #         time.sleep(0.5)
+            #     t = TestThread(sub_f2, args=(i, it[0], it[1]))
+            #     threads.append(t)
+            #     falgs.append(1)
+            #     t.start()
+            for i, t in enumerate(threads):
                 t.join()
-                for res in t.get_result():
-                    logfile.write(res)
-        elif threadSwitchPrep == 2:
-            with Pool(processes=maxThreadNumber) as p:
-                result = []
-                for i, dml in enumerate(dmlist):
-                    a = p.apply_async(sub_f, args=(i, dml))
-                    result.append(a)
-                for i in result:
-                    for res in i.get():
-                        logfile.write(res)
-        else:
-            # random.shuffle(dmlist)
-            # TODO 这里cpu跑起来只显示用了一个核的10%左右 应该是时间都在频繁的读写文件上 下一步可以找到prepsubband的源代码改一下
-            # TODO 这里的运行结果里面有个error
-            for i, dml in enumerate(dmlist):
-                lodm = dml[0]
-                subDM = np.mean(dml)
-                if maskfile:
-                    # print "maskfile has open"
-                    prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -mask ../%s -o %s %s" % (
-                        Cthread1, subDM, Nsub, subdownsamp, maskfile, rootname, '../' + filename)
+                r1, r2 = t.get_result()
+                if falgs[i] == 0:
+                    logfile.write(r1)
+                    logfile.write(r2)
                 else:
-                    prepsubband = "prepsubband -ncpus %d -sub -subdm %.2f -nsub %d -downsamp %d -o %s %s" % (
-                        Cthread1, subDM, Nsub, subdownsamp, rootname, '../' + filename)
-                print("prepsubband : " + prepsubband)
-                output = getoutput(prepsubband)
-                logfile.write(output)
-                # print output
-                # print "========================================================================"
-                subnames = rootname + "_DM%.2f.sub[0-9]*" % subDM
-                # prepsubcmd = "prepsubband -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s ../%(filfile)s" % {
-                # 'Nsub':Nsub, 'lowdm':lodm, 'dDM':dDM, 'NDMs':NDMs, 'Nout':Nout, 'DownSamp':datdownsamp, 'root':rootname, 'filfile':filename}
-                prepsubcmd = "prepsubband -ncpus %(Cthread1)d -nsub %(Nsub)d -lodm %(lowdm)f -dmstep %(dDM)f -numdms %(NDMs)d -numout %(Nout)d -downsamp %(DownSamp)d -o %(root)s %(subfile)s" % {
-                    'Cthread1': Cthread1, 'Nsub': Nsub, 'lowdm': lodm, 'dDM': dDM, 'NDMs': NDMs, 'Nout': Nout,
-                    'DownSamp': datdownsamp, 'root': rootname, 'subfile': subnames}
-                print("prepsubcmd : " + prepsubcmd)
-                output = getoutput(prepsubcmd)
-                logfile.write(output)
-                # print output
-                # print "========================================================================"
+                    logfileFFT.write(r1)
+                    logfileACC.write(r2)
+        else:
+            for i, it in enumerate(task_prep):
+                r1, r2 = prepp(it[0], it[1])
+                logfile.write(r1)
+                logfile.write(r2)
+
+            for i, it in enumerate(task_fft_and_acc):
+                r1, r2 = fft_and_accp(it[0], it[1])
+                logfileFFT.write(r1)
+                logfileACC.write(r2)
+
     os.system('rm *.sub*')
     logfile.close()
+    logfileFFT.close()
+    logfileACC.close()
     os.chdir(cwd)
 
 except:
@@ -376,87 +371,48 @@ except:
     sys.exit(0)
 timeLog += dur("Dedisperse Subbands")
 
+
 # exit(0)
-print('''
-
-================fft-search subbands==================
-
-''')
-try:
-    dur()
-    os.chdir('subbands')
-    datfiles = glob.glob("*.dat")
-    logfile = open('fft.log', 'wt')
-    print("datfiles size : " + str(len(datfiles)))
-    # TODO edit logfile to make it thread safe
-    # random.shuffle(datfiles)
-    sub_f = fftcmdFunc
-    threadSwitchFFT = threadController
-    if threadSwitchFFT == 1:
-        threads = []
-        for i, df in enumerate(datfiles):
-            t = TestThread(sub_f, args=(i, df))
-            threads.append(t)
-            t.start()
-        for t in threads:
-            t.join()
-            logfile.write(t.get_result())
-    elif threadSwitchFFT == 2:
-        with Pool(processes=maxThreadNumber) as p:
-            result = []
-            for i, df in enumerate(datfiles):
-                a = p.apply_async(sub_f, args=(i, df))
-                result.append(a)
-            for i in result:
-                logfile.write(i.get())
-    else:
-        for df in datfiles:
-            fftcmd = "realfft %s" % df
-            print(fftcmd)
-            output = getoutput(fftcmd)
-            logfile.write(output)
-    logfile.close()
-    timeLog += dur("realfft")
-
-    dur()
-    logfile = open('accelsearch.log', 'wt')
-    fftfiles = glob.glob("*.fft")
-    print("fftfiles size : " + str(len(fftfiles)))
-    # random.shuffle(fftfiles)
-    sub_f = serachcmdFunc
-    threadSwitchSearch = threadController
-    if threadSwitchSearch == 1:
-        threads = []
-        for i, fftf in enumerate(fftfiles):
-            t = TestThread(sub_f, args=(i, zmax, fftf))
-            threads.append(t)
-            t.start()
-        for t in threads:
-            t.join()
-            logfile.write(t.get_result())
-    elif threadSwitchSearch == 2:
-        with Pool(processes=maxThreadNumber) as p:
-            result = []
-            for i, fftf in enumerate(fftfiles):
-                a = p.apply_async(sub_f, args=(i, zmax, fftf))
-                result.append(a)
-            for i in result:
-                logfile.write(i.get())
-    else:
-        for fftf in fftfiles:
-            searchcmd = "accelsearch -ncpus %d -zmax %d %s" % (Cthread3, zmax, fftf)
-            print(searchcmd)
-            output = getoutput(searchcmd)
-            logfile.write(output)
-    logfile.close()
-    os.chdir(cwd)
-    timeLog += dur("accelsearch")
-
-except:
-    print('failed at fft search.')
-    os.chdir(cwd)
-    sys.exit(0)
-
+#
+# print('''
+# ================fft-search subbands==================
+# ''')
+# dur()
+# try:
+#     os.chdir('subbands')
+#     datfiles = glob.glob("*.dat")
+#     logfileFFT = open('fft.log', 'wt')
+#     logfileACC = open('accelsearch.log', 'wt')
+#
+#     for df in datfiles:
+#         fftcmd = "realfft %s" % df
+#         print(fftcmd)
+#         output = getoutput(fftcmd)
+#         logfileFFT.write(output)
+#         df = df.replace("dat", "fft")
+#         searchcmd = "accelsearch -zmax %d %s" % (zmax, df)
+#         print(searchcmd)
+#         output = getoutput(searchcmd)
+#         logfileACC.write(output)
+#     logfileFFT.close()
+#     logfileACC.close()
+#
+#     # logfile = open('accelsearch.log', 'wt')
+#     # fftfiles = glob.glob("*.fft")
+#     # for fftf in fftfiles:
+#     #     searchcmd = "accelsearch -zmax %d %s" % (zmax, fftf)
+#     #     print(searchcmd)
+#     #     output = getoutput(searchcmd)
+#     #     logfile.write(output)
+#     # logfile.close()
+#     os.chdir(cwd)
+# except:
+#     print('failed at fft search.')
+#     os.chdir(cwd)
+#     sys.exit(0)
+#
+# timeLog += dur("fft-search subbands")
+#
 
 # """
 
@@ -542,9 +498,7 @@ def ACCEL_sift(zmax):
 
 
 print('''
-
 ================sifting candidates==================
-
 ''')
 dur()
 # try:
@@ -558,11 +512,8 @@ os.chdir(cwd)
 # sys.exit(0)
 
 timeLog += dur("sifting candidates")
-# exit(0)
 print('''
-
 ================folding candidates==================
-
 ''')
 dur()
 try:
@@ -570,10 +521,8 @@ try:
     os.chdir('subbands')
     os.system('ln -s ../%s %s' % (filename, filename))
     logfile = open('folding.log', 'wt')
-    print("cands size : %d\n" % len(cands))
-    sub_f = foldcmdFunc
-    threadSwitchFolding = threadController
-    if threadSwitchFolding == 1:
+    if threadController == 1:
+        sub_f = foldcmdFunc
         threads = []
         for i, cand in enumerate(cands):
             t = TestThread(sub_f, args=(i, cand))
@@ -582,14 +531,6 @@ try:
         for t in threads:
             t.join()
             logfile.write(t.get_result())
-    elif threadSwitchFolding == 2:
-        with Pool(processes=maxThreadNumber) as p:
-            result = []
-            for i, cand in enumerate(cands):
-                a = p.apply_async(sub_f, args=(i, cand))
-                result.append(a)
-            for i in result:
-                logfile.write(i.get())
     else:
         for cand in cands:
             # foldcmd = "prepfold -dm %(dm)f -accelcand %(candnum)d -accelfile %(accelfile)s %(datfile)s -noxwin " % {
@@ -609,5 +550,4 @@ except:
     sys.exit(0)
 timeLog += dur("folding candidates")
 
-print("threadController : %d" % threadController)
 print(timeLog)

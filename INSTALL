@@ -71,7 +71,7 @@ Basic steps to install:
   directories are correct for FFTW, PGPLOT, GLIB, CFITSIO, 
   and TEMPO.
 
-8.  If you are using FFTW, do a 'make w'.  This gets
+8.  If you are using FFTW, do a 'make makewisdom'.  This gets
   FFTW acquainted with your system.  It is best if you are the
   only user on the machine when you run this, as it is very
   computation intensive and may take a while.

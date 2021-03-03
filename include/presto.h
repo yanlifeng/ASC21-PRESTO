@@ -1499,10 +1499,7 @@ int new_clip_times(float *rawdata, int ptsperblk, int numchan,
 // good_chan_levels (which must be pre-allocated).
 
 /* Old Clipping Routine (uses channel medians) */
-int clip_timess(float *rawdata, int ptsperblk, int numchan,
-               float clip_sigma, float *good_chan_levels);
-/* Old Clipping Routine (uses channel medians) */
-int clip_times(float *rawdata, int ptsperblk, int numchan,
+int clip_times(float *rawdata, int ptsperblk, int numchan, 
                float clip_sigma, float *good_chan_levels);
 // Perform time-domain clipping of rawdata.  This is a 2D array with
 // ptsperblk*numchan points, each of which is a float.  The clipping

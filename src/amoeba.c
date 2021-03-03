@@ -10,31 +10,25 @@
 
 #ifndef SWAP
 /* Swaps two variables of undetermined type */
-#define SWAP(a, b) tempzz=(a);(a)=(b);(b)=tempzz;
+#define SWAP(a,b) tempzz=(a);(a)=(b);(b)=tempzz;
 #endif
 
 static double amotry(double p[3][2], double *y, double *psum,
-                     double (*funk)(double[], fcomplex[], long[], float[], int[], int[]),
+                     double (*funk) (double[], fcomplex[], long[], float[], int[], int[]),
                      int ihi, double fac, fcomplex data[], long *numdata,
                      float *locpows, int *numharm, int *kernhw);
 
 void amoeba(double p[3][2], double *y, double ftol,
-            double (*funk)(double[], fcomplex[], long[], float[], int[], int[]),
-            int *nfunk, fcomplex data[], long *numdata, float *locpows, int *numharm, int *kernhw) {
+            double (*funk) (double[], fcomplex[], long[], float[], int[], int[]),
+            int *nfunk, fcomplex data[], long *numdata, float *locpows, int *numharm, int *kernhw)
+{
     int ii, ihi, ilo, inhi;
     double rtol, ysave, ytry, psum[2], tempzz;
 
     *nfunk = 0;
     psum[0] = p[0][0] + p[1][0] + p[2][0];
     psum[1] = p[0][1] + p[1][1] + p[2][1];
-#ifdef PACC
-    int cnt = 0;
-#endif
-    //TODO parallel here if can
     for (;;) {
-#ifdef PACC
-        cnt += 1;
-#endif
         ilo = 0;
         ihi = y[0] > y[1] ? (inhi = 1, 0) : (inhi = 0, 1);
         for (ii = 0; ii <= 2; ii++) {
@@ -49,9 +43,9 @@ void amoeba(double p[3][2], double *y, double ftol,
         rtol = 2.0 * fabs(y[ihi] - y[ilo]) / (fabs(y[ihi]) + fabs(y[ilo]) + 1.0e-15);
         if (rtol < ftol) {
             SWAP(y[0], y[ilo])
-            SWAP(p[0][0], p[ilo][0])
-            SWAP(p[0][1], p[ilo][1])
-            break;
+                SWAP(p[0][0], p[ilo][0])
+                SWAP(p[0][1], p[ilo][1])
+                break;
         }
         if (*nfunk >= 5000) {
             /*
@@ -75,8 +69,8 @@ void amoeba(double p[3][2], double *y, double ftol,
                     if (ii != ilo) {
                         p[ii][0] = psum[0] = 0.5 * (p[ii][0] + p[ilo][0]);
                         p[ii][1] = psum[1] = 0.5 * (p[ii][1] + p[ilo][1]);
-                        y[ii] = (*funk)(psum, data, numdata, locpows,
-                                        numharm, kernhw);
+                        y[ii] = (*funk) (psum, data, numdata, locpows,
+                                         numharm, kernhw);
                     }
                 }
                 *nfunk += 2;
@@ -86,23 +80,21 @@ void amoeba(double p[3][2], double *y, double ftol,
         } else
             --(*nfunk);
     }
-#ifdef PACC
-    printf("totle cnt %d\n", cnt);
-#endif
 }
 
 
 static double amotry(double p[3][2], double *y, double *psum,
-                     double (*funk)(double[], fcomplex[], long[], float[], int[], int[]),
+                     double (*funk) (double[], fcomplex[], long[], float[], int[], int[]),
                      int ihi, double fac, fcomplex data[], long *numdata, float *locpows,
-                     int *numharm, int *kernhw) {
+                     int *numharm, int *kernhw)
+{
     double fac1, fac2, ytry, ptry[2];
 
     fac1 = 0.5 * (1.0 - fac);
     fac2 = fac1 - fac;
     ptry[0] = psum[0] * fac1 - p[ihi][0] * fac2;
     ptry[1] = psum[1] * fac1 - p[ihi][1] * fac2;
-    ytry = (*funk)(ptry, data, numdata, locpows, numharm, kernhw);
+    ytry = (*funk) (ptry, data, numdata, locpows, numharm, kernhw);
     if (ytry < y[ihi]) {
         y[ihi] = ytry;
         psum[0] += ptry[0] - p[ihi][0];

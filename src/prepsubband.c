@@ -22,28 +22,22 @@
 /* x.5s get rounded away from zero.                */
 #define NEAREST_LONG(x) (long) (x < 0 ? ceil(x - 0.5) : floor(x + 0.5))
 
-static void write_data(FILE *outfiles[], int numfiles, float **outdata,
+static void write_data(FILE * outfiles[], int numfiles, float **outdata,
                        int startpoint, int numtowrite);
-
-static void write_subs(FILE *outfiles[], int numfiles, short **subsdata,
+static void write_subs(FILE * outfiles[], int numfiles, short **subsdata,
                        int startpoint, int numtowrite);
-
-static void write_padding(FILE *outfiles[], int numfiles, float value,
+static void write_padding(FILE * outfiles[], int numfiles, float value,
                           int numtowrite);
-
-static int read_PRESTO_subbands(FILE *infiles[], int numfiles,
+static int read_PRESTO_subbands(FILE * infiles[], int numfiles,
                                 float *subbanddata, double timeperblk,
-                                int *maskchans, int *nummasked, mask *obsmask,
+                                int *maskchans, int *nummasked, mask * obsmask,
                                 float clip_sigma, float *padvals);
-
 static int get_data(float **outdata, int blocksperread,
                     struct spectra_info *s,
-                    mask *obsmask, int *idispdts, int **offsets,
+                    mask * obsmask, int *idispdts, int **offsets,
                     int *padding, short **subsdata);
-
-static void update_infodata(infodata *idata, long datawrote, long padwrote,
+static void update_infodata(infodata * idata, long datawrote, long padwrote,
                             int *barybins, int numbarybins, int downsamp);
-
 static void print_percent_complete(int current, int number);
 
 /* From CLIG */
@@ -54,7 +48,8 @@ static Cmdline *cmd;
 #include "dmalloc.h"
 #endif
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     /* Any variable that begins with 't' means topocentric */
     /* Any variable that begins with 'b' means barycentric */
     FILE **outfiles;
@@ -156,13 +151,13 @@ int main(int argc, char *argv[]) {
             insubs = 1;
         else {
             printf
-                    ("Error:  Unable to identify input data files.  Please specify type.\n\n");
+                ("Error:  Unable to identify input data files.  Please specify type.\n\n");
             exit(1);
         }
     }
 
     if (!RAWDATA)
-        s.files = (FILE **) malloc(sizeof(FILE * ) * s.num_files);
+        s.files = (FILE **) malloc(sizeof(FILE *) * s.num_files);
     if (RAWDATA || insubs) {
         char description[40];
         psrdatatype_description(description, s.datatype);
@@ -187,10 +182,10 @@ int main(int argc, char *argv[]) {
                 exit(1);
             }
             if (cmd->ignorechanstrP) {
-                s.ignorechans = get_ignorechans(cmd->ignorechanstr, 0, s.num_channels - 1,
+                s.ignorechans = get_ignorechans(cmd->ignorechanstr, 0, s.num_channels-1,
                                                 &s.num_ignorechans, &s.ignorechans_str);
-                if (s.ignorechans_str == NULL) {
-                    s.ignorechans_str = (char *) malloc(strlen(cmd->ignorechanstr) + 1);
+                if (s.ignorechans_str==NULL) {
+                    s.ignorechans_str = (char *)malloc(strlen(cmd->ignorechanstr)+1);
                     strcpy(s.ignorechans_str, cmd->ignorechanstr);
                 }
             }
@@ -258,7 +253,7 @@ int main(int argc, char *argv[]) {
     datafilenm = (char *) calloc(strlen(cmd->outfile) + 20, 1);
     if (!cmd->subP) {
         printf("Writing output data to:\n");
-        outfiles = (FILE **) malloc(cmd->numdms * sizeof(FILE * ));
+        outfiles = (FILE **) malloc(cmd->numdms * sizeof(FILE *));
         dms = gen_dvect(cmd->numdms);
         for (ii = 0; ii < cmd->numdms; ii++) {
             dms[ii] = cmd->lodm + ii * cmd->dmstep;
@@ -285,7 +280,7 @@ int main(int argc, char *argv[]) {
         cmd->lodm = cmd->subdm;
         avgdm = cmd->subdm;
         maxdm = cmd->subdm;
-        outfiles = (FILE **) malloc(cmd->nsub * sizeof(FILE * ));
+        outfiles = (FILE **) malloc(cmd->nsub * sizeof(FILE *));
         num_places = (int) ceil(log10(cmd->nsub));
         sprintf(format_str, "%%s_DM%%.*f.sub%%0%dd", num_places);
         for (ii = 0; ii < cmd->nsub; ii++) {
@@ -302,7 +297,7 @@ int main(int argc, char *argv[]) {
         idata.dm = avgdm;
     dsdt = cmd->downsamp * idata.dt;
     BW_ddelay = delay_from_dm(maxdm, idata.freq) -
-                delay_from_dm(maxdm, idata.freq + (idata.num_chan - 1) * idata.chan_wid);
+        delay_from_dm(maxdm, idata.freq + (idata.num_chan - 1) * idata.chan_wid);
     blocksperread = ((int) (BW_ddelay / idata.dt) / s.spectra_per_subint + 1);
     worklen = s.spectra_per_subint * blocksperread;
     /* The number of topo to bary time points to generate with TEMPO */
@@ -335,8 +330,8 @@ int main(int argc, char *argv[]) {
 
     if (cmd->nsub > s.num_channels) {
         printf
-                ("Warning:  The number of requested subbands (%d) is larger than the number of channels (%d).\n",
-                 cmd->nsub, s.num_channels);
+            ("Warning:  The number of requested subbands (%d) is larger than the number of channels (%d).\n",
+             cmd->nsub, s.num_channels);
         printf("          Re-setting the number of subbands to %d.\n\n",
                s.num_channels);
         cmd->nsub = s.num_channels;
@@ -344,8 +339,8 @@ int main(int argc, char *argv[]) {
 
     if (s.spectra_per_subint % cmd->downsamp) {
         printf
-                ("Error:  The downsample factor (%d) must be a factor of the\n",
-                 cmd->downsamp);
+            ("Error:  The downsample factor (%d) must be a factor of the\n",
+             cmd->downsamp);
         printf("        blocklength (%d).  Exiting.\n\n", s.spectra_per_subint);
         exit(1);
     }
@@ -355,11 +350,11 @@ int main(int argc, char *argv[]) {
     /* Set the output length to a good number if it wasn't requested */
     if (!cmd->numoutP && !cmd->subP) {
         cmd->numoutP = 1;
-        cmd->numout = choose_good_N((long long) (idata.N / cmd->downsamp));
+        cmd->numout = choose_good_N((long long)(idata.N/cmd->downsamp));
         printf("Setting a 'good' output length of %ld samples\n", cmd->numout);
     }
-    if (cmd->subP && (cmd->numout > idata.N / cmd->downsamp))
-        cmd->numout = (long long) (idata.N / cmd->downsamp); // Don't pad subbands
+    if (cmd->subP && (cmd->numout > idata.N/cmd->downsamp))
+        cmd->numout = (long long)(idata.N/cmd->downsamp); // Don't pad subbands
     totnumtowrite = cmd->numout;
 
     if (cmd->nobaryP) {         /* Main loop if we are not barycentering... */
@@ -602,8 +597,7 @@ int main(int argc, char *argv[]) {
                 statnum += numtowrite;
             }
 
-            if ((datawrote == abs(*diffbinptr)) && (numwritten != numread) &&
-                (totwrote < cmd->numout)) {       /* Add/remove a bin */
+            if ((datawrote == abs(*diffbinptr)) && (numwritten != numread) && (totwrote < cmd->numout)) {       /* Add/remove a bin */
                 int skip, nextdiffbin;
 
                 skip = numtowrite;
@@ -783,8 +777,9 @@ int main(int argc, char *argv[]) {
     return (0);
 }
 
-static void write_data(FILE *outfiles[], int numfiles, float **outdata,
-                       int startpoint, int numtowrite) {
+static void write_data(FILE * outfiles[], int numfiles, float **outdata,
+                       int startpoint, int numtowrite)
+{
     int ii;
 
     for (ii = 0; ii < numfiles; ii++)
@@ -792,8 +787,9 @@ static void write_data(FILE *outfiles[], int numfiles, float **outdata,
 }
 
 
-static void write_subs(FILE *outfiles[], int numfiles, short **subsdata,
-                       int startpoint, int numtowrite) {
+static void write_subs(FILE * outfiles[], int numfiles, short **subsdata,
+                       int startpoint, int numtowrite)
+{
     int ii;
 
     for (ii = 0; ii < numfiles; ii++)
@@ -802,8 +798,9 @@ static void write_subs(FILE *outfiles[], int numfiles, short **subsdata,
 }
 
 
-static void write_padding(FILE *outfiles[], int numfiles, float value,
-                          int numtowrite) {
+static void write_padding(FILE * outfiles[], int numfiles, float value,
+                          int numtowrite)
+{
     int ii;
 
     if (numtowrite <= 0) {
@@ -834,9 +831,9 @@ static void write_padding(FILE *outfiles[], int numfiles, float value,
 }
 
 
-static int read_PRESTO_subbands(FILE *infiles[], int numfiles,
+static int read_PRESTO_subbands(FILE * infiles[], int numfiles,
                                 float *subbanddata, double timeperblk,
-                                int *maskchans, int *nummasked, mask *obsmask,
+                                int *maskchans, int *nummasked, mask * obsmask,
                                 float clip_sigma, float *padvals)
 /* Read short int subband data written by prepsubband */
 {
@@ -913,10 +910,12 @@ static int read_PRESTO_subbands(FILE *infiles[], int numfiles,
 }
 
 
+
 static int get_data(float **outdata, int blocksperread,
                     struct spectra_info *s,
-                    mask *obsmask, int *idispdts, int **offsets,
-                    int *padding, short **subsdata) {
+                    mask * obsmask, int *idispdts, int **offsets,
+                    int *padding, short **subsdata)
+{
     static int firsttime = 1, *maskchans = NULL, blocksize;
     static int worklen, dsworklen;
     static float *tempzz, *data1, *data2, *dsdata1 = NULL, *dsdata2 = NULL;
@@ -934,8 +933,8 @@ static int get_data(float **outdata, int blocksperread,
             for (jj = 0; jj < cmd->nsub; jj++) {
                 if (offsets[ii][jj] > dsworklen)
                     printf
-                            ("WARNING!:  (offsets[%d][%d] = %d) > (dsworklen = %d)\n",
-                             ii, jj, offsets[ii][jj], dsworklen);
+                        ("WARNING!:  (offsets[%d][%d] = %d) > (dsworklen = %d)\n",
+                         ii, jj, offsets[ii][jj], dsworklen);
             }
         }
 
@@ -1037,7 +1036,8 @@ static int get_data(float **outdata, int blocksperread,
 }
 
 
-static void print_percent_complete(int current, int number) {
+static void print_percent_complete(int current, int number)
+{
     static int newper = 0, oldper = -1;
 
     newper = (int) (current / (float) (number) * 100.0);
@@ -1053,7 +1053,7 @@ static void print_percent_complete(int current, int number) {
 }
 
 
-static void update_infodata(infodata *idata, long datawrote, long padwrote,
+static void update_infodata(infodata * idata, long datawrote, long padwrote,
                             int *barybins, int numbarybins, int downsamp)
 /* Update our infodata for barycentering and padding */
 {

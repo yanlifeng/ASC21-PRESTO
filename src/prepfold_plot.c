@@ -1296,7 +1296,6 @@ void prepfold_plot(prepfoldinfo * search, plotflags * flags, int xwin, float *pp
                     "-quiet -type png -out %.*s.png %.*s",
                     (int) strlen(search->pgdev) - 7, search->pgdev,
                     (int) strlen(search->pgdev) - 4, search->pgdev);
-            //TODO这里执行command的时候 没有权限然后进了if
             if ((retval = system(command))) {
                 perror("Error running pstoimg in prepfold_plot()");
                 printf("\n");
